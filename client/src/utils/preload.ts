@@ -1,13 +1,14 @@
 const Contact = () => import('../routes/Contact');
 const About = () => import('../routes/About');
+const Authenticate = () => import('../routes/Authentication');
 
 export const prefetchMap = [
   {
-    path: '/home',
-    prefetchComponents: [Contact],
+    path: '/',
+    prefetchComponents: [Authenticate],
   },
   {
-    path: '/contact',
+    path: '/login',
     prefetchComponents: [About],
   },
 ];

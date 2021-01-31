@@ -15,8 +15,6 @@ module.exports = {
           './src/**/*.jsx',
         ],
         defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
-        whitelistPatterns: [/page/, /slide/, /fade/],
-        whitelistPatternsChildren: [/page/, /slide/, /fade/],
       }),
   ],
 };

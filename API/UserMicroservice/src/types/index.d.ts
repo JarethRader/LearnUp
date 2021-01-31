@@ -21,13 +21,13 @@ declare global {
 
   interface IMakeUser {
     [key: string]: any;
-    id: string;
-    username: string;
-    email: string;
+    id?: string;
+    username?: string;
+    email?: string;
     password?: string;
-    verified: boolean;
-    createdOn: number;
-    modifiedOn: number;
+    verified?: boolean;
+    createdOn?: number;
+    modifiedOn?: number;
   }
 
   interface IUserObject {
@@ -78,7 +78,6 @@ declare global {
     username: string;
     email: string;
     password: string;
-    totalGames: number;
     verified: boolean;
   }
 

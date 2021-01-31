@@ -6,6 +6,8 @@ const buildEditUser: BuildEditUser = (userDb, validate) => {
 
     const user = await userInstance.findOneById(id);
 
+    console.log(user?.toObject());
+
     const validated = await validate(changeInfo);
 
     const changes: IMakeUser = makeUser({

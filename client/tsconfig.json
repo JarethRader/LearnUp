@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "module": "esnext",
+    "lib": ["es5", "es2015", "es2016", "dom"],
+    "allowJs": true,
+    "jsx": "react",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "compile",
+    "rootDir": ".",
+    "composite": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "sourceRoot": ".",
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": ["./node_modules/", "./webpack.config.js"],
+  "include": ["./src/**/*"]
+}

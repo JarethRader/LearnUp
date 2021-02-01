@@ -21,6 +21,7 @@
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-transition-group": "^4.4.0",
+    "@types/styled-components": "^5.1.7",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
     "cssnano": "^4.1.10",
@@ -42,6 +43,8 @@
     "webpackbar": "^4.0.0"
   },
   "dependencies": {
+    "@styled-icons/entypo": "^10.18.0",
+    "@styled-icons/ionicons-outline": "^10.24.0",
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
     "postcss-loader": "^3.0.0",
@@ -52,7 +55,7 @@
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^5.2.0",
+    "styled-components": "^5.2.1",
     "styled-icons": "^10.21.0",
     "tailwindcss": "^1.4.6",
     "ts-loader": "^7.0.5",

@@ -44,9 +44,9 @@ const Authenticate: React.FC<Props> = (props: Props) => {
           toggleLogginIn={toggleLogginIn}
         />
       )}
-      {/* {props.isAuthenticated && <Redirect to='/' />} */}
+      {props.isAuthenticated && <Redirect to='/home' />}
     </div>
   );
 };
 
-export default connect(Authenticate);
+export default connector(Authenticate);

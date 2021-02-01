@@ -207,4 +207,4 @@ const endings: ITile[] = [
   },
 ];
 
-export { roots, backPrefixes };
+export { roots, backPrefixes, endings };

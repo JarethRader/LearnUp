@@ -14,28 +14,26 @@ const LearningBoard = React.lazy(() =>
   retry(() => import('./routes/LearningBoard'))
 );
 const Home = React.lazy(() => retry(() => import('./routes/Home')));
-const About = React.lazy(() => retry(() => import('./routes/About')));
-const Contact = React.lazy(() => retry(() => import('./routes/Contact')));
+const Dashboard = React.lazy(() => retry(() => import('./routes/Dashboard')));
 const NotFound = React.lazy(() => retry(() => import('./routes/NotFound')));
 
 const routes = [
   { path: '/login', name: 'Sign In', Component: Authentication },
   { path: '/whiteboard', name: 'Learning', Component: LearningBoard },
-  { path: '/about', name: 'About Me', Component: About },
-  { path: '/home', name: 'Landing', Component: Home },
+  { path: '/dashboard', name: 'Dashboard', Component: Dashboard },
+  { path: '/home', name: 'Home', Component: Home },
   { path: '/', name: 'Landing', Component: Landing },
 ];
 
 const App = () => {
   return (
     <div className='min-h-screen min-w-screen bg-gray-200'>
-      {/* <Navbar routes={routes} /> */}
       <React.Suspense fallback={<div></div>}>
         <Switch>
           {routes.map(({ path, Component }) => (
             <Route key={path} path={path}>
               <div>
-                <Component />
+                <Component Navbar={Navbar} />
               </div>
             </Route>
           ))}

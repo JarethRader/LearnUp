@@ -11,7 +11,7 @@ import {
   suffixes,
 } from './frontBoardTiles';
 
-import { roots, backPrefixes } from './backBoardTiles';
+import { roots, backPrefixes, endings } from './backBoardTiles';
 
 export {};
 
@@ -36,6 +36,7 @@ const tiles = Object.freeze({
   suffixes,
   roots,
   backPrefixes,
+  endings,
 });
 
 export default tiles;
@@ -52,4 +53,5 @@ export {
   suffixes,
   roots,
   backPrefixes,
+  endings,
 };

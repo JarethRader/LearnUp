@@ -1,14 +1,20 @@
-const Contact = () => import('../routes/Contact');
-const About = () => import('../routes/About');
-const Authenticate = () => import('../routes/Authentication');
+const Landing = () => import('../routes/Landing');
+const Authentication = () => import('../routes/Authentication');
+const LearningBoard = () => import('../routes/LearningBoard');
+const Home = () => import('../routes/Home');
+const Dashboard = () => import('../routes/Dashboard');
 
 export const prefetchMap = [
   {
     path: '/',
-    prefetchComponents: [Authenticate],
+    prefetchComponents: [Authentication, Home],
   },
   {
     path: '/login',
-    prefetchComponents: [About],
+    prefetchComponents: [Dashboard],
+  },
+  {
+    path: '/dashboard',
+    prefetchComponents: [LearningBoard],
   },
 ];

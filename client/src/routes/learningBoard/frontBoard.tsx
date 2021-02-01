@@ -11,29 +11,30 @@ interface Props {
 
 const FrontBoard = (props: Props) => {
   return (
-    <div
-      className='h-auto 2xl:w-7/12 xl:10/12 md:w-11/12 border-4 border-black rounded-xl bg-gray-100 shadow-xl p-4'
-      style={{
-        gridTemplateColumns: '10% 10% 60% 5% 15%',
-        gridTemplateRows: '7rem 7rem 25rem 10rem',
-      }}>
+    <div className='h-auto 2xl:w-7/12 xl:10/12 md:w-11/12 border-4 border-black rounded-xl bg-gray-100 shadow-xl p-4'>
       <div className='grid justify-center' style={{ gridColumn: '1/6' }}>
         <div className='flex flex-row justify-items-start flex-wrap'>
-          {props.tiles.consonants.map((tile: ITile) => (
-            <TileComponent tile={tile} addLetters={props.addLetters} />
+          {props.tiles.consonants.map((tile: ITile, index: number) => (
+            <div key={index}>
+              <TileComponent tile={tile} addLetters={props.addLetters} />
+            </div>
           ))}
         </div>
         <div className='flex flex-row justify-left flex-wrap'>
-          {props.tiles.consonantTeams.map((tile: ITile) => (
-            <TileComponent tile={tile} addLetters={props.addLetters} />
+          {props.tiles.consonantTeams.map((tile: ITile, index: number) => (
+            <div key={index}>
+              <TileComponent tile={tile} addLetters={props.addLetters} />
+            </div>
           ))}
         </div>
       </div>
       <div className='w-full pt-8 grid grid-cols-12 h-2/3'>
         <div className='grid-start-1 grid-span-1'>
           <div className='flex flex-col h-full py-auto'>
-            {props.tiles.frontPrefixes.map((tile: ITile) => (
-              <TileComponent tile={tile} addLetters={props.addLetters} />
+            {props.tiles.frontPrefixes.map((tile: ITile, index: number) => (
+              <div key={index}>
+                <TileComponent tile={tile} addLetters={props.addLetters} />
+              </div>
             ))}
           </div>
         </div>
@@ -44,8 +45,10 @@ const FrontBoard = (props: Props) => {
                 <div className='border-4 border-black rounded-xl w-5/6 h-5/6 shadow-2xl bg-white'>
                   <div className='h-full flex items-center'>
                     <div className='flex flex-row'>
-                      {props.word.map((tile) => (
-                        <TileDisplay tile={tile} />
+                      {props.word.map((tile, index) => (
+                        <div key={index}>
+                          <TileDisplay tile={tile} />
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -72,11 +75,19 @@ const FrontBoard = (props: Props) => {
                   <div className='flex flex-row'>
                     <div>
                       {props.tiles.rFamily.map((tile: ITile, index: number) => (
-                        <TileComponent
-                          tile={tile}
-                          addLetters={props.addLetters}
-                          style={index === 0 ? 'ml-6' : `ml-${index * index}`}
-                        />
+                        <div key={index}>
+                          <TileComponent
+                            tile={tile}
+                            addLetters={props.addLetters}
+                            style={
+                              index === 0
+                                ? 'ml-6'
+                                : `xl:ml-${Math.ceil(
+                                    Math.pow(index, 2.5)
+                                  )} lg:ml-${Math.ceil(Math.pow(index, 2))}`
+                            }
+                          />
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -86,43 +97,59 @@ const FrontBoard = (props: Props) => {
                     <div>
                       {props.tiles.shortVowels.map(
                         (tile: ITile, index: number) => (
-                          <TileComponent
-                            tile={tile}
-                            addLetters={props.addLetters}
-                            style={`ml-${index * index}`}
-                          />
+                          <div key={index}>
+                            <TileComponent
+                              tile={tile}
+                              addLetters={props.addLetters}
+                              style={`xl:ml-${index * index * 2} lg:ml-${
+                                index * index
+                              }`}
+                            />
+                          </div>
                         )
                       )}
                     </div>
                   </div>
                 </div>
                 <div className='grid col-start-3 col-span-2'>
-                  <div>
-                    <div className='flex flex-row'>
-                      {props.tiles.diphthongs.slice(0, 4).map((tile: ITile) => (
-                        <TileComponent
-                          tile={tile}
-                          addLetters={props.addLetters}
-                        />
-                      ))}
-                    </div>
-                    <div className='flex flex-row justify-around'>
-                      {props.tiles.diphthongs.slice(4, 5).map((tile: ITile) => (
-                        <TileComponent
-                          tile={tile}
-                          addLetters={props.addLetters}
-                        />
-                      ))}
-                    </div>
-                    <div className='flex flex-row justify-start px-12'>
-                      {props.tiles.diphthongs
-                        .slice(5, props.tiles.diphthongs.length)
-                        .map((tile: ITile) => (
-                          <TileComponent
-                            tile={tile}
-                            addLetters={props.addLetters}
-                          />
-                        ))}
+                  <div className='flex h-full items-center'>
+                    <div>
+                      <div className='flex flex-row'>
+                        {props.tiles.diphthongs
+                          .slice(0, 4)
+                          .map((tile: ITile, index: number) => (
+                            <div key={index}>
+                              <TileComponent
+                                tile={tile}
+                                addLetters={props.addLetters}
+                              />
+                            </div>
+                          ))}
+                      </div>
+                      <div className='flex flex-row justify-end px-8'>
+                        {props.tiles.diphthongs
+                          .slice(4, 5)
+                          .map((tile: ITile, index: number) => (
+                            <div key={index}>
+                              <TileComponent
+                                tile={tile}
+                                addLetters={props.addLetters}
+                              />
+                            </div>
+                          ))}
+                      </div>
+                      <div className='flex flex-row justify-start px-12'>
+                        {props.tiles.diphthongs
+                          .slice(5, props.tiles.diphthongs.length)
+                          .map((tile: ITile, index: number) => (
+                            <div key={index}>
+                              <TileComponent
+                                tile={tile}
+                                addLetters={props.addLetters}
+                              />
+                            </div>
+                          ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -133,47 +160,63 @@ const FrontBoard = (props: Props) => {
               <div className='flex flex-wrap justify-center'>
                 <div className='w-full'>
                   <div className='flex flex-row justify-center'>
-                    {props.tiles.walkers.slice(0, 6).map((tile: ITile) => (
-                      <TileComponent
-                        tile={tile}
-                        addLetters={props.addLetters}
-                      />
-                    ))}
+                    {props.tiles.walkers
+                      .slice(0, 6)
+                      .map((tile: ITile, index: number) => (
+                        <div key={index}>
+                          <TileComponent
+                            tile={tile}
+                            addLetters={props.addLetters}
+                          />
+                        </div>
+                      ))}
                   </div>
                   <div className='flex flex-row xl:justify-around xl:px-20 justify-between lg:px-32 md:px-10'>
-                    {props.tiles.walkers.slice(6, 8).map((tile: ITile) => (
-                      <TileComponent
-                        tile={tile}
-                        addLetters={props.addLetters}
-                      />
-                    ))}
+                    {props.tiles.walkers
+                      .slice(6, 8)
+                      .map((tile: ITile, index: number) => (
+                        <div key={index}>
+                          <TileComponent
+                            tile={tile}
+                            addLetters={props.addLetters}
+                          />
+                        </div>
+                      ))}
                   </div>
                   <div className='flex flex-row xl:justify-around xl:px-20 justify-between lg:px-32 md:px-10'>
-                    {props.tiles.walkers.slice(8, 10).map((tile: ITile) => (
-                      <TileComponent
-                        tile={tile}
-                        addLetters={props.addLetters}
-                      />
-                    ))}
+                    {props.tiles.walkers
+                      .slice(8, 10)
+                      .map((tile: ITile, index: number) => (
+                        <div key={index}>
+                          <TileComponent
+                            tile={tile}
+                            addLetters={props.addLetters}
+                          />
+                        </div>
+                      ))}
                   </div>
                   <div className='flex flex-row justify-center'>
                     {props.tiles.walkers
                       .slice(10, props.tiles.walkers.length)
-                      .map((tile: ITile) => (
-                        <TileComponent
-                          tile={tile}
-                          addLetters={props.addLetters}
-                        />
+                      .map((tile: ITile, index: number) => (
+                        <div key={index}>
+                          <TileComponent
+                            tile={tile}
+                            addLetters={props.addLetters}
+                          />
+                        </div>
                       ))}
                   </div>
                 </div>
                 <div className='flex items-end'>
                   <div className='flex flex-row flex-wrap xl:justify-center justify-start'>
-                    {props.tiles.suffixes.map((tile: ITile) => (
-                      <TileComponent
-                        tile={tile}
-                        addLetters={props.addLetters}
-                      />
+                    {props.tiles.suffixes.map((tile: ITile, index: number) => (
+                      <div key={index}>
+                        <TileComponent
+                          tile={tile}
+                          addLetters={props.addLetters}
+                        />
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -184,8 +227,10 @@ const FrontBoard = (props: Props) => {
         <div className='grid col-start-11 col-span-1'>
           <div className='flex flex-row items-start justify-center'>
             <div>
-              {props.tiles.finalSpellings.map((tile: ITile) => (
-                <TileComponent tile={tile} addLetters={props.addLetters} />
+              {props.tiles.finalSpellings.map((tile: ITile, index: number) => (
+                <div key={index}>
+                  <TileComponent tile={tile} addLetters={props.addLetters} />
+                </div>
               ))}
             </div>
           </div>
@@ -193,9 +238,13 @@ const FrontBoard = (props: Props) => {
         <div className='grid col-start-12 col-span-1'>
           <div className='flex flex-row flex-wrap items-start   justify-end'>
             <div>
-              {props.tiles.finalSpellingsDouble.map((tile: ITile) => (
-                <TileComponent tile={tile} addLetters={props.addLetters} />
-              ))}
+              {props.tiles.finalSpellingsDouble.map(
+                (tile: ITile, index: number) => (
+                  <div key={index}>
+                    <TileComponent tile={tile} addLetters={props.addLetters} />
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>

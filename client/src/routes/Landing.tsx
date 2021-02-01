@@ -27,7 +27,7 @@ const Home = () => {
         </div>
         {/* Body */}
         <div className='flex justify-center text-center py-20 flex-col'>
-          <h1 className='text-4xl font-bold text-orange-500'>Welcome!</h1>
+          <h1 className='text-4xl font-bold text-yellow-500'>Welcome!</h1>
           <p className='text-xl font-semibold'>
             Teaching Struggling Readers to Read at Grade Level and Beyond
           </p>

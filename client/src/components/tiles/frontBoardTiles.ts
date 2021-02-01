@@ -254,11 +254,11 @@ const diphthongs: ITile[] = [
   },
   {
     letters: 'ou',
-    color: 'bg-yellow-400',
+    color: 'bg-yellow-300',
   },
   {
     letters: 'ow',
-    color: 'bg-yellow-400',
+    color: 'bg-yellow-300',
   },
   {
     letters: 'oo',
@@ -304,6 +304,18 @@ const walkers: ITile[] = [
     color: 'bg-green-600',
   },
   {
+    letters: 'ea',
+    color: 'bg-yellow-300',
+  },
+  {
+    letters: 'igh',
+    color: 'bg-yellow-300',
+  },
+  {
+    letters: 'y',
+    color: 'bg-yellow-300',
+  },
+  {
     letters: 'ie',
     color: 'bg-red-600',
   },
@@ -326,18 +338,6 @@ const walkers: ITile[] = [
   {
     letters: 'ei',
     color: 'bg-red-600',
-  },
-  {
-    letters: 'ea',
-    color: 'bg-yellow-400',
-  },
-  {
-    letters: 'igh',
-    color: 'bg-yellow-400',
-  },
-  {
-    letters: 'y',
-    color: 'bg-yellow-400',
   },
 ];
 

@@ -44,7 +44,7 @@ const Authenticate: React.FC<Props> = (props: Props) => {
           toggleLogginIn={toggleLogginIn}
         />
       )}
-      {props.isAuthenticated && <Redirect to='/home' />}
+      {props.isAuthenticated && <Redirect to='/dashboard' />}
     </div>
   );
 };

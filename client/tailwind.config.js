@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   purge: false,
   theme: {
@@ -39,6 +41,19 @@ module.exports = {
       180: '180deg',
       245: '245deg',
       270: '270deg',
+    },
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      fuschia: colors.fuchsia,
+      green: colors.green,
+      black: colors.black,
+      white: colors.white,
+      gray: colors.blueGray,
+      blue: colors.blue,
+      red: colors.rose,
+      yellow: colors.amber,
+      orange: colors.orange,
     },
   },
   variants: {},

@@ -4,6 +4,7 @@ import { Sound, Erase } from '@styled-icons/entypo';
 
 interface Props {
   tiles: any;
+  BoardInput: (props: IBoardInputProps) => JSX.Element;
   addLetters: (tile: ITile) => void;
   handleResetWord: (event: React.MouseEvent<HTMLButtonElement>) => void;
   word: ITile[];
@@ -70,7 +71,7 @@ const FrontBoard = (props: Props) => {
           </div>
         </div>
         <div className='col-start-11 col-span-2'>
-          <div className='flex flex-wrap xl:flex-none xl:flex-col items-end'>
+          <div className='flex flex-wrap justify-end items-end'>
             {props.tiles.endings.map((tile: ITile, index: number) => (
               <div key={index}>
                 <TileComponent tile={tile} addLetters={props.addLetters} />

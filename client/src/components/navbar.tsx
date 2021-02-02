@@ -33,7 +33,7 @@ const Navbar = (props: Props) => {
 
       {!props.isAuthenticated && (
         <Link to='/login'>
-          <button className='text-white px-4 py-2 rounded-md border-2 border-blue-700 text-lg bg-blue-500 hover:bg-blue-700 focus:outline-none'>
+          <button className='text-white font-semibold stroke px-4 py-2 rounded-md  text-lg bg-blue-500 hover:bg-blue-700 focus:outline-none'>
             Sign In
           </button>
         </Link>

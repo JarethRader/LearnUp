@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link, Redirect } from 'react-router-dom';
 
 import tiles from '../components/tiles/index';
 import FrontBoard from './learningBoard/frontBoard';
 import BackBoard from './learningBoard/backBoard';
+import BoardInput from './learningBoard/boardInput';
 
 interface Props {}
 
@@ -29,7 +31,7 @@ const LearningBoard = (props: Props) => {
         <div className='flex self-center'>
           <h1 className='text-yellow-500 font-bold text-5xl'>Learning Board</h1>
         </div>
-        <div className='flex flex-col'>
+        <div className='flex flex-row justify-around'>
           {boardSide ? (
             <p className='text-xl font-medium flex justify-left'>
               Front of board
@@ -42,9 +44,14 @@ const LearningBoard = (props: Props) => {
           <div>
             <button
               onClick={(e) => toggleBoardSide(e)}
-              className='px-4 py-2 rounded bg-yellow-500 hover:bg-yellow-600 focus:outline-none text-white'>
+              className='px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-600 focus:outline-none text-white font-semibold stroke'>
               Flip Board
             </button>
+            <Link to='/dashboard'>
+              <button className='px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-600 focus:outline-none text-white font-semibold stroke'>
+                Dashboard
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -52,6 +59,7 @@ const LearningBoard = (props: Props) => {
       {boardSide ? (
         <FrontBoard
           tiles={tiles}
+          BoardInput={BoardInput}
           addLetters={addLetters}
           handleResetWord={handleResetWord}
           word={word}
@@ -59,6 +67,7 @@ const LearningBoard = (props: Props) => {
       ) : (
         <BackBoard
           tiles={tiles}
+          BoardInput={BoardInput}
           addLetters={addLetters}
           handleResetWord={handleResetWord}
           word={word}

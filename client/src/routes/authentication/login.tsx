@@ -61,7 +61,7 @@ const LoginForm: React.FC<Props> = (props: Props) => {
             </button>
             <button
               onClick={(e) => handleSignIn(e)}
-              className='bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg focus:outline-none'>
+              className='bg-blue-500 hover:bg-blue-700 text-white font-semibold stroke px-4 py-2 rounded-lg shadow-lg focus:outline-none'>
               Sign In
             </button>
           </div>

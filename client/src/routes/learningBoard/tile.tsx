@@ -21,32 +21,33 @@ export const TileComponent = (props: tileComponentProps) => {
   //   // props.addLetters(props.tile);
   // };
 
-  const handleOnMouseEnter = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOnMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     props.setSelectedTile(props.tile);
     props.handleSetBounds(bounds as any);
   };
 
-  const handleOnMouseLeave = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOnMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
+
     props.setSelectedTile(undefined);
     props.handleSetBounds(undefined);
   };
 
   const [ref, bounds] = useMeasure({});
-  // console.log(ref);
 
   return (
-    <div className='flex justify-center' ref={ref}>
-      <button
+    <div className='flex justify-center'>
+      <div
+        ref={ref}
         onMouseEnter={(e) => handleOnMouseEnter(e)}
         // onMouseLeave={(e) => handleOnMouseLeave(e)}
         // onClick={(e) => handleOnClick(e)}
-        className={`px-2 py-1 m-1 text-cente border-4 border-black hover:border-fuschia-500 cursor-pointer rounded-lg text-lg font-semibold shadow-xl focus:outline-none ${
+        className={`px-2 py-1 m-1 text-center border-4 border-black hover:border-fuschia-500 cursor-pointer rounded-lg text-lg font-semibold shadow-xl focus:outline-none ${
           props.tile.color
         } ${props.style && props.style}`}>
         <p>{props.tile.letters}</p>
-      </button>
+      </div>
     </div>
   );
 };
@@ -55,6 +56,15 @@ export const TileDisplay = (props: tileDisplayProps) => {
   return (
     <div
       className={`px-2 py-1 m-1 text-center border-4 border-black hover:border-purple-500 cursor-pointer rounded-lg text-lg font-semibold shadow-xl ${props.tile.color}`}>
+      <p>{props.tile.letters}</p>
+    </div>
+  );
+};
+
+export const TileDraggable = (props: tileDisplayProps) => {
+  return (
+    <div
+      className={`px-2 py-1 m-1 text-center border-4 border-fuschia-500 cursor-pointer rounded-lg text-lg font-semibold shadow-xl ${props.tile.color}`}>
       <p>{props.tile.letters}</p>
     </div>
   );

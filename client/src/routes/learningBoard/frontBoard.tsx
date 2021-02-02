@@ -76,7 +76,9 @@ const FrontBoard = (props: Props) => {
                                 ? 'ml-6'
                                 : `xl:ml-${Math.ceil(
                                     Math.pow(index, 2.5)
-                                  )} lg:ml-${Math.ceil(Math.pow(index, 2))}`
+                                  )} lg:ml-${Math.ceil(
+                                    Math.pow(index, 2)
+                                  )} z-10`
                             }
                           />
                         </div>

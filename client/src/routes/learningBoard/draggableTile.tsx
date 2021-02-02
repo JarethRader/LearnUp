@@ -1,6 +1,6 @@
 import React from 'react';
 import Draggable from 'react-draggable'; // The default
-import { TileDisplay } from './tile';
+import { TileDraggable } from './tile';
 
 declare global {
   interface IBounds {
@@ -23,9 +23,10 @@ declare global {
 }
 
 const DraggableTile = (props: IDraggableTileProps) => {
+  console.log(props.bounds);
   const [deltaPosition, setDelta] = React.useState({
-    x: parseInt(props.bounds!.x),
-    y: parseInt(props.bounds!.y),
+    x: parseInt(props.bounds!.left) - 4,
+    y: parseInt(props.bounds!.top) + parseInt(props.bounds!.height),
   });
 
   const handleDrag = (e: any, ui: any) => {
@@ -49,7 +50,7 @@ const DraggableTile = (props: IDraggableTileProps) => {
         y: deltaPosition.y,
       }}>
       <div onMouseLeave={(e) => handleOnMouseLeave(e)}>
-        <TileDisplay tile={props.tile!} />
+        <TileDraggable tile={props.tile!} />
       </div>
     </Draggable>
   );

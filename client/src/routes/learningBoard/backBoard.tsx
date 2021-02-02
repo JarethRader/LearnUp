@@ -1,6 +1,5 @@
 import React from 'react';
-import { TileComponent, TileDisplay } from './tile';
-import { Sound, Erase } from '@styled-icons/entypo';
+import { TileComponent } from './tile';
 
 interface Props {
   tiles: any;
@@ -8,6 +7,8 @@ interface Props {
   addLetters: (tile: ITile) => void;
   handleResetWord: (event: React.MouseEvent<HTMLButtonElement>) => void;
   word: ITile[];
+  setSelectedTile: (tile: ITile | undefined) => void;
+  handleSetBounds: (bounds: IBounds | undefined) => void;
 }
 
 const FrontBoard = (props: Props) => {
@@ -22,7 +23,11 @@ const FrontBoard = (props: Props) => {
         <div className='flex flex-row justify-items-start flex-wrap'>
           {props.tiles.roots.map((tile: ITile, index: number) => (
             <div key={index}>
-              <TileComponent tile={tile} addLetters={props.addLetters} />
+              <TileComponent
+                tile={tile}
+                setSelectedTile={props.setSelectedTile}
+                handleSetBounds={props.handleSetBounds}
+              />
             </div>
           ))}
         </div>
@@ -32,7 +37,11 @@ const FrontBoard = (props: Props) => {
           <div className='flex flex-wrap 2xl:w-3/4 xl:w-1/2 lg:w-full'>
             {props.tiles.backPrefixes.map((tile: ITile, index: number) => (
               <div key={index}>
-                <TileComponent tile={tile} addLetters={props.addLetters} />
+                <TileComponent
+                  tile={tile}
+                  setSelectedTile={props.setSelectedTile}
+                  handleSetBounds={props.handleSetBounds}
+                />
               </div>
             ))}
           </div>
@@ -40,33 +49,10 @@ const FrontBoard = (props: Props) => {
         <div className='grid col-start-3 col-span-8'>
           <div className='grid grid-rows-3'>
             <div className='grid row-start-1 row-span-1'>
-              <div className='flex flex-row'>
-                <div className='border-4 border-black rounded-xl w-5/6 h-5/6 shadow-2xl bg-white'>
-                  <div className='h-full flex items-center'>
-                    <div className='flex flex-row'>
-                      {props.word.map((tile, index: number) => (
-                        <div key={index}>
-                          <TileDisplay tile={tile} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className='flex flex-col'>
-                  <div>
-                    <button
-                      onClick={(e) => props.handleResetWord(e)}
-                      className='bg-blue-600 hover:bg-blue-500 m-1 p-1 rounded'>
-                      <Erase width='32' />
-                    </button>
-                  </div>
-                  <div>
-                    <button className='bg-yellow-600 hover:bg-yellow-500 m-1 p-1 rounded'>
-                      <Sound width='32' />
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <props.BoardInput
+                word={props.word}
+                handleResetWord={props.handleResetWord}
+              />
             </div>
           </div>
         </div>
@@ -74,7 +60,11 @@ const FrontBoard = (props: Props) => {
           <div className='flex flex-wrap justify-end items-end'>
             {props.tiles.endings.map((tile: ITile, index: number) => (
               <div key={index}>
-                <TileComponent tile={tile} addLetters={props.addLetters} />
+                <TileComponent
+                  tile={tile}
+                  setSelectedTile={props.setSelectedTile}
+                  handleSetBounds={props.handleSetBounds}
+                />
               </div>
             ))}
           </div>

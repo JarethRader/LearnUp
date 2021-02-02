@@ -13,7 +13,11 @@ declare global {
 const BoardInput = (props: IBoardInputProps) => {
   return (
     <div className='flex flex-row'>
-      <div className='border-4 border-black rounded-xl w-5/6 h-5/6 shadow-2xl bg-white'>
+      <div
+        className='border-4 border-black rounded-xl w-5/6 h-5/6 shadow-2xl bg-white overflow-auto'
+        style={{
+          height: '15vh',
+        }}>
         <div className='h-full flex items-start '>
           <div className='flex flex-row flex-wrap'>
             {props.word.map((tile, index: number) => (

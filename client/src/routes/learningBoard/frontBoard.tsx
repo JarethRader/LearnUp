@@ -1,6 +1,5 @@
 import React from 'react';
-import { TileComponent, TileDisplay } from './tile';
-import { Sound, Erase } from '@styled-icons/entypo';
+import { TileComponent } from './tile';
 
 interface Props {
   tiles: any;
@@ -8,6 +7,8 @@ interface Props {
   addLetters: (tile: ITile) => void;
   handleResetWord: (event: React.MouseEvent<HTMLButtonElement>) => void;
   word: ITile[];
+  setSelectedTile: (tile: ITile | undefined) => void;
+  handleSetBounds: (bounds: IBounds | undefined) => void;
 }
 
 const FrontBoard = (props: Props) => {
@@ -17,14 +18,22 @@ const FrontBoard = (props: Props) => {
         <div className='flex flex-row justify-items-start flex-wrap'>
           {props.tiles.consonants.map((tile: ITile, index: number) => (
             <div key={index}>
-              <TileComponent tile={tile} addLetters={props.addLetters} />
+              <TileComponent
+                tile={tile}
+                setSelectedTile={props.setSelectedTile}
+                handleSetBounds={props.handleSetBounds}
+              />
             </div>
           ))}
         </div>
         <div className='flex flex-row justify-left flex-wrap'>
           {props.tiles.consonantTeams.map((tile: ITile, index: number) => (
             <div key={index}>
-              <TileComponent tile={tile} addLetters={props.addLetters} />
+              <TileComponent
+                tile={tile}
+                setSelectedTile={props.setSelectedTile}
+                handleSetBounds={props.handleSetBounds}
+              />
             </div>
           ))}
         </div>
@@ -34,7 +43,11 @@ const FrontBoard = (props: Props) => {
           <div className='flex flex-col h-full py-auto'>
             {props.tiles.frontPrefixes.map((tile: ITile, index: number) => (
               <div key={index}>
-                <TileComponent tile={tile} addLetters={props.addLetters} />
+                <TileComponent
+                  tile={tile}
+                  setSelectedTile={props.setSelectedTile}
+                  handleSetBounds={props.handleSetBounds}
+                />
               </div>
             ))}
           </div>
@@ -56,7 +69,8 @@ const FrontBoard = (props: Props) => {
                         <div key={index}>
                           <TileComponent
                             tile={tile}
-                            addLetters={props.addLetters}
+                            setSelectedTile={props.setSelectedTile}
+                            handleSetBounds={props.handleSetBounds}
                             style={
                               index === 0
                                 ? 'ml-6'
@@ -78,7 +92,8 @@ const FrontBoard = (props: Props) => {
                           <div key={index}>
                             <TileComponent
                               tile={tile}
-                              addLetters={props.addLetters}
+                              setSelectedTile={props.setSelectedTile}
+                              handleSetBounds={props.handleSetBounds}
                               style={`xl:ml-${index * index * 2} lg:ml-${
                                 index * index
                               }`}
@@ -99,7 +114,8 @@ const FrontBoard = (props: Props) => {
                             <div key={index}>
                               <TileComponent
                                 tile={tile}
-                                addLetters={props.addLetters}
+                                setSelectedTile={props.setSelectedTile}
+                                handleSetBounds={props.handleSetBounds}
                               />
                             </div>
                           ))}
@@ -111,7 +127,8 @@ const FrontBoard = (props: Props) => {
                             <div key={index}>
                               <TileComponent
                                 tile={tile}
-                                addLetters={props.addLetters}
+                                setSelectedTile={props.setSelectedTile}
+                                handleSetBounds={props.handleSetBounds}
                               />
                             </div>
                           ))}
@@ -123,7 +140,8 @@ const FrontBoard = (props: Props) => {
                             <div key={index}>
                               <TileComponent
                                 tile={tile}
-                                addLetters={props.addLetters}
+                                setSelectedTile={props.setSelectedTile}
+                                handleSetBounds={props.handleSetBounds}
                               />
                             </div>
                           ))}
@@ -144,7 +162,8 @@ const FrontBoard = (props: Props) => {
                         <div key={index}>
                           <TileComponent
                             tile={tile}
-                            addLetters={props.addLetters}
+                            setSelectedTile={props.setSelectedTile}
+                            handleSetBounds={props.handleSetBounds}
                           />
                         </div>
                       ))}
@@ -156,7 +175,8 @@ const FrontBoard = (props: Props) => {
                         <div key={index}>
                           <TileComponent
                             tile={tile}
-                            addLetters={props.addLetters}
+                            setSelectedTile={props.setSelectedTile}
+                            handleSetBounds={props.handleSetBounds}
                           />
                         </div>
                       ))}
@@ -168,7 +188,8 @@ const FrontBoard = (props: Props) => {
                         <div key={index}>
                           <TileComponent
                             tile={tile}
-                            addLetters={props.addLetters}
+                            setSelectedTile={props.setSelectedTile}
+                            handleSetBounds={props.handleSetBounds}
                           />
                         </div>
                       ))}
@@ -180,7 +201,8 @@ const FrontBoard = (props: Props) => {
                         <div key={index}>
                           <TileComponent
                             tile={tile}
-                            addLetters={props.addLetters}
+                            setSelectedTile={props.setSelectedTile}
+                            handleSetBounds={props.handleSetBounds}
                           />
                         </div>
                       ))}
@@ -192,7 +214,8 @@ const FrontBoard = (props: Props) => {
                       <div key={index}>
                         <TileComponent
                           tile={tile}
-                          addLetters={props.addLetters}
+                          setSelectedTile={props.setSelectedTile}
+                          handleSetBounds={props.handleSetBounds}
                         />
                       </div>
                     ))}
@@ -207,7 +230,11 @@ const FrontBoard = (props: Props) => {
             <div>
               {props.tiles.finalSpellings.map((tile: ITile, index: number) => (
                 <div key={index}>
-                  <TileComponent tile={tile} addLetters={props.addLetters} />
+                  <TileComponent
+                    tile={tile}
+                    setSelectedTile={props.setSelectedTile}
+                    handleSetBounds={props.handleSetBounds}
+                  />
                 </div>
               ))}
             </div>
@@ -219,7 +246,11 @@ const FrontBoard = (props: Props) => {
               {props.tiles.finalSpellingsDouble.map(
                 (tile: ITile, index: number) => (
                   <div key={index}>
-                    <TileComponent tile={tile} addLetters={props.addLetters} />
+                    <TileComponent
+                      tile={tile}
+                      setSelectedTile={props.setSelectedTile}
+                      handleSetBounds={props.handleSetBounds}
+                    />
                   </div>
                 )
               )}

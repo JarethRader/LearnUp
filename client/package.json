@@ -53,9 +53,11 @@
     "postcss-loader": "^4.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-draggable": "^4.4.3",
     "react-hot-loader": "^4.12.21",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
+    "react-use-measure": "^2.0.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.1",
@@ -63,7 +65,6 @@
     "tailwindcss": "^2.0.2",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.6",
-    "universal-cookie": "^4.0.4",
-    "use-measure": "^0.3.0"
+    "universal-cookie": "^4.0.4"
   }
 }

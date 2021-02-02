@@ -5,6 +5,7 @@ import tiles from '../components/tiles/index';
 import FrontBoard from './learningBoard/frontBoard';
 import BackBoard from './learningBoard/backBoard';
 import BoardInput from './learningBoard/boardInput';
+import DraggableTile from './learningBoard/draggableTile';
 
 interface Props {}
 
@@ -25,8 +26,28 @@ const LearningBoard = (props: Props) => {
     setBoardSide(!boardSide);
   };
 
+  const [selectedTile, setSelectedTile] = React.useState<ITile>();
+  const handleSetSelected = (tile: ITile | undefined) => {
+    setSelectedTile(tile);
+  };
+
+  const [selectedBounds, setBounds] = React.useState<IBounds>();
+  const handleSetBounds = (bounds: IBounds | undefined) => {
+    setBounds(bounds);
+  };
+
   return (
     <div className='w-full min-h-screen flex items-center flex-col bg-gray-300 py-4'>
+      <div className='absolute top-0 left-0 z-10'>
+        {selectedTile && (
+          <DraggableTile
+            tile={selectedTile}
+            bounds={selectedBounds}
+            setSelectedTile={handleSetSelected}
+            handleSetBounds={handleSetBounds}
+          />
+        )}
+      </div>
       <div className='w-7/12 flex flex-col'>
         <div className='flex self-center'>
           <h1 className='text-yellow-500 font-bold text-5xl'>Learning Board</h1>
@@ -63,6 +84,8 @@ const LearningBoard = (props: Props) => {
           addLetters={addLetters}
           handleResetWord={handleResetWord}
           word={word}
+          setSelectedTile={handleSetSelected}
+          handleSetBounds={handleSetBounds}
         />
       ) : (
         <BackBoard
@@ -71,6 +94,8 @@ const LearningBoard = (props: Props) => {
           addLetters={addLetters}
           handleResetWord={handleResetWord}
           word={word}
+          setSelectedTile={handleSetSelected}
+          handleSetBounds={handleSetBounds}
         />
       )}
     </div>

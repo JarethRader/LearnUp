@@ -1,4 +1,5 @@
 import React from 'react';
+import useMeasure from 'react-use-measure';
 import { Sound, Erase } from '@styled-icons/entypo';
 
 import { TileDisplay } from './tile';
@@ -11,9 +12,15 @@ declare global {
 }
 
 const BoardInput = (props: IBoardInputProps) => {
+  const [ref, bounds] = useMeasure();
+  // console.log(bounds);
+
+  const handleAddWord = (tile: ITile) => {};
+
   return (
     <div className='flex flex-row'>
       <div
+        ref={ref}
         className='border-4 border-black rounded-xl w-5/6 h-5/6 shadow-2xl bg-white overflow-auto'
         style={{
           height: '15vh',

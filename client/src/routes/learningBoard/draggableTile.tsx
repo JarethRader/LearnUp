@@ -23,10 +23,9 @@ declare global {
 }
 
 const DraggableTile = (props: IDraggableTileProps) => {
-  console.log(props.bounds);
   const [deltaPosition, setDelta] = React.useState({
     x: parseInt(props.bounds!.left) - 4,
-    y: parseInt(props.bounds!.top) + parseInt(props.bounds!.height),
+    y: parseInt(props.bounds!.top) - 4,
   });
 
   const handleDrag = (e: any, ui: any) => {
@@ -36,7 +35,7 @@ const DraggableTile = (props: IDraggableTileProps) => {
     });
   };
 
-  const handleOnMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleEvent = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     props.setSelectedTile(undefined);
     props.handleSetBounds(undefined);
@@ -49,7 +48,7 @@ const DraggableTile = (props: IDraggableTileProps) => {
         x: deltaPosition.x,
         y: deltaPosition.y,
       }}>
-      <div onMouseLeave={(e) => handleOnMouseLeave(e)}>
+      <div onMouseLeave={(e) => handleEvent(e)} onClick={(e) => handleEvent(e)}>
         <TileDraggable tile={props.tile!} />
       </div>
     </Draggable>

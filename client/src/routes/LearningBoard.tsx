@@ -7,6 +7,19 @@ import BackBoard from './learningBoard/backBoard';
 import BoardInput from './learningBoard/boardInput';
 import DraggableTile from './learningBoard/draggableTile';
 
+declare global {
+  interface BoardProps {
+    tiles: any;
+    BoardInput: (props: IBoardInputProps) => JSX.Element;
+    addLetters: (tile: ITile) => void;
+    handleResetWord: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    word: ITile[];
+    selectedTile?: ITile | undefined;
+    setSelectedTile: (tile: ITile | undefined) => void;
+    handleSetBounds: (bounds: IBounds | undefined) => void;
+  }
+}
+
 interface Props {}
 
 const LearningBoard = (props: Props) => {
@@ -38,7 +51,7 @@ const LearningBoard = (props: Props) => {
 
   return (
     <div>
-      <div className='absolute top-0 left-0 z-20'>
+      <div className='absolute z-20'>
         {selectedTile && (
           <DraggableTile
             tile={selectedTile}
@@ -87,6 +100,7 @@ const LearningBoard = (props: Props) => {
             addLetters={addLetters}
             handleResetWord={handleResetWord}
             word={word}
+            selectedTile={selectedTile}
             setSelectedTile={handleSetSelected}
             handleSetBounds={handleSetBounds}
           />
@@ -97,6 +111,7 @@ const LearningBoard = (props: Props) => {
             addLetters={addLetters}
             handleResetWord={handleResetWord}
             word={word}
+            selectedTile={selectedTile}
             setSelectedTile={handleSetSelected}
             handleSetBounds={handleSetBounds}
           />

@@ -300,19 +300,15 @@ const walkers: ITile[] = [
     color: 'bg-green-600',
   },
   {
-    letters: 'ui',
-    color: 'bg-green-600',
-  },
-  {
     letters: 'ea',
     color: 'bg-yellow-300',
   },
   {
-    letters: 'igh',
-    color: 'bg-yellow-300',
+    letters: 'ui',
+    color: 'bg-green-600',
   },
   {
-    letters: 'y',
+    letters: 'igh',
     color: 'bg-yellow-300',
   },
   {
@@ -320,15 +316,11 @@ const walkers: ITile[] = [
     color: 'bg-red-600',
   },
   {
-    letters: 'ew',
-    color: 'bg-red-600',
+    letters: 'y',
+    color: 'bg-yellow-300',
   },
   {
-    letters: 'eu',
-    color: 'bg-red-600',
-  },
-  {
-    letters: 'eigh',
+    letters: 'ei',
     color: 'bg-red-600',
   },
   {
@@ -336,7 +328,15 @@ const walkers: ITile[] = [
     color: 'bg-red-600',
   },
   {
-    letters: 'ei',
+    letters: 'eigh',
+    color: 'bg-red-600',
+  },
+  {
+    letters: 'eu',
+    color: 'bg-red-600',
+  },
+  {
+    letters: 'ew',
     color: 'bg-red-600',
   },
 ];

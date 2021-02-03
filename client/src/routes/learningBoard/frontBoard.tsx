@@ -1,17 +1,7 @@
 import React from 'react';
 import { TileComponent } from './tile';
 
-interface Props {
-  tiles: any;
-  BoardInput: (props: IBoardInputProps) => JSX.Element;
-  addLetters: (tile: ITile) => void;
-  handleResetWord: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  word: ITile[];
-  setSelectedTile: (tile: ITile | undefined) => void;
-  handleSetBounds: (bounds: IBounds | undefined) => void;
-}
-
-const FrontBoard = (props: Props) => {
+const FrontBoard = (props: BoardProps) => {
   return (
     <div className='h-auto 2xl:w-7/12 xl:10/12 md:w-11/12 border-4 border-black rounded-xl bg-gray-100 shadow-xl p-4'>
       <div className='grid justify-center' style={{ gridColumn: '1/6' }}>
@@ -19,6 +9,7 @@ const FrontBoard = (props: Props) => {
           {props.tiles.consonants.map((tile: ITile, index: number) => (
             <div key={index}>
               <TileComponent
+                selectedTile={props.selectedTile}
                 tile={tile}
                 setSelectedTile={props.setSelectedTile}
                 handleSetBounds={props.handleSetBounds}
@@ -30,6 +21,7 @@ const FrontBoard = (props: Props) => {
           {props.tiles.consonantTeams.map((tile: ITile, index: number) => (
             <div key={index}>
               <TileComponent
+                selectedTile={props.selectedTile}
                 tile={tile}
                 setSelectedTile={props.setSelectedTile}
                 handleSetBounds={props.handleSetBounds}
@@ -44,6 +36,7 @@ const FrontBoard = (props: Props) => {
             {props.tiles.frontPrefixes.map((tile: ITile, index: number) => (
               <div key={index}>
                 <TileComponent
+                  selectedTile={props.selectedTile}
                   tile={tile}
                   setSelectedTile={props.setSelectedTile}
                   handleSetBounds={props.handleSetBounds}
@@ -68,6 +61,7 @@ const FrontBoard = (props: Props) => {
                       {props.tiles.rFamily.map((tile: ITile, index: number) => (
                         <div key={index}>
                           <TileComponent
+                            selectedTile={props.selectedTile}
                             tile={tile}
                             setSelectedTile={props.setSelectedTile}
                             handleSetBounds={props.handleSetBounds}
@@ -93,6 +87,7 @@ const FrontBoard = (props: Props) => {
                         (tile: ITile, index: number) => (
                           <div key={index}>
                             <TileComponent
+                              selectedTile={props.selectedTile}
                               tile={tile}
                               setSelectedTile={props.setSelectedTile}
                               handleSetBounds={props.handleSetBounds}
@@ -115,6 +110,7 @@ const FrontBoard = (props: Props) => {
                           .map((tile: ITile, index: number) => (
                             <div key={index}>
                               <TileComponent
+                                selectedTile={props.selectedTile}
                                 tile={tile}
                                 setSelectedTile={props.setSelectedTile}
                                 handleSetBounds={props.handleSetBounds}
@@ -128,6 +124,7 @@ const FrontBoard = (props: Props) => {
                           .map((tile: ITile, index: number) => (
                             <div key={index}>
                               <TileComponent
+                                selectedTile={props.selectedTile}
                                 tile={tile}
                                 setSelectedTile={props.setSelectedTile}
                                 handleSetBounds={props.handleSetBounds}
@@ -141,6 +138,7 @@ const FrontBoard = (props: Props) => {
                           .map((tile: ITile, index: number) => (
                             <div key={index}>
                               <TileComponent
+                                selectedTile={props.selectedTile}
                                 tile={tile}
                                 setSelectedTile={props.setSelectedTile}
                                 handleSetBounds={props.handleSetBounds}
@@ -163,6 +161,7 @@ const FrontBoard = (props: Props) => {
                       .map((tile: ITile, index: number) => (
                         <div key={index}>
                           <TileComponent
+                            selectedTile={props.selectedTile}
                             tile={tile}
                             setSelectedTile={props.setSelectedTile}
                             handleSetBounds={props.handleSetBounds}
@@ -176,6 +175,7 @@ const FrontBoard = (props: Props) => {
                       .map((tile: ITile, index: number) => (
                         <div key={index}>
                           <TileComponent
+                            selectedTile={props.selectedTile}
                             tile={tile}
                             setSelectedTile={props.setSelectedTile}
                             handleSetBounds={props.handleSetBounds}
@@ -189,6 +189,7 @@ const FrontBoard = (props: Props) => {
                       .map((tile: ITile, index: number) => (
                         <div key={index}>
                           <TileComponent
+                            selectedTile={props.selectedTile}
                             tile={tile}
                             setSelectedTile={props.setSelectedTile}
                             handleSetBounds={props.handleSetBounds}
@@ -202,6 +203,7 @@ const FrontBoard = (props: Props) => {
                       .map((tile: ITile, index: number) => (
                         <div key={index}>
                           <TileComponent
+                            selectedTile={props.selectedTile}
                             tile={tile}
                             setSelectedTile={props.setSelectedTile}
                             handleSetBounds={props.handleSetBounds}
@@ -215,6 +217,7 @@ const FrontBoard = (props: Props) => {
                     {props.tiles.suffixes.map((tile: ITile, index: number) => (
                       <div key={index}>
                         <TileComponent
+                          selectedTile={props.selectedTile}
                           tile={tile}
                           setSelectedTile={props.setSelectedTile}
                           handleSetBounds={props.handleSetBounds}
@@ -233,6 +236,7 @@ const FrontBoard = (props: Props) => {
               {props.tiles.finalSpellings.map((tile: ITile, index: number) => (
                 <div key={index}>
                   <TileComponent
+                    selectedTile={props.selectedTile}
                     tile={tile}
                     setSelectedTile={props.setSelectedTile}
                     handleSetBounds={props.handleSetBounds}
@@ -249,6 +253,7 @@ const FrontBoard = (props: Props) => {
                 (tile: ITile, index: number) => (
                   <div key={index}>
                     <TileComponent
+                      selectedTile={props.selectedTile}
                       tile={tile}
                       setSelectedTile={props.setSelectedTile}
                       handleSetBounds={props.handleSetBounds}

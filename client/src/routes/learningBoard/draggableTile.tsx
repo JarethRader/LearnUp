@@ -18,7 +18,7 @@ declare global {
         | undefined
       >
     >;
-    addTile: (tile: IWordList) => void;
+    addTile: (tile: ITile) => void;
   }
 }
 
@@ -47,8 +47,7 @@ const DraggableTile = (props: IDraggableTileProps) => {
 
   const handleOnClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    props.tile &&
-      props.addTile({ tile: props.tile, deltaPosition: { x: 0, y: 0 } });
+    props.tile && props.addTile(props.tile);
     toggleIsClicked();
   };
 

@@ -6,7 +6,7 @@ import DraggableDisplayTile from './draggableDisplayTile';
 declare global {
   interface IBoardInputProps {
     handleResetWord: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    word: IWordList[];
+    wordList: IWordList[];
     setInputBounds: React.Dispatch<React.SetStateAction<IBounds | undefined>>;
   }
 }
@@ -28,7 +28,7 @@ const BoardInput = (props: IBoardInputProps) => {
         }}>
         <div className='h-full flex items-start '>
           <div className='flex flex-row flex-wrap relative'>
-            {props.word.map((word, index: number) => (
+            {props.wordList.map((word, index: number) => (
               <div key={index} className='absolute'>
                 <DraggableDisplayTile word={word} />
               </div>

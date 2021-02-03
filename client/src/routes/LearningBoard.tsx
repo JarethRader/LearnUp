@@ -98,9 +98,38 @@ const LearningBoard = (props: Props) => {
     }
   }, [draggableBounds]);
 
-  const addTileToInput = (tile: IWordList) => {
+  const addTileToInput = (tile: ITile) => {
     if (canAdd) {
-      addLetters(tile);
+      if (wordList.length === 0) {
+        addLetters({ tile: tile, deltaPosition: { x: 0, y: 0 } });
+      } else if (
+        wordList[wordList.length - 1].deltaPosition.x >=
+        parseInt(inputBounds!.right) - 100
+      ) {
+        addLetters({
+          tile: tile,
+          deltaPosition: {
+            x: 0,
+            y: wordList[wordList.length - 1].deltaPosition.y + 50,
+          },
+        });
+      } else if (
+        wordList[wordList.length - 1].deltaPosition.x <=
+        parseInt(inputBounds!.right) - 100
+      ) {
+        addLetters({
+          tile: tile,
+          deltaPosition: {
+            x:
+              wordList[wordList.length - 1].deltaPosition.x +
+              parseInt(selectedBounds!.width) +
+              10,
+            y: wordList[wordList.length - 1].deltaPosition.y,
+          },
+        });
+      } else {
+        addLetters({ tile: tile, deltaPosition: { x: 0, y: 0 } });
+      }
     }
   };
 

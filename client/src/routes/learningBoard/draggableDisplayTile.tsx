@@ -10,8 +10,8 @@ declare global {
 
 const DraggableDisplayTile = (props: IDraggableDisplayProps) => {
   const [deltaPosition, setDelta] = React.useState({
-    x: 0,
-    y: 0,
+    x: props.word?.deltaPosition.x || 0,
+    y: props.word?.deltaPosition.y || 0,
   });
 
   const handleDrag = (e: any, ui: any) => {
@@ -31,10 +31,6 @@ const DraggableDisplayTile = (props: IDraggableDisplayProps) => {
       defaultPosition={{
         x: deltaPosition.x,
         y: deltaPosition.y,
-      }}
-      positionOffset={{
-        x: 50,
-        y: '10%',
       }}
       grid={[5, 50]}>
       <div className='flex justify-center'>

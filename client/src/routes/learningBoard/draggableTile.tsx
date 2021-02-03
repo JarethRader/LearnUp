@@ -35,10 +35,15 @@ const DraggableTile = (props: IDraggableTileProps) => {
     });
   };
 
-  const handleEvent = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleEvent = (
+    event: React.MouseEvent<HTMLDivElement>,
+    clicked: boolean
+  ) => {
     event.preventDefault();
-    props.setSelectedTile(undefined);
-    props.handleSetBounds(undefined);
+    if (clicked) {
+      props.setSelectedTile(undefined);
+      props.handleSetBounds(undefined);
+    }
   };
 
   return (
@@ -48,7 +53,9 @@ const DraggableTile = (props: IDraggableTileProps) => {
         x: deltaPosition.x,
         y: deltaPosition.y,
       }}>
-      <div onMouseLeave={(e) => handleEvent(e)} onClick={(e) => handleEvent(e)}>
+      <div
+        onMouseLeave={(e) => handleEvent(e, false)}
+        onClick={(e) => handleEvent(e, true)}>
         <TileDraggable tile={props.tile!} />
       </div>
     </Draggable>

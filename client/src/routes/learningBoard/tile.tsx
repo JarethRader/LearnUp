@@ -13,6 +13,7 @@ declare global {
 
   interface tileDisplayProps {
     tile: ITile;
+    style?: string;
   }
 }
 
@@ -21,6 +22,10 @@ export const TileComponent = (props: tileComponentProps) => {
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
     event.preventDefault();
+    if (props.selectedTile !== props.tile) {
+      props.setSelectedTile(undefined);
+      props.handleSetBounds(undefined);
+    }
     !props.selectedTile && props.setSelectedTile(props.tile);
     !props.selectedTile && props.handleSetBounds(bounds as any);
   };
@@ -45,16 +50,7 @@ export const TileComponent = (props: tileComponentProps) => {
 export const TileDisplay = (props: tileDisplayProps) => {
   return (
     <div
-      className={`px-2 py-1 m-1 text-center border-4 border-black hover:border-purple-500 cursor-pointer rounded-lg text-lg font-semibold shadow-xl ${props.tile.color}`}>
-      <p>{props.tile.letters}</p>
-    </div>
-  );
-};
-
-export const TileDraggable = (props: tileDisplayProps) => {
-  return (
-    <div
-      className={`px-2 py-1 m-1 text-center border-4 border-fuschia-500 cursor-move rounded-lg text-lg font-semibold shadow-xl ${props.tile.color}`}>
+      className={`px-2 py-1 m-1 text-center border-4  hover:border-purple-500 cursor-pointer rounded-lg text-lg font-semibold shadow-xl ${props.tile.color} ${props.style}`}>
       <p>{props.tile.letters}</p>
     </div>
   );

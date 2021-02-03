@@ -2,6 +2,7 @@ import React from 'react';
 import { Sound, Erase } from '@styled-icons/entypo';
 
 import { TileDisplay } from './tile';
+import DraggableDisplayTile from './draggableDisplayTile';
 
 declare global {
   interface IBoardInputProps {
@@ -21,15 +22,16 @@ const BoardInput = (props: IBoardInputProps) => {
   return (
     <div className='flex flex-row'>
       <div
+        ref={ref}
         className='border-4 border-black rounded-xl w-5/6 h-5/6 shadow-2xl bg-white overflow-auto'
         style={{
           height: '15vh',
         }}>
-        <div ref={ref} className='h-full flex items-start '>
+        <div className='h-full flex items-start '>
           <div className='flex flex-row flex-wrap'>
             {props.word.map((tile, index: number) => (
               <div key={index}>
-                <TileDisplay tile={tile} />
+                <DraggableDisplayTile tile={tile} />
               </div>
             ))}
           </div>

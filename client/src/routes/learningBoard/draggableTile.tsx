@@ -1,11 +1,11 @@
 import React from 'react';
 import Draggable from 'react-draggable';
-import useMeasure from 'react-use-measure';
-import { TileDraggable } from './tile';
+import { TileDisplay } from './tile';
 
 declare global {
   interface IDraggableTileProps {
     tile: ITile | undefined;
+
     bounds: IBounds | undefined;
     setSelectedTile: (tile: ITile | undefined) => void;
     handleSetBounds: (bounds: IBounds | undefined) => void;
@@ -74,7 +74,7 @@ const DraggableTile = (props: IDraggableTileProps) => {
   React.useEffect(() => {
     setTimeout(() => {
       props.setDraggableBounds(deltaPosition as any);
-    }, 50);
+    }, 10);
   }, [deltaPosition]);
 
   return (
@@ -91,7 +91,10 @@ const DraggableTile = (props: IDraggableTileProps) => {
         onMouseLeave={(e) => handleOnMouseLeave(e)}
         onTouchMove={ToggleIsMoving}
         onTouchEndCapture={(e) => handleOnTouchEndCapture(e)}>
-        <TileDraggable tile={props.tile!} />
+        <TileDisplay
+          tile={props.tile!}
+          style={'cursor-move border-fuschia-500'}
+        />
       </div>
     </Draggable>
   );

@@ -35,12 +35,19 @@ const DraggableTile = (props: IDraggableTileProps) => {
     });
   };
 
-  const handleEvent = (
-    event: React.MouseEvent<HTMLDivElement>,
-    clicked: boolean
-  ) => {
+  const [isClicked, setIsClicked] = React.useState(false);
+  const toggleIsClicked = () => setIsClicked(!isClicked);
+
+  React.useEffect(() => {
+    if (isClicked) {
+      props.setSelectedTile(undefined);
+      props.handleSetBounds(undefined);
+    }
+  }, [isClicked]);
+
+  const handleOnMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    if (clicked) {
+    if (!isClicked) {
       props.setSelectedTile(undefined);
       props.handleSetBounds(undefined);
     }
@@ -54,8 +61,9 @@ const DraggableTile = (props: IDraggableTileProps) => {
         y: deltaPosition.y,
       }}>
       <div
-        onMouseLeave={(e) => handleEvent(e, false)}
-        onClick={(e) => handleEvent(e, true)}>
+        onClick={toggleIsClicked}
+        onClickCapture={toggleIsClicked}
+        onMouseLeave={(e) => handleOnMouseLeave(e)}>
         <TileDraggable tile={props.tile!} />
       </div>
     </Draggable>

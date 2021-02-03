@@ -4,7 +4,7 @@ import { TileDisplay } from './tile';
 
 declare global {
   interface IDraggableDisplayProps {
-    tile: ITile | undefined;
+    word: IWordList | undefined;
   }
 }
 
@@ -21,15 +21,27 @@ const DraggableDisplayTile = (props: IDraggableDisplayProps) => {
     });
   };
 
+  //   React.useEffect(() => {
+  //     console.log(deltaPosition);
+  //   }, [deltaPosition]);
+
   return (
     <Draggable
       onDrag={handleDrag}
       defaultPosition={{
         x: deltaPosition.x,
         y: deltaPosition.y,
-      }}>
-      <div>
-        <TileDisplay tile={props.tile!} style={'border-black cursor-move'} />
+      }}
+      positionOffset={{
+        x: 50,
+        y: '10%',
+      }}
+      grid={[5, 50]}>
+      <div className='flex justify-center'>
+        <TileDisplay
+          tile={props.word!.tile}
+          style={'border-black cursor-move'}
+        />
       </div>
     </Draggable>
   );

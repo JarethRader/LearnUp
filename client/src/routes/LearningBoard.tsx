@@ -22,23 +22,33 @@ declare global {
   interface BoardProps {
     tiles: any;
     BoardInput: (props: IBoardInputProps) => JSX.Element;
-    addLetters: (tile: ITile) => void;
     handleResetWord: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    word: ITile[];
+    wordList: IWordList[];
     selectedTile?: ITile | undefined;
     setSelectedTile: (tile: ITile | undefined) => void;
     handleSetBounds: (bounds: IBounds | undefined) => void;
     setInputBounds: React.Dispatch<React.SetStateAction<IBounds | undefined>>;
+  }
+
+  interface IWordList {
+    tile: ITile;
+    deltaPosition: {
+      x: number;
+      y: number;
+    };
   }
 }
 
 interface Props {}
 
 const LearningBoard = (props: Props) => {
-  const [word, setWord] = React.useState<ITile[]>([]);
-  const addLetters = (tile: ITile) => {
-    setWord([...word, tile]);
+  const [wordList, setWord] = React.useState<IWordList[]>([]);
+  const addLetters = (tile: IWordList) => {
+    setWord([...wordList, tile]);
   };
+  React.useEffect(() => {
+    console.log(wordList);
+  }, [wordList]);
 
   const handleResetWord = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -88,7 +98,7 @@ const LearningBoard = (props: Props) => {
     }
   }, [draggableBounds]);
 
-  const addTileToInput = (tile: ITile) => {
+  const addTileToInput = (tile: IWordList) => {
     if (canAdd) {
       addLetters(tile);
     }
@@ -144,9 +154,8 @@ const LearningBoard = (props: Props) => {
           <FrontBoard
             tiles={tiles}
             BoardInput={BoardInput}
-            addLetters={addLetters}
             handleResetWord={handleResetWord}
-            word={word}
+            wordList={wordList}
             selectedTile={selectedTile}
             setSelectedTile={handleSetSelected}
             handleSetBounds={handleSetBounds}
@@ -156,9 +165,8 @@ const LearningBoard = (props: Props) => {
           <BackBoard
             tiles={tiles}
             BoardInput={BoardInput}
-            addLetters={addLetters}
             handleResetWord={handleResetWord}
-            word={word}
+            wordList={wordList}
             selectedTile={selectedTile}
             setSelectedTile={handleSetSelected}
             handleSetBounds={handleSetBounds}

@@ -49,7 +49,7 @@ const FrontBoard = (props: BoardProps) => {
           <div className='grid grid-rows-3'>
             <div className='grid row-start-1 row-span-1'>
               <props.BoardInput
-                word={props.word}
+                word={props.wordList}
                 handleResetWord={props.handleResetWord}
                 setInputBounds={props.setInputBounds}
               />

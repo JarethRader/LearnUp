@@ -1,13 +1,12 @@
 import React from 'react';
 import { Sound, Erase } from '@styled-icons/entypo';
 
-import { TileDisplay } from './tile';
 import DraggableDisplayTile from './draggableDisplayTile';
 
 declare global {
   interface IBoardInputProps {
     handleResetWord: (event: React.MouseEvent<HTMLButtonElement>) => void;
-    word: ITile[];
+    word: IWordList[];
     setInputBounds: React.Dispatch<React.SetStateAction<IBounds | undefined>>;
   }
 }
@@ -28,10 +27,10 @@ const BoardInput = (props: IBoardInputProps) => {
           height: '15vh',
         }}>
         <div className='h-full flex items-start '>
-          <div className='flex flex-row flex-wrap'>
-            {props.word.map((tile, index: number) => (
-              <div key={index}>
-                <DraggableDisplayTile tile={tile} />
+          <div className='flex flex-row flex-wrap relative'>
+            {props.word.map((word, index: number) => (
+              <div key={index} className='absolute'>
+                <DraggableDisplayTile word={word} />
               </div>
             ))}
           </div>

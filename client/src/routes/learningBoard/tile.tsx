@@ -17,22 +17,12 @@ declare global {
 }
 
 export const TileComponent = (props: tileComponentProps) => {
-  // const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  //   // props.addLetters(props.tile);
-  // };
-
-  const handleOnMouseEnter = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleEvent = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ) => {
     event.preventDefault();
     !props.selectedTile && props.setSelectedTile(props.tile);
     !props.selectedTile && props.handleSetBounds(bounds as any);
-  };
-
-  const handleOnMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-
-    props.setSelectedTile(undefined);
-    props.handleSetBounds(undefined);
   };
 
   const [ref, bounds] = useMeasure({});
@@ -41,9 +31,8 @@ export const TileComponent = (props: tileComponentProps) => {
     <div className='flex justify-center'>
       <div
         ref={ref}
-        onMouseEnter={(e) => handleOnMouseEnter(e)}
-        // onMouseLeave={(e) => handleOnMouseLeave(e)}
-        // onClick={(e) => handleOnClick(e)}
+        onMouseEnter={(e) => handleEvent(e)}
+        onTouchEndCapture={(e) => handleEvent(e)}
         className={`px-2 py-1 m-1 text-center border-4 border-black hover:border-fuschia-500 cursor-pointer rounded-lg text-lg font-semibold shadow-xl focus:outline-none ${
           props.tile.color
         } ${props.style && props.style}`}>

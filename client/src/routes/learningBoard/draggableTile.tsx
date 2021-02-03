@@ -1,24 +1,24 @@
 import React from 'react';
-import Draggable from 'react-draggable'; // The default
+import Draggable from 'react-draggable';
+import useMeasure from 'react-use-measure';
 import { TileDraggable } from './tile';
 
 declare global {
-  interface IBounds {
-    bottom: string;
-    height: string;
-    left: string;
-    right: string;
-    top: string;
-    width: string;
-    x: string;
-    y: string;
-  }
-
   interface IDraggableTileProps {
     tile: ITile | undefined;
     bounds: IBounds | undefined;
     setSelectedTile: (tile: ITile | undefined) => void;
     handleSetBounds: (bounds: IBounds | undefined) => void;
+    setDraggableBounds: React.Dispatch<
+      React.SetStateAction<
+        | {
+            x: string;
+            y: string;
+          }
+        | undefined
+      >
+    >;
+    addTile: (tile: ITile) => void;
   }
 }
 
@@ -37,21 +37,43 @@ const DraggableTile = (props: IDraggableTileProps) => {
 
   const [isClicked, setIsClicked] = React.useState(false);
   const toggleIsClicked = () => setIsClicked(!isClicked);
-
   React.useEffect(() => {
     if (isClicked) {
       props.setSelectedTile(undefined);
       props.handleSetBounds(undefined);
+      props.setDraggableBounds(undefined);
     }
   }, [isClicked]);
 
+  const handleOnClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    props.tile && props.addTile(props.tile);
+    toggleIsClicked();
+  };
+
   const handleOnMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    if (!isClicked) {
+    if (isClicked) {
       props.setSelectedTile(undefined);
       props.handleSetBounds(undefined);
+      props.setDraggableBounds(undefined);
     }
   };
+
+  const [isMoving, setMoving] = React.useState(false);
+  const ToggleIsMoving = () => setMoving(!isMoving);
+  const handleOnTouchEndCapture = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (isMoving) {
+      props.setSelectedTile(undefined);
+      props.handleSetBounds(undefined);
+      props.setDraggableBounds(undefined);
+      ToggleIsMoving();
+    }
+  };
+
+  React.useEffect(() => {
+    props.setDraggableBounds(deltaPosition as any);
+  }, [deltaPosition]);
 
   return (
     <Draggable
@@ -61,9 +83,12 @@ const DraggableTile = (props: IDraggableTileProps) => {
         y: deltaPosition.y,
       }}>
       <div
-        onClick={toggleIsClicked}
-        onClickCapture={toggleIsClicked}
-        onMouseLeave={(e) => handleOnMouseLeave(e)}>
+        onClickCapture={(e) => {
+          handleOnClickCapture(e);
+        }}
+        onMouseLeave={(e) => handleOnMouseLeave(e)}
+        onTouchMove={ToggleIsMoving}
+        onTouchEndCapture={(e) => handleOnTouchEndCapture(e)}>
         <TileDraggable tile={props.tile!} />
       </div>
     </Draggable>

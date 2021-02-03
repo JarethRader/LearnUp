@@ -44,6 +44,7 @@ const FrontBoard = (props: BoardProps) => {
               <props.BoardInput
                 word={props.word}
                 handleResetWord={props.handleResetWord}
+                setInputBounds={props.setInputBounds}
               />
             </div>
           </div>

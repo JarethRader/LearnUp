@@ -51,6 +51,7 @@ const FrontBoard = (props: BoardProps) => {
               <props.BoardInput
                 word={props.word}
                 handleResetWord={props.handleResetWord}
+                setInputBounds={props.setInputBounds}
               />
             </div>
             <div className='grid row-start-2 row-span-2'>
@@ -169,7 +170,7 @@ const FrontBoard = (props: BoardProps) => {
                         </div>
                       ))}
                   </div>
-                  <div className='flex flex-row xl:justify-around xl:px-20 justify-between lg:px-32 md:px-10'>
+                  <div className='flex flex-row xl:justify-around 2xl:px-10 xl:px-32 justify-between lg:px-32 md:px-16'>
                     {props.tiles.walkers
                       .slice(6, 8)
                       .map((tile: ITile, index: number) => (
@@ -183,7 +184,7 @@ const FrontBoard = (props: BoardProps) => {
                         </div>
                       ))}
                   </div>
-                  <div className='flex flex-row xl:justify-around xl:px-20 justify-between lg:px-32 md:px-10'>
+                  <div className='flex flex-row xl:justify-around 2xl:px-10 xl:px-32 justify-between lg:px-32 md:px-16'>
                     {props.tiles.walkers
                       .slice(8, 10)
                       .map((tile: ITile, index: number) => (

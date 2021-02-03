@@ -8,6 +8,17 @@ import BoardInput from './learningBoard/boardInput';
 import DraggableTile from './learningBoard/draggableTile';
 
 declare global {
+  interface IBounds {
+    bottom: string;
+    height: string;
+    left: string;
+    right: string;
+    top: string;
+    width: string;
+    x: string;
+    y: string;
+  }
+
   interface BoardProps {
     tiles: any;
     BoardInput: (props: IBoardInputProps) => JSX.Element;
@@ -17,6 +28,7 @@ declare global {
     selectedTile?: ITile | undefined;
     setSelectedTile: (tile: ITile | undefined) => void;
     handleSetBounds: (bounds: IBounds | undefined) => void;
+    setInputBounds: React.Dispatch<React.SetStateAction<IBounds | undefined>>;
   }
 }
 
@@ -49,6 +61,39 @@ const LearningBoard = (props: Props) => {
     setBounds(bounds);
   };
 
+  const [inputBounds, setInputBounds] = React.useState<IBounds>();
+  const [draggableBounds, setDraggableBounds] = React.useState<{
+    x: string;
+    y: string;
+  }>();
+  // const handleSetInputBounds = (bounds: IBounds) => {
+  //   setBounds(bounds);
+  // }
+
+  const [canAdd, setCanAdd] = React.useState(false);
+  React.useEffect(() => {
+    if (draggableBounds && inputBounds) {
+      if (
+        draggableBounds.y > inputBounds.top &&
+        draggableBounds.y < inputBounds.bottom &&
+        draggableBounds.x > inputBounds.left &&
+        draggableBounds.x < inputBounds.right
+      ) {
+        setCanAdd(true);
+      } else {
+        setCanAdd(false);
+      }
+    } else {
+      setCanAdd(false);
+    }
+  }, [draggableBounds]);
+
+  const addTileToInput = (tile: ITile) => {
+    if (canAdd) {
+      addLetters(tile);
+    }
+  };
+
   return (
     <div>
       <div className='absolute z-20'>
@@ -58,6 +103,8 @@ const LearningBoard = (props: Props) => {
             bounds={selectedBounds}
             setSelectedTile={handleSetSelected}
             handleSetBounds={handleSetBounds}
+            addTile={addTileToInput}
+            setDraggableBounds={setDraggableBounds}
           />
         )}
       </div>
@@ -103,6 +150,7 @@ const LearningBoard = (props: Props) => {
             selectedTile={selectedTile}
             setSelectedTile={handleSetSelected}
             handleSetBounds={handleSetBounds}
+            setInputBounds={setInputBounds}
           />
         ) : (
           <BackBoard
@@ -114,6 +162,7 @@ const LearningBoard = (props: Props) => {
             selectedTile={selectedTile}
             setSelectedTile={handleSetSelected}
             handleSetBounds={handleSetBounds}
+            setInputBounds={setInputBounds}
           />
         )}
       </div>

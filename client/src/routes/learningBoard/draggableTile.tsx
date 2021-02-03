@@ -72,7 +72,9 @@ const DraggableTile = (props: IDraggableTileProps) => {
   };
 
   React.useEffect(() => {
-    props.setDraggableBounds(deltaPosition as any);
+    setTimeout(() => {
+      props.setDraggableBounds(deltaPosition as any);
+    }, 50);
   }, [deltaPosition]);
 
   return (

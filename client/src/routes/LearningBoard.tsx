@@ -30,12 +30,16 @@ declare global {
     setInputBounds: React.Dispatch<React.SetStateAction<IBounds | undefined>>;
   }
 
-  interface IWordList {
+  interface IAddWord {
     tile: ITile;
     deltaPosition: {
       x: number;
       y: number;
     };
+  }
+
+  interface IWordList extends IAddWord {
+    index: number;
   }
 }
 
@@ -43,8 +47,14 @@ interface Props {}
 
 const LearningBoard = (props: Props) => {
   const [wordList, setWord] = React.useState<IWordList[]>([]);
-  const addLetters = (tile: IWordList) => {
-    setWord([...wordList, tile]);
+  const addLetters = (tile: IAddWord) => {
+    const newWord = {
+      index:
+        wordList.length === 0 ? 0 : wordList[wordList.length - 1].index + 1,
+      tile: tile.tile,
+      deltaPosition: tile.deltaPosition,
+    };
+    setWord([...wordList, newWord]);
   };
   React.useEffect(() => {
     console.log(wordList);

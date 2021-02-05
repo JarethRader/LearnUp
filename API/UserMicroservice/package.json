@@ -1,7 +1,7 @@
 {
   "name": "user",
   "version": "0.1.0",
-  "description": "User API for cryptolib",
+  "description": "User API for LearnUp Phonetics learning board",
   "main": "src/server.ts",
   "scripts": {
     "start": "env NODE_ENV=development nodemon src/server.ts",

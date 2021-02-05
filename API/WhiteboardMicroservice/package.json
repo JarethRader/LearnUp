@@ -1,0 +1,31 @@
+{
+  "name": "whiteboard",
+  "version": "0.1.0",
+  "description": "Whiteboard API for LearnUp Phonetics learning board",
+  "main": "src/server.ts",
+  "scripts": {
+    "start": "env NODE_ENV=development nodemon src/server.ts",
+    "build": "tsc -p .",
+    "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand"
+  },
+  "author": "Jareth Rader",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/morgan": "^1.9.2",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.19.0",
+    "jest": "^26.6.3",
+    "mongoose": "^5.11.15",
+    "nodemon": "^2.0.7",
+    "ts-jest": "^26.5.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "bson-objectid": "^1.3.1",
+    "express": "^4.17.1",
+    "helmet": "^4.4.1",
+    "morgan": "^1.10.0"
+  }
+}

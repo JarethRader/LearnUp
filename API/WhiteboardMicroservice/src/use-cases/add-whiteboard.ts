@@ -1,13 +1,16 @@
+/// <reference path='../types/index.d.ts' />
+
 import makeWhiteboard from '../whiteboard';
 
-const buildAddWhiteboard: BuildAddWhiteboard = (whiteboardDb) => {
+const buildAddWhiteboard: BuildAddWhiteboard = (whiteboardDB) => {
   const addWhiteboard = async (whiteboardInfo: IMakeWhiteboard) => {
-    const whiteboard: IWhiteboardObject = makeWhiteboard(whiteboardInfo);
+    const whiteboard = makeWhiteboard(whiteboardInfo);
 
-    const whiteboardInstance = await whiteboardDb();
+    const whiteboardInstance = await whiteboardDB();
 
     return await whiteboardInstance.insert(whiteboard.toObject());
   };
+
   return addWhiteboard;
 };
 

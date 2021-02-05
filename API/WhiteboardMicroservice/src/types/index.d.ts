@@ -137,3 +137,5 @@ declare global {
     controller: (request: ExpressHttpRequest) => Promise<IController>
   ) => (req: Request, res: Response, next: NextFunction) => void;
 }
+
+export {};

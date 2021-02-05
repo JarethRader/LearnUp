@@ -8,7 +8,12 @@ export const config: any = {
 export const USER_BASE =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:5000'
-    : 'https://EbutUoy.com';
+    : 'https://phonetics-learnup.com';
+
+export const WHITEBOARD_BASE =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:6000'
+    : 'https://phonetics-learnup.com';
 
 export const API_SUFFIX = '/api/v1';
 

@@ -2,6 +2,8 @@ const initialState: IWhiteboardState = {
   author: undefined,
   audience: undefined,
   boardState: [],
+  ownBoards: [],
+  sharedBoards: [],
   whiteboardLoading: false,
 };
 
@@ -19,6 +21,12 @@ export default function (
         boardState: action.payload.whiteboard.boardState,
         whiteboardLoading: false,
       };
+    case 'GET_BOARD_SUCCESS':
+      return {
+        ...state,
+        ownBoards: action.payload.ownWhiteboards,
+        sharedBoards: action.payload.sharedWhiteboards,
+      };
     case 'DELETE_BOARD_SUCCESS':
       return {
         ...state,
@@ -27,6 +35,7 @@ export default function (
         boardState: [],
         whiteboardLoading: false,
       };
+    case 'GET_BOARD_FAILURE':
     case 'UPLOAD_BOARD_FAILURE':
     case 'UPDATE_BOARD_FAILURE':
     case 'DELETE_BOARD_FAILURE':

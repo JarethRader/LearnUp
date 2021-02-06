@@ -17,4 +17,11 @@ declare global {
     unknown,
     Action<UserActionTypes>
   >;
+
+  type WhiteboardThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    RootState,
+    unknown,
+    Action<WhiteboardActionTypes>
+  >;
 }

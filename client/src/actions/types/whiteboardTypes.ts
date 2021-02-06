@@ -3,6 +3,8 @@ import {
   UPLOAD_BOARD_FAILURE,
   UPDATE_BOARD_SUCCESS,
   UPDATE_BOARD_FAILURE,
+  GET_BOARD_SUCCESS,
+  GET_BOARD_FAILURE,
   DELETE_BOARD_SUCCESS,
   DELETE_BOARD_FAILURE,
   BOARD_STATE_LOADING,
@@ -20,6 +22,8 @@ declare global {
     author?: string;
     audience?: string;
     boardState: IWordList[];
+    ownBoards: IWordList[];
+    sharedBoards: IWordList[];
     whiteboardLoading: boolean;
   }
 
@@ -36,6 +40,11 @@ declare global {
       audience: string;
       boardState: IWordList[];
     };
+  }
+
+  interface GetWhiteboardResponse {
+    ownWhiteboards: IWordList[];
+    sharedWhiteboards: IWordList[];
   }
 
   interface WhiteboardLoadingAction {
@@ -69,6 +78,19 @@ declare global {
 
   type UploadBoardActionTypes = UploadBoardSuccess | UploadBoardFailure;
 
+  // get board states interface
+  interface GetBoardSuccess {
+    type: typeof GET_BOARD_SUCCESS;
+    payload: GetWhiteboardResponse;
+  }
+
+  interface GetBoardFailure {
+    type: typeof GET_BOARD_FAILURE;
+    payload?: null;
+  }
+
+  type GetBoardActionTypes = GetBoardSuccess | GetBoardFailure;
+
   // Upload new board state interface
   interface DeleteBoardSuccess {
     type: typeof DELETE_BOARD_SUCCESS;
@@ -86,5 +108,6 @@ declare global {
     | WhiteboardLoadingAction
     | UpdateBoardActionTypes
     | UploadBoardActionTypes
+    | GetBoardActionTypes
     | DeleteBoardActionTypes;
 }

@@ -3,6 +3,7 @@ import {
   postWhiteboard,
   patchWhiteboard,
   deleteWhiteboard,
+  getWhiteboards,
 } from './controllers';
 import makeCallback from './express-callback';
 import envConfig from './env';
@@ -31,6 +32,11 @@ app.post(`${envConfig['API_ROOT']}/whiteboard`, makeCallback(postWhiteboard));
 app.patch(
   `${envConfig['API_ROOT']}/whiteboard/:id`,
   makeCallback(patchWhiteboard)
+);
+// get whiteboard states
+app.get(
+  `${envConfig['API_ROOT']}/whiteboard/:id`,
+  makeCallback(getWhiteboards)
 );
 // delete state
 app.delete(

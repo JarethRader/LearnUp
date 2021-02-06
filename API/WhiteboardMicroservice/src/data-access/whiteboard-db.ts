@@ -43,6 +43,32 @@ const makeWhiteboardDb: MakeDB = (whiteboardSchema) =>
           throw err;
         });
     },
+    findByAuthor: async (userID) => {
+      return await whiteboardSchema
+        .find({ author: userID })
+        .then((whiteboards: IWhiteboardModel[]) => {
+          if (!whiteboards) {
+            return [];
+          }
+          return whiteboards;
+        })
+        .catch((err: any) => {
+          throw err;
+        });
+    },
+    findByAudience: async (userID) => {
+      return await whiteboardSchema
+        .find({ audience: userID })
+        .then((whiteboards: IWhiteboardModel[]) => {
+          if (!whiteboards) {
+            return [];
+          }
+          return whiteboards;
+        })
+        .catch((err: any) => {
+          throw err;
+        });
+    },
   });
 
 export default makeWhiteboardDb;

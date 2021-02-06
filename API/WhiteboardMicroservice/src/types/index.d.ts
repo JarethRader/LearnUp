@@ -56,6 +56,8 @@ declare global {
     remove: (id: string) => Promise<any>;
     update: (id: String, updatedInfo: IMakeWhiteboard) => Promise<any>;
     findOneById: (id: string) => Promise<any>;
+    findByAuthor: (id: string) => Promise<any>;
+    findByAudience: (userID: string) => Promise<any>;
   }>;
   type MakeDB = (
     WhiteboardSchema: Mongoose.Model<IWhiteboardModel>
@@ -73,19 +75,31 @@ declare global {
     id: string,
     updatedInfo: IMakeWhiteboard
   ) => Promise<IWhiteboardModel | undefined>;
+
   type BuildRemoveWhiteboard = (
     whiteboardDB: () => Promise<WhiteboardDB>
   ) => (id: string) => Promise<IWhiteboardModel | undefined>;
 
+  type BuildListWhiteboards = (
+    whiteboardDB: () => Promise<WhiteboardDB>
+  ) => (userID: string) => Promise<IWhiteboardModel[] | undefined>;
+
   // Controllers
+  interface IWhiteboardList {
+    ownWhiteboards: IWhiteboardModel[] | undefined;
+    sharedWhiteboards: IWhiteboardModel[] | undefined;
+  }
+
   interface IControllerResponse {
     headers: {
       'Content-Type': string;
     };
     statusCode: number;
-    body: {
-      whiteboard: IWhiteboardModel | undefined;
-    };
+    body:
+      | {
+          whiteboard: IWhiteboardModel | undefined;
+        }
+      | IWhiteboardList;
   }
 
   interface IControllerError {
@@ -104,6 +118,15 @@ declare global {
     addWhiteboard: (
       whiteboardInfo: IMakeWhiteboard
     ) => Promise<IWhiteboardModel | undefined>
+  ) => (request: ExpressHttpRequest) => Promise<IController>;
+
+  type BuildGetWhiteboard = (
+    getOwnWhiteboards: (
+      userID: string
+    ) => Promise<IWhiteboardModel[] | undefined>,
+    getSharedWhiteboards: (
+      userID: string
+    ) => Promise<IWhiteboardModel[] | undefined>
   ) => (request: ExpressHttpRequest) => Promise<IController>;
 
   type BuildPatchWhiteboard = (

@@ -15,7 +15,7 @@ export default function (
       return {
         ...state,
         userInfo: {
-          id: action.payload.user.id,
+          id: action.payload.user._id,
           username: action.payload.user.username,
           email: action.payload.user.email,
         },
@@ -28,7 +28,7 @@ export default function (
       return {
         ...state,
         userInfo: {
-          id: action.payload.user.id,
+          id: action.payload.user._id,
           username: action.payload.user.username,
           email: action.payload.user.email,
         },

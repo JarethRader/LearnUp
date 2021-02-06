@@ -8,12 +8,18 @@ import {
 import makeCallback from './express-callback';
 import envConfig from './env';
 
+import buildCookieConfig from './cookie';
+
 import morgan from 'morgan';
 import helmet from 'helmet';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+
+// const cookieConfig = buildCookieConfig(envConfig);
 
 const app = express();
 
-const port = process.env.PORT || 6000;
+const port = process.env.PORT || 5001;
 
 // http request logger
 app.use(
@@ -24,6 +30,17 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(helmet());
+
+const corsOptions = cors({
+  credentials: true,
+  origin: envConfig['PUBLIC_PATH'],
+  maxAge: parseInt(envConfig['SESS_LIFETIME'], 10),
+});
+
+app.options(envConfig['PUBLIC_PATH'], corsOptions);
+app.use(corsOptions);
+
+app.use(cookieParser(envConfig['COOKIE_SECRET']));
 
 // Whiteboard CRUD
 // post new state

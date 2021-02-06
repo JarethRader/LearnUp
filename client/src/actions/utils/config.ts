@@ -12,7 +12,7 @@ export const USER_BASE =
 
 export const WHITEBOARD_BASE =
   process.env.NODE_ENV === 'development'
-    ? 'http://localhost:6000'
+    ? 'http://localhost:5001'
     : 'https://phonetics-learnup.com';
 
 export const API_SUFFIX = '/api/v1';

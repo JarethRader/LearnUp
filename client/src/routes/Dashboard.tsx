@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
+import { getBoards } from '../actions/whiteboardAPI/whiteboardActions';
+
 interface props {
   Navbar: (props: any) => JSX.Element;
 }
@@ -11,10 +13,14 @@ import { RootState } from '../reducers/index';
 const mapStateToProps = (state: RootState) => ({
   isAuthenticated: state.user.isAuthenticated,
   userInfo: state.user.userInfo,
+  ownBoards: state.whiteboard.ownBoards,
+  sharedBoards: state.whiteboard.sharedBoards,
   userLoading: state.user.userLoading,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getBoards,
+};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -23,8 +29,12 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & props;
 
 const Dashboard = (props: Props) => {
+  React.useEffect(() => {
+    props.getBoards(props.userInfo.id);
+  }, []);
+
   if (!props.isAuthenticated) {
-    return <Redirect to='/authentication' />;
+    return <Redirect to='/login' />;
   } else {
     return (
       <div className='min-h-screen'>

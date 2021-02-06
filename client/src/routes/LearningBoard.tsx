@@ -48,6 +48,7 @@ interface Props {}
 const LearningBoard = (props: Props) => {
   const [wordList, setWord] = React.useState<IWordList[]>([]);
   const addLetters = (tile: IAddWord) => {
+    // console.log('Adding tile: ', tile);
     const newWord = {
       index:
         wordList.length === 0 ? 0 : wordList[wordList.length - 1].index + 1,
@@ -61,6 +62,7 @@ const LearningBoard = (props: Props) => {
   }, [wordList]);
 
   const handleResetWord = (event: React.MouseEvent<HTMLButtonElement>) => {
+    // console.log('Resetting word');
     event.preventDefault();
     setWord([]);
   };
@@ -73,11 +75,13 @@ const LearningBoard = (props: Props) => {
 
   const [selectedTile, setSelectedTile] = React.useState<ITile>();
   const handleSetSelected = (tile: ITile | undefined) => {
+    // console.log('Setting selected tile: ', tile);
     setSelectedTile(tile);
   };
 
   const [selectedBounds, setBounds] = React.useState<IBounds>();
   const handleSetBounds = (bounds: IBounds | undefined) => {
+    // console.log('Setting bounds for selected tile: ', bounds);
     setBounds(bounds);
   };
 
@@ -99,16 +103,26 @@ const LearningBoard = (props: Props) => {
         draggableBounds.x > inputBounds.left &&
         draggableBounds.x < inputBounds.right
       ) {
-        setCanAdd(true);
+        if (canAdd === false) {
+          console.log('Can add True');
+          setCanAdd(true);
+        }
       } else {
-        setCanAdd(false);
+        if (canAdd === true) {
+          console.log('Can add False');
+          setCanAdd(false);
+        }
       }
     } else {
-      setCanAdd(false);
+      if (canAdd === true) {
+        console.log('Can add False');
+        setCanAdd(false);
+      }
     }
   }, [draggableBounds]);
 
   const addTileToInput = (tile: ITile) => {
+    // console.log('Adding tile to input: ', tile);
     if (canAdd) {
       if (wordList.length === 0) {
         addLetters({ tile: tile, deltaPosition: { x: 0, y: 0 } });
@@ -153,6 +167,7 @@ const LearningBoard = (props: Props) => {
             setSelectedTile={handleSetSelected}
             handleSetBounds={handleSetBounds}
             addTile={addTileToInput}
+            draggableBounds={draggableBounds}
             setDraggableBounds={setDraggableBounds}
           />
         )}

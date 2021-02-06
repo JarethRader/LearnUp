@@ -9,6 +9,12 @@ declare global {
     bounds: IBounds | undefined;
     setSelectedTile: (tile: ITile | undefined) => void;
     handleSetBounds: (bounds: IBounds | undefined) => void;
+    draggableBounds:
+      | {
+          x: string;
+          y: string;
+        }
+      | undefined;
     setDraggableBounds: React.Dispatch<
       React.SetStateAction<
         | {
@@ -29,6 +35,7 @@ const DraggableTile = (props: IDraggableTileProps) => {
   });
 
   const handleDrag = (e: DraggableEvent, ui: any) => {
+    // console.log('Dragging tile');
     toggleHasMoved();
     setDelta({
       x: deltaPosition.x + ui.deltaX,
@@ -70,10 +77,16 @@ const DraggableTile = (props: IDraggableTileProps) => {
   };
 
   React.useEffect(() => {
-    setTimeout(() => {
+    if (props.draggableBounds) {
+      if (
+        Math.abs(parseInt(props.draggableBounds.x) - deltaPosition.x) > 20 &&
+        Math.abs(parseInt(props.draggableBounds.y) - deltaPosition.y) > 20
+      ) {
+        props.setDraggableBounds(deltaPosition as any);
+      }
+    } else {
       props.setDraggableBounds(deltaPosition as any);
-    }, 10);
-    // return clearInterval(timer);
+    }
   }, [deltaPosition]);
 
   return (

@@ -2,7 +2,7 @@ const buildListShared: BuildListWhiteboards = (whiteboardDB) => {
   const getShared = async (id: string) => {
     const whiteboardInstance = await whiteboardDB();
 
-    return await whiteboardInstance.findByAuthor(id);
+    return await whiteboardInstance.findByAudience(id);
   };
   return getShared;
 };

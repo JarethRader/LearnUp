@@ -27,6 +27,16 @@ export default function (
         ownBoards: action.payload.ownWhiteboards,
         sharedBoards: action.payload.sharedWhiteboards,
       };
+    case 'SET_CURRENT_BOARD':
+      return {
+        ...state,
+        boardState: [action.payload],
+      };
+    case 'CLEAR_CURRENT_BOARD':
+      return {
+        ...state,
+        boardState: [],
+      };
     case 'DELETE_BOARD_SUCCESS':
       return {
         ...state,

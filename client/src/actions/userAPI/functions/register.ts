@@ -10,7 +10,8 @@ export const RegisterHelper = (
       headers: CSRFConfig() as any,
       body: JSON.stringify(registrationInfo),
     })
-      .then(async (response) => {
+      .then(async (response: any) => {
+        localStorage.setItem('user', response);
         response.status === 201 && resolve(response.json());
       })
       .catch((err: Error) => {

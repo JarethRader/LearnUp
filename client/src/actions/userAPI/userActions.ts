@@ -54,6 +54,7 @@ export const login = (body: UserLoginInfoObj): UserThunk => async (
   try {
     await LoginHelper(body, USER_API, CSRFConfig)
       .then((response) => {
+        console.group(response);
         dispatch({
           type: 'LOGIN_SUCCESS',
           payload: response,

@@ -10,7 +10,7 @@ export const LoginHelper = (
       headers: CSRFConfig() as any,
       body: JSON.stringify(userInfo),
     })
-      .then((response) => {
+      .then((response: any) => {
         response.status === 201 && resolve(response.json());
       })
       .catch((err: Error) => {

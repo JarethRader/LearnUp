@@ -102,3 +102,20 @@ export const getBoards = (userID: string): WhiteboardThunk => async (
     });
   }
 };
+
+export const setCurrentBoard = (board: IWordList): WhiteboardThunk => async (
+  dispatch: ThunkDispatch<RootState, void, Action>
+) => {
+  dispatch({
+    type: 'SET_CURRENT_BOARD',
+    payload: board,
+  });
+};
+
+export const clearCurrentBoard = (): WhiteboardThunk => async (
+  dispatch: ThunkDispatch<RootState, void, Action>
+) => {
+  dispatch({
+    type: 'CLEAR_CURRENT_BOARD',
+  });
+};

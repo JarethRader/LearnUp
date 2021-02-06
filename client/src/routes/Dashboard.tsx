@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-import { getBoards } from '../actions/whiteboardAPI/whiteboardActions';
+import {
+  getBoards,
+  setCurrentBoard,
+} from '../actions/whiteboardAPI/whiteboardActions';
 
 interface props {
   Navbar: (props: any) => JSX.Element;
@@ -20,6 +23,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   getBoards,
+  setCurrentBoard,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -31,7 +35,16 @@ type Props = PropsFromRedux & props;
 const Dashboard = (props: Props) => {
   React.useEffect(() => {
     props.getBoards(props.userInfo.id);
+    console.log(localStorage.getItem('item'));
   }, []);
+
+  const handleLoadBoard = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    board: IWordList
+  ) => {
+    event.preventDefault();
+    props.setCurrentBoard(board);
+  };
 
   if (!props.isAuthenticated) {
     return <Redirect to='/login' />;
@@ -57,15 +70,24 @@ const Dashboard = (props: Props) => {
                 can make changes to it.
               </h1>
               <div className='py-4'>
-                {props.ownBoards.map((board: any, index: number) => (
-                  <button
-                    key={index}
-                    className='px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none'>
-                    <Link to='/whiteboard'>
-                      <p>Board {board.author}</p>
-                    </Link>
-                  </button>
-                ))}
+                {props.ownBoards[0] === undefined ? (
+                  <p>You currently have no boards</p>
+                ) : (
+                  <div>
+                    {props.ownBoards.map((board: any, index: number) => (
+                      <button
+                        onClick={(e) => {
+                          handleLoadBoard(e, board.boardState);
+                        }}
+                        key={index}
+                        className='px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none'>
+                        <Link to='/whiteboard'>
+                          <p>Board {board.author}</p>
+                        </Link>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
             <div>

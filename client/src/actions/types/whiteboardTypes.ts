@@ -7,6 +7,8 @@ import {
   GET_BOARD_FAILURE,
   DELETE_BOARD_SUCCESS,
   DELETE_BOARD_FAILURE,
+  SET_CURRENT_BOARD,
+  CLEAR_CURRENT_BOARD,
   BOARD_STATE_LOADING,
 } from './types';
 
@@ -104,10 +106,23 @@ declare global {
 
   type DeleteBoardActionTypes = DeleteBoardSuccess | DeleteBoardFailure;
 
+  interface SetCurrentBoard {
+    type: typeof SET_CURRENT_BOARD;
+    payload: IWordList;
+  }
+
+  interface clearCurrentBoard {
+    type: typeof CLEAR_CURRENT_BOARD;
+    payload?: null;
+  }
+
+  type HandleCurrentBoardActions = SetCurrentBoard | clearCurrentBoard;
+
   type WhiteboardActionTypes =
     | WhiteboardLoadingAction
     | UpdateBoardActionTypes
     | UploadBoardActionTypes
     | GetBoardActionTypes
+    | HandleCurrentBoardActions
     | DeleteBoardActionTypes;
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lexicon version="1.0"
+      xmlns="http://www.w3.org/2005/01/pronunciation-lexicon"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.w3.org/2005/01/pronunciation-lexicon
+        http://www.w3.org/TR/2007/CR-pronunciation-lexicon-20071212/pls.xsd"
+      alphabet="x-sampa"
+      xml:lang="en-US">
+      <lexeme><grapheme>able</grapheme><phoneme>eɪbəl</phoneme></lexeme>
+      <lexeme><grapheme>age</grapheme><phoneme>idʒ</phoneme></lexeme>
+      <lexeme><grapheme>ance</grapheme><phoneme>ans</phoneme></lexeme>
+      <lexeme><grapheme>ant</grapheme><phoneme>ʌnt</phoneme></lexeme>
+      <lexeme><grapheme>ary</grapheme><phoneme>eɪrɪ</phoneme></lexeme>
+      <lexeme><grapheme>ate</grapheme><phoneme>'ɪt</phoneme></lexeme>
+      <lexeme><grapheme>ation</grapheme><phoneme>eɪʃɪn</phoneme></lexeme>
+      <lexeme><grapheme>cial</grapheme><phoneme>ʃʊl</phoneme></lexeme>
+      <lexeme><grapheme>ciate</grapheme><phoneme>ʃi.eɪt</phoneme></lexeme>
+      <lexeme><grapheme>cient</grapheme><phoneme>ʃi.ent</phoneme></lexeme>
+      <lexeme><grapheme>cious</grapheme><phoneme>ʃi.əs</phoneme></lexeme>
+      <lexeme><grapheme>ent</grapheme><phoneme>ent</phoneme></lexeme>
+      <lexeme><grapheme>ible</grapheme><phoneme>'ɪbl</phoneme></lexeme>
+      <lexeme><grapheme>ory</grapheme><phoneme>orɪ</phoneme></lexeme>
+      <lexeme><grapheme>ous</grapheme><phoneme>oʊs</phoneme></lexeme>
+      <lexeme><grapheme>sion</grapheme><phoneme>ʃˈʌn</phoneme></lexeme>
+      <lexeme><grapheme>sive</grapheme><phoneme>sɪv</phoneme></lexeme>
+      <lexeme><grapheme>ssion</grapheme><phoneme>sʃˈʌn</phoneme></lexeme>
+      <lexeme><grapheme>sure</grapheme><phoneme>ʒˈʊr</phoneme></lexeme>
+      <lexeme><grapheme>tial</grapheme><phoneme>ʃəl</phoneme></lexeme>
+      <lexeme><grapheme>tiate</grapheme><phoneme>ʃi.eɪt</phoneme></lexeme>
+      <lexeme><grapheme>tient</grapheme><phoneme>ʃent</phoneme></lexeme>
+      <lexeme><grapheme>tion</grapheme><phoneme>ʃˈʌn</phoneme></lexeme>
+      <lexeme><grapheme>tious</grapheme><phoneme>ʃ'ʌs</phoneme></lexeme>
+      <lexeme><grapheme>tive</grapheme><phoneme>t'ɪv</phoneme></lexeme>
+      <lexeme><grapheme>tle</grapheme><phoneme>tl</phoneme></lexeme>
+      <lexeme><grapheme>ture</grapheme><phoneme>cʊr</phoneme></lexeme>
+</lexicon>

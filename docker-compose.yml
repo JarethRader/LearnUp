@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  web:
+    container_name: learnup_react
+    restart: always
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    ports:
+      - '3001:3000'
+    volumes:
+      - .:app
+      - /app/node_modules/
+    environment:
+      - CHOKIDAR_USEPOLLING=true

@@ -31,7 +31,7 @@ const RegisterForm: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <div className='border-2 border-blue-600 xl:w-1/4 rounded-lg bg-gray-100 shadow-xl'>
+    <div className='border-2 border-blue-600 2xl:w-1/4 xl:w-1/2 rounded-lg bg-gray-100 shadow-xl'>
       <div className='flex flex-col text-center py-4'>
         <h1 className='text-xl font-bold'>Sign Up</h1>
         <p>to continue to LearnUp</p>

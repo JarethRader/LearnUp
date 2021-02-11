@@ -15,12 +15,14 @@ import {
 declare global {
   interface IWhiteboardModel {
     id?: string;
+    name?: string;
     author?: string;
     audience?: string;
     boardState: IWordList[];
   }
 
   interface IWhiteboardState {
+    name?: string;
     author?: string;
     audience?: string;
     boardState: IWordList[];
@@ -30,6 +32,7 @@ declare global {
   }
 
   interface IWhiteboardInfoObj {
+    name?: string;
     author?: string;
     audience?: string;
     boardState: IWordList[];
@@ -38,6 +41,7 @@ declare global {
   interface WhiteboardResponse {
     whiteboard: {
       id: string;
+      name: string;
       author: string;
       audience: string;
       boardState: IWordList[];

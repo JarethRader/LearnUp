@@ -48,12 +48,22 @@ const Dashboard = (props: Props) => {
     props.setCurrentBoard(board);
   };
 
+  const [showModal, setShowModal] = React.useState(false);
+  const toggleModal = (
+    event:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.MouseEvent<HTMLDivElement>
+  ) => {
+    event.preventDefault();
+    setShowModal(!showModal);
+  };
+
   if (!props.isAuthenticated) {
     return <Redirect to='/login' />;
   } else {
     return (
       <div className='min-h-screen'>
-        <CreateBoardModal />
+        {showModal && <CreateBoardModal toggleModal={toggleModal} />}
         <div>
           <props.Navbar />
           <div className='flex justify-left mt-20 mx-10'>
@@ -85,7 +95,7 @@ const Dashboard = (props: Props) => {
                         key={index}
                         className='px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none'>
                         <Link to='/whiteboard'>
-                          <p>Board {board.author}</p>
+                          <p>{board.name}</p>
                         </Link>
                       </button>
                     ))}
@@ -119,7 +129,9 @@ const Dashboard = (props: Props) => {
                   Create a new whiteboard
                 </h1>
                 <div className='py-4'>
-                  <button className=' px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none'>
+                  <button
+                    onClick={(e) => toggleModal(e)}
+                    className=' px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none'>
                     Create new board
                   </button>
                 </div>

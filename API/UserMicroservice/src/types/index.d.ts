@@ -112,6 +112,10 @@ declare global {
     userDB: () => Promise<UserDB>
   ) => (id: string) => Promise<IUserModel | undefined>;
 
+  type BuildGetUser = (
+    userDB: () => Promise<UserDB>
+  ) => (email: string) => Promise<IUserModel | undefined>;
+
   type BuildRemoveUser = (
     userDB: () => Promise<UserDB>
   ) => (id: string) => Promise<IUserModel | undefined>;
@@ -162,8 +166,12 @@ declare global {
     removeUser: (id: string) => Promise<IUserModel | undefined>
   ) => (request: ExpressHttpRequest) => Promise<IController>;
 
-  type BuildGetUser = (
+  type BuildGetListUser = (
     listUser: (id: string) => Promise<IUserModel | undefined>
+  ) => (request: ExpressHttpRequest) => Promise<IController>;
+
+  type BuildGetFindUser = (
+    getUser: (email: string) => Promise<IUserModel | undefined>
   ) => (request: ExpressHttpRequest) => Promise<IController>;
 
   // Express callback

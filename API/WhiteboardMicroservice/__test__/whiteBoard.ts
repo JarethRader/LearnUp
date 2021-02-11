@@ -3,6 +3,7 @@ import Id from '../src/Id';
 const makeFakeWhiteboard = ({ ...overrides }) => {
   const whiteboard = {
     _id: Id.makeId(),
+    name: 'My Board',
     author: Id.makeId(),
     audience: Id.makeId(),
     boardState: [

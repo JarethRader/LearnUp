@@ -25,4 +25,10 @@ describe('whiteboard', () => {
       'Must have a valid board state'
     );
   });
+  it('Must have a valid board name', () => {
+    const whiteBoard = makeFakeWhiteboard({ name: 'inv@lid_' });
+    expect(() => makeWhiteboard(whiteBoard)).toThrow(
+      'Board name can only contain alphanumeric characters'
+    );
+  });
 });

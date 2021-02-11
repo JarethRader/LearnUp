@@ -1,6 +1,11 @@
 import { Schema, Model, model } from 'mongoose';
 
 export const WhiteboardSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   author: {
     type: String,
     required: true,

@@ -3,6 +3,7 @@ const makeWhiteboardDb: MakeDB = (whiteboardSchema) =>
     insert: async (whiteboardInfo) => {
       const newWhiteboard: IWhiteboardModel = new whiteboardSchema({
         _id: whiteboardInfo.id || whiteboardInfo._id,
+        name: whiteboardInfo.name,
         author: whiteboardInfo.author,
         audience: whiteboardInfo.audience,
         boardState: whiteboardInfo.boardState,

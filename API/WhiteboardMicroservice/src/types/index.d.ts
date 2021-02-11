@@ -9,6 +9,7 @@ declare global {
   interface IMakeWhiteboard {
     [key: string]: any;
     _id?: string;
+    name?: string;
     author?: string;
     audience?: string;
     boardState?: IWordList[];
@@ -18,6 +19,7 @@ declare global {
 
   interface IWhiteboardObject {
     getId: () => string;
+    getName: () => string;
     getAuthor: () => string;
     getAudience: () => string;
     getBoardState: () => IWordList[];
@@ -42,6 +44,7 @@ declare global {
   }
 
   interface IWhiteboard {
+    name: string;
     author: string;
     audience: string;
     boardState: IWordList[];

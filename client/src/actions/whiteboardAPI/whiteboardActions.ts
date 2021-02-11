@@ -103,7 +103,9 @@ export const getBoards = (userID: string): WhiteboardThunk => async (
   }
 };
 
-export const setCurrentBoard = (board: IWordList): WhiteboardThunk => async (
+export const setCurrentBoard = (
+  board: IWhiteboardModel
+): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
   dispatch({

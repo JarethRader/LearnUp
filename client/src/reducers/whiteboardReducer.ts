@@ -1,7 +1,12 @@
 const initialState: IWhiteboardState = {
-  author: undefined,
-  audience: undefined,
   boardState: [],
+  currentBoard: {
+    id: '',
+    name: '',
+    author: '',
+    audience: '',
+    boardState: [],
+  },
   ownBoards: [],
   sharedBoards: [],
   whiteboardLoading: false,
@@ -16,9 +21,7 @@ export default function (
     case 'UPDATE_BOARD_SUCCESS':
       return {
         ...state,
-        author: action.payload.whiteboard.author,
-        audience: action.payload.whiteboard.audience,
-        boardState: action.payload.whiteboard.boardState,
+        currentBoard: action.payload.whiteboard,
         whiteboardLoading: false,
       };
     case 'GET_BOARD_SUCCESS':
@@ -28,9 +31,16 @@ export default function (
         sharedBoards: action.payload.sharedWhiteboards,
       };
     case 'SET_CURRENT_BOARD':
+      console.log(action.payload);
       return {
         ...state,
-        boardState: [action.payload],
+        currentBoard: {
+          id: action.payload.id,
+          name: action.payload.name,
+          author: action.payload.author,
+          audience: action.payload.audience || 'none',
+          boardState: action.payload.boardState,
+        },
       };
     case 'CLEAR_CURRENT_BOARD':
       return {
@@ -40,8 +50,13 @@ export default function (
     case 'DELETE_BOARD_SUCCESS':
       return {
         ...state,
-        author: undefined,
-        audience: undefined,
+        currentBoard: {
+          id: '',
+          name: '',
+          author: '',
+          audience: '',
+          boardState: [],
+        },
         boardState: [],
         whiteboardLoading: false,
       };

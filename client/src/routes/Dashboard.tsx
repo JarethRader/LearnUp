@@ -42,7 +42,7 @@ const Dashboard = (props: Props) => {
 
   const handleLoadBoard = (
     event: React.MouseEvent<HTMLButtonElement>,
-    board: IWordList
+    board: IWhiteboardModel
   ) => {
     event.preventDefault();
     props.setCurrentBoard(board);
@@ -87,18 +87,20 @@ const Dashboard = (props: Props) => {
                   <p>You currently have no boards</p>
                 ) : (
                   <div>
-                    {props.ownBoards.map((board: any, index: number) => (
-                      <button
-                        onClick={(e) => {
-                          handleLoadBoard(e, board.boardState);
-                        }}
-                        key={index}
-                        className='px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none'>
-                        <Link to='/whiteboard'>
-                          <p>{board.name}</p>
-                        </Link>
-                      </button>
-                    ))}
+                    {props.ownBoards.map(
+                      (board: IWhiteboardModel, index: number) => (
+                        <button
+                          onClick={(e) => {
+                            handleLoadBoard(e, board);
+                          }}
+                          key={index}
+                          className='px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none'>
+                          <Link to='/whiteboard'>
+                            <p>{board.name}</p>
+                          </Link>
+                        </button>
+                      )
+                    )}
                   </div>
                 )}
               </div>

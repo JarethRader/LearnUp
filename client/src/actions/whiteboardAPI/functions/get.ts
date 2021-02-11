@@ -1,5 +1,5 @@
 export const getHelper = (userID: string, API: string, CSRFConfig: any) => {
-  return new Promise<WhiteboardResponse>(async (resolve, reject) => {
+  return new Promise<GetWhiteboardResponse>(async (resolve, reject) => {
     await fetch(API + `/whiteboard/${userID}`, {
       method: 'GET',
       credentials: 'include',

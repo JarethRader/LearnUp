@@ -22,12 +22,10 @@ declare global {
   }
 
   interface IWhiteboardState {
-    name?: string;
-    author?: string;
-    audience?: string;
     boardState: IWordList[];
-    ownBoards: IWordList[];
-    sharedBoards: IWordList[];
+    currentBoard: IWhiteboardModel;
+    ownBoards: IWhiteboardModel[];
+    sharedBoards: IWhiteboardModel[];
     whiteboardLoading: boolean;
   }
 
@@ -39,18 +37,12 @@ declare global {
   }
 
   interface WhiteboardResponse {
-    whiteboard: {
-      id: string;
-      name: string;
-      author: string;
-      audience: string;
-      boardState: IWordList[];
-    };
+    whiteboard: IWhiteboardModel;
   }
 
   interface GetWhiteboardResponse {
-    ownWhiteboards: IWordList[];
-    sharedWhiteboards: IWordList[];
+    ownWhiteboards: IWhiteboardModel[];
+    sharedWhiteboards: IWhiteboardModel[];
   }
 
   interface WhiteboardLoadingAction {
@@ -112,7 +104,7 @@ declare global {
 
   interface SetCurrentBoard {
     type: typeof SET_CURRENT_BOARD;
-    payload: IWordList;
+    payload: IWhiteboardModel;
   }
 
   interface clearCurrentBoard {

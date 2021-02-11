@@ -27,7 +27,7 @@ const routes = [
 
 const App = () => {
   return (
-    <div className='min-h-screen min-w-screen bg-gray-200'>
+    <div className='min-h-screen min-w-screen bg-gray-200 lexend-font'>
       <React.Suspense fallback={<div></div>}>
         <Switch>
           {routes.map(({ path, Component }) => (

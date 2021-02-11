@@ -4,12 +4,10 @@
 
 @import 'tailwindcss/utilities';
 
-.orbitron-font {
-  font-family: 'Orbitron', sans-serif;
-}
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega&display=swap');
 
-.montserrat-font {
-  font-family: 'Montserrat', sans-serif;
+.lexend-font {
+  font-family: 'Lexend Mega', sans-serif;
 }
 
 .stroke {

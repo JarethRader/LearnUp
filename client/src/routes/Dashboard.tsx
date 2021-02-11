@@ -6,6 +6,8 @@ import {
   setCurrentBoard,
 } from '../actions/whiteboardAPI/whiteboardActions';
 
+import CreateBoardModal from './createBoard/createBoardModal';
+
 interface props {
   Navbar: (props: any) => JSX.Element;
 }
@@ -51,6 +53,7 @@ const Dashboard = (props: Props) => {
   } else {
     return (
       <div className='min-h-screen'>
+        <CreateBoardModal />
         <div>
           <props.Navbar />
           <div className='flex justify-left mt-20 mx-10'>

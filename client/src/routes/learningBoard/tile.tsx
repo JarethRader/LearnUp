@@ -38,7 +38,7 @@ export const TileComponent = (props: tileComponentProps) => {
         ref={ref}
         onMouseEnter={(e) => handleEvent(e)}
         onTouchEndCapture={(e) => handleEvent(e)}
-        className={`px-2 py-1 m-1 text-center border-4 border-black hover:border-fuschia-500 cursor-pointer rounded-lg text-lg font-semibold shadow-xl focus:outline-none ${
+        className={`px-2 py-1 m-1 text-center border-4 border-black hover:border-fuschia-500 cursor-pointer rounded-lg text-md font-semibold shadow-xl focus:outline-none ${
           props.tile.color
         } ${props.style && props.style}`}>
         <p>{props.tile.letters}</p>
@@ -50,7 +50,7 @@ export const TileComponent = (props: tileComponentProps) => {
 export const TileDisplay = (props: tileDisplayProps) => {
   return (
     <div
-      className={`px-2 py-1 m-1 text-center border-4  hover:border-purple-500 cursor-pointer rounded-lg text-lg font-semibold shadow-xl ${props.tile.color} ${props.style}`}>
+      className={`px-2 py-1 m-1 text-center border-4 hover:border-purple-500 cursor-pointer rounded-lg text-md font-semibold shadow-xl ${props.tile.color} ${props.style}`}>
       <p>{props.tile.letters}</p>
     </div>
   );

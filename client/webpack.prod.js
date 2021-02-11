@@ -83,9 +83,9 @@ module.exports = merge(common, {
       inject: true,
       template: path.join(__dirname, 'assets/index.ejs'),
       filename: path.join(__dirname, 'build/index.html'),
-      title: 'JarethRader',
+      title: 'LearnUp Phonetics Board',
       favicon: path.join(__dirname, 'public/favicon.ico'),
-      url: 'https://jarethrader.com',
+      url: 'https://phonicsboard.learnupcenters.org/',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -104,6 +104,6 @@ module.exports = merge(common, {
       filename: 'static/css/[name].[chunkhash:8].css',
       chunkFilename: 'static/css/[id].[contenthash].css',
       ignoreOrder: true,
-    })
+    }),
   ],
 });

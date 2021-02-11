@@ -1,4 +1,4 @@
-FROM node:12.20.1-alpine3.12
+FROM node:13.12.0-alpine
 
 WORKDIR /app
 
@@ -6,9 +6,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 COPY package.json ./
 
-RUN npm install
+RUN npm install --silent
 
 COPY . ./
-RUN npm run css
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]

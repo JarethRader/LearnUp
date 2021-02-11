@@ -4,8 +4,8 @@
   "description": "Jareth Rader Portfolio",
   "main": "index.js",
   "scripts": {
-    "start": "env NODE_ENV=development webpack-dev-server --mode development --config webpack.dev.js",
-    "dev": "env NODE_ENV=development webpack --mode development --config webpack.dev.js",
+    "start": "env NODE_ENV=local webpack-dev-server --mode development --config webpack.config.js",
+    "dev": "env NODE_ENV=development webpack --host 0.0.0.0 --mode development --config webpack.dev.js",
     "build": "env NODE_ENV=production webpack --mode production --config webpack.prod.js",
     "analyze": "env NODE_ENV=analyze webpack --mode development --config webpack.dev.js",
     "css": "tailwind build tailwind/tailwind.css -o src/style.css"

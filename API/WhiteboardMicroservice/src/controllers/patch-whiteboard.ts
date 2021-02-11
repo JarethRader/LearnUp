@@ -3,6 +3,7 @@ const buildPatchWhiteboard: BuildPatchWhiteboard = (editWhiteboard) => {
     request: ExpressHttpRequest
   ): Promise<IController> => {
     try {
+      console.log(request.params.id, request.body);
       const updatedWhiteboard = await editWhiteboard(
         request.params.id,
         request.body

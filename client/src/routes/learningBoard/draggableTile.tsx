@@ -35,7 +35,6 @@ const DraggableTile = (props: IDraggableTileProps) => {
   });
 
   const handleDrag = (e: DraggableEvent, ui: any) => {
-    // console.log('Dragging tile');
     toggleHasMoved();
     setDelta({
       x: deltaPosition.x + ui.deltaX,
@@ -50,8 +49,6 @@ const DraggableTile = (props: IDraggableTileProps) => {
   const toggleHasMoved = () => setHasMoved(!hasMoved);
 
   React.useEffect(() => {
-    // console.log('Is clicked: ', isClicked);
-    // console.log('Has moved: ', hasMoved);
     if (!isClicked && hasMoved) {
       props.setSelectedTile(undefined);
       props.handleSetBounds(undefined);
@@ -60,14 +57,12 @@ const DraggableTile = (props: IDraggableTileProps) => {
   }, [isClicked, hasMoved]);
 
   const handleOnClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
-    // console.log('Mouse Click Capture');
     event.preventDefault();
     props.tile && props.addTile(props.tile);
     toggleIsClicked();
   };
 
   const handleOnMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
-    // console.log('Mouse Leave, ', isClicked);
     event.preventDefault();
     if (!isClicked) {
       props.setSelectedTile(undefined);

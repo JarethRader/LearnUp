@@ -38,11 +38,12 @@ export const uploadBoard = (
 };
 
 export const updateBoard = (
-  body: IWhiteboardInfoObj,
-  whiteboardID: string
+  whiteboardID: string,
+  body: IWhiteboardInfoObj
 ): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
+  dispatch({ type: 'BOARD_STATE_LOADING' });
   try {
     await updateHelper(whiteboardID, body, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
@@ -64,6 +65,7 @@ export const updateBoard = (
 export const deleteBoard = (whiteboardID: string): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
+  dispatch({ type: 'BOARD_STATE_LOADING' });
   try {
     await deleteHelper(whiteboardID, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
@@ -85,6 +87,7 @@ export const deleteBoard = (whiteboardID: string): WhiteboardThunk => async (
 export const getBoards = (userID: string): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
+  dispatch({ type: 'BOARD_STATE_LOADING' });
   try {
     await getHelper(userID, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
@@ -103,21 +106,23 @@ export const getBoards = (userID: string): WhiteboardThunk => async (
   }
 };
 
-export const setCurrentBoard = (
+export function setCurrentBoard(
   board: IWhiteboardModel
-): WhiteboardThunk => async (
-  dispatch: ThunkDispatch<RootState, void, Action>
-) => {
-  dispatch({
+): WhiteboardActionTypes {
+  return {
     type: 'SET_CURRENT_BOARD',
     payload: board,
-  });
-};
+  };
+}
 
-export const clearCurrentBoard = (): WhiteboardThunk => async (
-  dispatch: ThunkDispatch<RootState, void, Action>
-) => {
-  dispatch({
+export function clearCurrentBoard(): WhiteboardActionTypes {
+  return {
     type: 'CLEAR_CURRENT_BOARD',
-  });
-};
+  };
+}
+
+export function setWhiteboardLoading(): WhiteboardActionTypes {
+  return {
+    type: 'BOARD_STATE_LOADING',
+  };
+}

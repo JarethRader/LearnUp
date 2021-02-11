@@ -37,7 +37,6 @@ type Props = PropsFromRedux & props;
 const Dashboard = (props: Props) => {
   React.useEffect(() => {
     props.getBoards(props.userInfo.id);
-    console.log(localStorage.getItem('item'));
   }, []);
 
   const handleLoadBoard = (

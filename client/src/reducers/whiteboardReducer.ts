@@ -1,7 +1,7 @@
 const initialState: IWhiteboardState = {
   boardState: [],
   currentBoard: {
-    id: '',
+    _id: '',
     name: '',
     author: '',
     audience: '',
@@ -31,11 +31,11 @@ export default function (
         sharedBoards: action.payload.sharedWhiteboards,
       };
     case 'SET_CURRENT_BOARD':
-      console.log(action.payload);
       return {
         ...state,
         currentBoard: {
-          id: action.payload.id,
+          // @ts-ignore
+          _id: action.payload._id,
           name: action.payload.name,
           author: action.payload.author,
           audience: action.payload.audience || 'none',
@@ -51,7 +51,7 @@ export default function (
       return {
         ...state,
         currentBoard: {
-          id: '',
+          _id: '',
           name: '',
           author: '',
           audience: '',

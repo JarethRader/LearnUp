@@ -99,7 +99,6 @@ export const update = (
   try {
     await UpdateHelper(body, userID, USER_API, CSRFConfig)
       .then((response) => {
-        console.log(response);
         dispatch({
           type: 'UPDATE_USER_SUCCESS',
           payload: response,

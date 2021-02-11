@@ -1,6 +1,8 @@
 const makeWhiteboardDb: MakeDB = (whiteboardSchema) =>
   Object.freeze({
     insert: async (whiteboardInfo) => {
+      console.log(whiteboardInfo.boardState);
+
       const newWhiteboard: IWhiteboardModel = new whiteboardSchema({
         _id: whiteboardInfo.id || whiteboardInfo._id,
         name: whiteboardInfo.name,
@@ -10,6 +12,7 @@ const makeWhiteboardDb: MakeDB = (whiteboardSchema) =>
         createdAt: whiteboardInfo.createdOn || whiteboardInfo.createdAt,
         updatedAt: whiteboardInfo.modifiedOn || whiteboardInfo.updatedAt,
       });
+
       return await newWhiteboard.save().then((whiteboard) => {
         return whiteboard && whiteboard;
       });

@@ -1,5 +1,29 @@
 import { Schema, Model, model } from 'mongoose';
 
+const boardStateSchema = new Schema(
+  {
+    index: {
+      type: Number,
+      required: true,
+    },
+    tile: {
+      type: {
+        letters: String,
+        color: String,
+      },
+      required: true,
+    },
+    deltaPosition: {
+      type: {
+        x: Number,
+        y: Number,
+      },
+      required: true,
+    },
+  },
+  { _id: false }
+);
+
 export const WhiteboardSchema = new Schema({
   name: {
     type: String,
@@ -17,20 +41,7 @@ export const WhiteboardSchema = new Schema({
     trim: true,
   },
   boardState: {
-    type: [
-      {
-        index: Number,
-        tile: {
-          letters: String,
-          color: String,
-        },
-        deltaPosition: {
-          x: Number,
-          y: Number,
-        },
-      },
-    ],
-    required: true,
+    type: [boardStateSchema],
   },
   createdAt: {
     type: Date,

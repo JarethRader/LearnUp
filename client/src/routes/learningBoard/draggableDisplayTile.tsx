@@ -21,10 +21,6 @@ const DraggableDisplayTile = (props: IDraggableDisplayProps) => {
     });
   };
 
-  //   React.useEffect(() => {
-  //     console.log(deltaPosition);
-  //   }, [deltaPosition]);
-
   return (
     <Draggable
       onDrag={handleDrag}

@@ -14,7 +14,7 @@ import {
 
 declare global {
   interface IWhiteboardModel {
-    id?: string;
+    _id?: string;
     name?: string;
     author?: string;
     audience?: string;

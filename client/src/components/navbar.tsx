@@ -2,13 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../reducers/index';
+import { logout } from '../actions/userAPI/userActions';
 
 const mapStateToProps = (state: RootState) => ({
   isAuthenticated: state.user.isAuthenticated,
   userLoading: state.user.userLoading,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { logout };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -17,6 +18,10 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
 const Navbar = (props: Props) => {
+  const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    props.logout();
+  };
   return (
     <div className='bg-black w-full flex flex-row items-center justify-between px-12 py-4'>
       <div className='flex flex-row items-center'>
@@ -31,12 +36,18 @@ const Navbar = (props: Props) => {
         </h1>
       </div>
 
-      {!props.isAuthenticated && (
+      {!props.isAuthenticated ? (
         <Link to='/login'>
           <button className='text-white font-semibold stroke px-4 py-2 rounded-md  text-lg bg-blue-500 hover:bg-blue-700 focus:outline-none'>
             Sign In
           </button>
         </Link>
+      ) : (
+        <button
+          className='text-white font-semibold stroke px-4 py-2 rounded-md  text-lg bg-blue-500 hover:bg-blue-700 focus:outline-none'
+          onClick={(e) => handleOnClick(e)}>
+          Log out
+        </button>
       )}
     </div>
   );

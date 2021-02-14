@@ -2,13 +2,43 @@ import React from 'react';
 
 import { Cross } from '@styled-icons/entypo';
 
-interface Props {
+import { findUserByEmail } from '../../actions/userAPI/userActions';
+
+import { connect, ConnectedProps } from 'react-redux';
+import { RootState } from '../../reducers/index';
+import {
+  uploadBoard,
+  setCurrentBoard,
+  getBoards,
+} from '../../actions/whiteboardAPI/whiteboardActions';
+
+interface createBoardProps {
   toggleModal: (
     event:
       | React.MouseEvent<HTMLButtonElement>
       | React.MouseEvent<HTMLDivElement>
   ) => void;
+  userID: string;
 }
+
+const mapStateToProps = (state: RootState) => ({
+  isAuthenticated: state.user.isAuthenticated,
+  currentBoard: state.whiteboard.currentBoard,
+  userLoading: state.user.userLoading,
+  whiteboardLoading: state.whiteboard.whiteboardLoading,
+});
+
+const mapDispatchToProps = {
+  uploadBoard,
+  setCurrentBoard,
+  getBoards,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type Props = PropsFromRedux & createBoardProps;
 
 const CreateBoardModal = (props: Props) => {
   const [boardName, setBoardName] = React.useState('');
@@ -21,11 +51,46 @@ const CreateBoardModal = (props: Props) => {
   ) => {
     event.preventDefault();
 
-    // const body = {
-    //     boardName,
-    //     author: props.userInfo.id,
-    //     boardState: []
-    // };
+    if (shareEmail !== '') {
+      try {
+        findUserByEmail(shareEmail)
+          .then((response) => {
+            console.log(response);
+            if (response) {
+              const body = {
+                name: boardName,
+                author: props.userID,
+                audience: response.user._id,
+                boardState: [],
+              };
+              props.uploadBoard(body);
+            } else {
+              throw new Error(`Unable to share with ${shareEmail}`);
+            }
+          })
+          .catch((err) => {
+            throw new Error(err.message);
+          });
+      } catch (err) {
+        const body = {
+          name: boardName,
+          author: props.userID,
+          boardState: [],
+        };
+        props.uploadBoard(body);
+      }
+    } else {
+      const body = {
+        name: boardName,
+        author: props.userID,
+        boardState: [],
+      };
+      props.uploadBoard(body);
+    }
+    props.getBoards(props.userID);
+    setBoardName('');
+    setShareEmail('');
+    props.toggleModal(event as any);
   };
 
   return (
@@ -81,4 +146,4 @@ const CreateBoardModal = (props: Props) => {
   );
 };
 
-export default CreateBoardModal;
+export default connector(CreateBoardModal);

@@ -11,6 +11,7 @@ import {
   UpdateHelper,
   LogoutHelper,
   getUserHelper,
+  findUserHelper,
   deleteHelper,
 } from './functions';
 
@@ -155,6 +156,16 @@ export const deleteUser = (userID: string): UserThunk => async (
       type: 'DELETE_USER_FAILED',
     });
   }
+};
+
+export const findUserByEmail = async (email: string) => {
+  return await findUserHelper(email, USER_API, CSRFConfig)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      return null;
+    });
 };
 
 /**

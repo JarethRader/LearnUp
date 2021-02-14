@@ -4,6 +4,7 @@ import { UpdateHelper } from './update';
 import { LogoutHelper } from './logout';
 import { getUserHelper } from './getUser';
 import { deleteHelper } from './delete';
+import { findUserHelper } from './findUser';
 
 const UserHelperFunctions = Object.freeze({
   RegisterHelper,
@@ -12,6 +13,7 @@ const UserHelperFunctions = Object.freeze({
   LogoutHelper,
   getUserHelper,
   deleteHelper,
+  findUserHelper,
 });
 
 export default UserHelperFunctions;
@@ -22,4 +24,5 @@ export {
   LogoutHelper,
   getUserHelper,
   deleteHelper,
+  findUserHelper,
 };

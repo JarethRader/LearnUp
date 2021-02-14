@@ -62,7 +62,12 @@ const Dashboard = (props: Props) => {
   } else {
     return (
       <div className='min-h-screen'>
-        {showModal && <CreateBoardModal toggleModal={toggleModal} />}
+        {showModal && (
+          <CreateBoardModal
+            toggleModal={toggleModal}
+            userID={props.userInfo.id}
+          />
+        )}
         <div>
           <props.Navbar />
           <div className='flex justify-left mt-20 mx-10'>
@@ -85,19 +90,21 @@ const Dashboard = (props: Props) => {
                 {props.ownBoards[0] === undefined ? (
                   <p>You currently have no boards</p>
                 ) : (
-                  <div>
+                  <div className='flex flex-col'>
                     {props.ownBoards.map(
                       (board: IWhiteboardModel, index: number) => (
-                        <button
-                          onClick={(e) => {
-                            handleLoadBoard(e, board);
-                          }}
-                          key={index}
-                          className='px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none'>
-                          <Link to='/whiteboard'>
-                            <p>{board.name}</p>
-                          </Link>
-                        </button>
+                        <div className='my-2'>
+                          <button
+                            onClick={(e) => {
+                              handleLoadBoard(e, board);
+                            }}
+                            key={index}
+                            className='px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none'>
+                            <Link to='/whiteboard'>
+                              <p>{board.name}</p>
+                            </Link>
+                          </button>
+                        </div>
                       )
                     )}
                   </div>

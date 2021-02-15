@@ -2,7 +2,6 @@ const buildPostWhiteboard: BuildPostWhiteboard = (addWhiteboard) => {
   const postWhiteboard = async (
     request: ExpressHttpRequest
   ): Promise<IController> => {
-    console.log(request.body);
     try {
       const newWhiteboard = await addWhiteboard({ ...request.body });
       return {

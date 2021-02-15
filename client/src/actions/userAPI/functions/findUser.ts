@@ -6,7 +6,6 @@ export const findUserHelper = (email: string, API: string, CSRFConfig: any) => {
       headers: CSRFConfig() as any,
     })
       .then((response) => {
-        console.log(response);
         response.status === 200 && resolve(response.json());
       })
       .catch((err) => {

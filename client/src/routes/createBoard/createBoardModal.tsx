@@ -51,44 +51,29 @@ const CreateBoardModal = (props: Props) => {
   ) => {
     event.preventDefault();
 
-    console.log(shareEmail === '');
-    if (shareEmail !== '') {
-      try {
-        findUserByEmail(shareEmail)
-          .then((response) => {
-            console.log(response);
-            if (response) {
-              const body = {
-                name: boardName,
-                author: props.userID,
-                audience: response.user._id,
-                boardState: [],
-              };
-              // props.uploadBoard(body);
-            } else {
-              throw new Error(`Unable to share with ${shareEmail}`);
-            }
-          })
-          .catch((err) => {
-            throw new Error(err.message);
-          });
-      } catch (err) {
-        console.log(err);
+    findUserByEmail(shareEmail)
+      .then((response) => {
+        if (response && Object.keys(response).length !== 0) {
+          const body = {
+            name: boardName,
+            author: props.userID,
+            audience: response.user._id,
+            boardState: [],
+          };
+          props.uploadBoard(body);
+        } else {
+          throw new Error(`Unable to share with ${shareEmail}`);
+        }
+      })
+      .catch((err) => {
         const body = {
           name: boardName,
           author: props.userID,
           boardState: [],
         };
-        // props.uploadBoard(body);
-      }
-    } else {
-      const body = {
-        name: boardName,
-        author: props.userID,
-        boardState: [],
-      };
-      // props.uploadBoard(body);
-    }
+        props.uploadBoard(body);
+      });
+
     props.getBoards(props.userID);
     setBoardName('');
     setShareEmail('');

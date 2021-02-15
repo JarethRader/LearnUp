@@ -1,8 +1,6 @@
 const makeWhiteboardDb: MakeDB = (whiteboardSchema) =>
   Object.freeze({
     insert: async (whiteboardInfo) => {
-      console.log(whiteboardInfo.boardState);
-
       const newWhiteboard: IWhiteboardModel = new whiteboardSchema({
         _id: whiteboardInfo.id || whiteboardInfo._id,
         name: whiteboardInfo.name,

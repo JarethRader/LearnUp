@@ -4,7 +4,7 @@ import { TileComponent } from './tile';
 const FrontBoard = (props: BoardProps) => {
   return (
     <div
-      className='h-auto 2xl:w-7/12 xl:10/12 md:w-11/12 border-4 border-black rounded-xl bg-gray-100 shadow-xl p-4'
+      className='h-auto 2xl:w-8/12 xl:10/12 md:w-11/12 border-4 border-black rounded-xl bg-gray-100 shadow-xl p-4'
       style={{
         gridTemplateColumns: '10% 10% 60% 5% 15%',
         gridTemplateRows: '7rem 7rem 25rem 10rem',

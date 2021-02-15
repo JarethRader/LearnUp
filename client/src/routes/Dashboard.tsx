@@ -122,10 +122,13 @@ const Dashboard = (props: Props) => {
                   <div>
                     {props.sharedBoards.map((board: any, index: number) => (
                       <button
+                        onClick={(e) => {
+                          handleLoadBoard(e, board);
+                        }}
                         key={index}
                         className='px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none'>
                         <Link to='/whiteboard'>
-                          <p>Board {board.author}</p>
+                          <p>{board.name}</p>
                         </Link>
                       </button>
                     ))}

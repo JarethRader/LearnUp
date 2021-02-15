@@ -84,7 +84,7 @@ const CreateBoardModal = (props: Props) => {
     <div
       // onClick={(e) => props.toggleModal(e)}
       className='absolute w-full h-full flex justify-center items-center'>
-      <div className='border-2 border-blue-600 2xl:w-1/4 xl:w-1/2 rounded-lg bg-gray-100 shadow-2xl z-10'>
+      <div className='border-2 border-blue-600 2xl:w-1/4 xl:w-1/3 lg:w-1/2 rounded-lg bg-gray-100 shadow-2xl z-10'>
         <div className='text-center grid grid-cols-10'>
           <h1 className='font-semibold text-lg text-center col-start-2 col-span-8 mt-4'>
             Create a New Learning Board

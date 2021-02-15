@@ -3,7 +3,7 @@ import { TileComponent } from './tile';
 
 const FrontBoard = (props: BoardProps) => {
   return (
-    <div className='h-auto 2xl:w-7/12 xl:10/12 md:w-11/12 border-4 border-black rounded-xl bg-gray-100 shadow-xl p-4'>
+    <div className='h-auto 2xl:w-9/12 xl:10/12 md:w-11/12 border-4 border-black rounded-xl bg-gray-100 shadow-xl p-4'>
       <div className='grid justify-center' style={{ gridColumn: '1/6' }}>
         <div className='flex flex-row justify-items-start flex-wrap'>
           {props.tiles.consonants.map((tile: ITile, index: number) => (
@@ -214,7 +214,7 @@ const FrontBoard = (props: BoardProps) => {
                   </div>
                 </div>
                 <div className='flex items-end'>
-                  <div className='flex flex-row flex-wrap xl:justify-center justify-start'>
+                  <div className='flex flex-row 2xl:flex-nowrap xl:flex-wrap xl:justify-center justify-start'>
                     {props.tiles.suffixes.map((tile: ITile, index: number) => (
                       <div key={index}>
                         <TileComponent

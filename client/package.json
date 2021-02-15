@@ -4,8 +4,9 @@
   "description": "Jareth Rader Portfolio",
   "main": "index.js",
   "scripts": {
-    "start": "env NODE_ENV=local webpack-dev-server --mode development --config webpack.config.js",
-    "dev": "env NODE_ENV=development webpack --host 0.0.0.0 --mode development --config webpack.dev.js",
+    "start": "env NODE_ENV=development webpack-dev-server --mode development --config webpack.dev.js",
+    "docker": "env NODE_ENV=local webpack-dev-server --host 0.0.0.0 --port 3000 --mode development --config webpack.config.js",
+    "dev": "env NODE_ENV=development webpack --mode development --config webpack.dev.js",
     "build": "env NODE_ENV=production webpack --mode production --config webpack.prod.js",
     "analyze": "env NODE_ENV=analyze webpack --mode development --config webpack.dev.js",
     "css": "tailwind build tailwind/tailwind.css -o src/style.css"
@@ -22,7 +23,6 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-transition-group": "^4.4.0",
     "@types/styled-components": "^5.1.7",
-    "@types/universal-cookie": "^3.0.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
     "cssnano": "^4.1.10",

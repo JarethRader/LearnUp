@@ -15,6 +15,9 @@ switch (nodeEnv) {
   case 'development':
     envPath = path.resolve(__dirname, './.env.development');
     break;
+  case 'docker':
+    envPath = path.resolve(__dirname, './.env.docker');
+    break;
   default:
     throw new Error('Specify the NODE_ENV variable');
 }

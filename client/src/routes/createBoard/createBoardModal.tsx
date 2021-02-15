@@ -51,6 +51,7 @@ const CreateBoardModal = (props: Props) => {
   ) => {
     event.preventDefault();
 
+    console.log(shareEmail === '');
     if (shareEmail !== '') {
       try {
         findUserByEmail(shareEmail)
@@ -63,7 +64,7 @@ const CreateBoardModal = (props: Props) => {
                 audience: response.user._id,
                 boardState: [],
               };
-              props.uploadBoard(body);
+              // props.uploadBoard(body);
             } else {
               throw new Error(`Unable to share with ${shareEmail}`);
             }
@@ -72,12 +73,13 @@ const CreateBoardModal = (props: Props) => {
             throw new Error(err.message);
           });
       } catch (err) {
+        console.log(err);
         const body = {
           name: boardName,
           author: props.userID,
           boardState: [],
         };
-        props.uploadBoard(body);
+        // props.uploadBoard(body);
       }
     } else {
       const body = {
@@ -85,7 +87,7 @@ const CreateBoardModal = (props: Props) => {
         author: props.userID,
         boardState: [],
       };
-      props.uploadBoard(body);
+      // props.uploadBoard(body);
     }
     props.getBoards(props.userID);
     setBoardName('');

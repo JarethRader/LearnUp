@@ -93,7 +93,7 @@ const Dashboard = (props: Props) => {
                   <div className='flex flex-col'>
                     {props.ownBoards.map(
                       (board: IWhiteboardModel, index: number) => (
-                        <div className='my-2'>
+                        <div key={index} className='my-2'>
                           <button
                             onClick={(e) => {
                               handleLoadBoard(e, board);

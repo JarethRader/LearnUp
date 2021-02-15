@@ -119,7 +119,7 @@ app.get(
 );
 // get other users info
 app.get(
-  `${envConfig['API_ROOT']}/user/`,
+  `${envConfig['API_ROOT']}/user`,
   auth.checkSignIn,
   makeCallback(findOther)
 );

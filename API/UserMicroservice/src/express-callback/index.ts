@@ -15,6 +15,7 @@ const makeExpressCallback: MakeExpressCallback = (controller) => {
         'User-Agent': req.get('User-Agent'),
       },
     };
+    console.log(httpRequest);
     controller(httpRequest)
       .then((httpResponse: IController) => {
         if (httpResponse.session?.userID) {

@@ -3,8 +3,7 @@ const buildFindUser: BuildGetFindUser = (getUser) => {
     request: ExpressHttpRequest
   ): Promise<IController> => {
     try {
-      const user = await getUser(request.body.email as string);
-
+      const user = await getUser(request.query.email as string);
       return {
         headers: {
           'Content-Type': 'application/json',

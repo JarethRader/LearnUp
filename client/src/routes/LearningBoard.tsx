@@ -82,20 +82,26 @@ const LearningBoard = (props: Props) => {
       tile: tile.tile,
       deltaPosition: tile.deltaPosition,
     };
-    setWord([...wordList, newWord]);
-    props.setCurrentBoard({
-      ...props.currentBoard,
-      boardState: [...wordList, newWord],
-    });
-    props.updateBoard(props.currentBoard._id, {
-      boardState: [...wordList, newWord],
-    });
+    updateBoardState([...wordList, newWord]);
+    
   };
 
   const handleResetWord = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setWord([]);
+    updateBoardState([]);
   };
+
+  const updateBoardState = (wordList: IWordList[]) => {
+    console.log(wordList)
+    setWord(wordList);
+    props.setCurrentBoard({
+      ...props.currentBoard,
+      boardState: wordList,
+    });
+    props.updateBoard(props.currentBoard._id, {
+      boardState: wordList,
+    });
+  }
 
   const [boardSide, setBoardSide] = React.useState(true);
   const toggleBoardSide = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,3 +1,7 @@
+/**
+ * @description These are global type definitions for typescript. I Like defining stuff here that might break the file heirarchy. I find it easy than importing them all over the applicaiton.
+ */
+
 export {};
 
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';

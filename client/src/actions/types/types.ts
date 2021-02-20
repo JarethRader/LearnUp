@@ -1,3 +1,7 @@
+/**
+ * @description These are the redux action types. While it is possible to use strings instead of defining constants, I like to have a reference of all the action types I'm using in one file.
+ */
+
 // USER API types
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';

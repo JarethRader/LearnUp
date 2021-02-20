@@ -1,3 +1,8 @@
+/**
+ * @description This file will preload pages. It is set up to prelaod pages users are expected to navigate to next based on the current page they are on.
+ * It could be optimized further after allowing users to use teh site and seeing what order they visit which pages in.
+ */
+
 const Landing = () => import('../routes/Landing');
 const Authentication = () => import('../routes/Authentication');
 const LearningBoard = () => import('../routes/LearningBoard');

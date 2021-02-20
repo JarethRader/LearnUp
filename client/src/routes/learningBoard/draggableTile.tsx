@@ -35,7 +35,7 @@ const DraggableTile = (props: IDraggableTileProps) => {
   });
 
   const handleDrag = (e: DraggableEvent, ui: any) => {
-    toggleHasMoved();
+    !hasMoved && toggleHasMoved();
     setDelta({
       x: deltaPosition.x + ui.deltaX,
       y: deltaPosition.y + ui.deltaY,
@@ -47,6 +47,7 @@ const DraggableTile = (props: IDraggableTileProps) => {
 
   const [hasMoved, setHasMoved] = React.useState(false);
   const toggleHasMoved = () => setHasMoved(!hasMoved);
+
 
   React.useEffect(() => {
     if (!isClicked && hasMoved) {
@@ -71,18 +72,24 @@ const DraggableTile = (props: IDraggableTileProps) => {
     }
   };
 
+  const [boundsUpdated, setBoundsUpdated] = React.useState(false);
+  const toggleBoundsUpdated = () => {
+    setBoundsUpdated(true);
+    setTimeout(() => {
+      setBoundsUpdated(false);
+    }, 200);
+  };
+  
   React.useEffect(() => {
-    if (props.draggableBounds) {
-      if (
-        Math.abs(parseInt(props.draggableBounds.x) - deltaPosition.x) > 20 &&
-        Math.abs(parseInt(props.draggableBounds.y) - deltaPosition.y) > 20
-      ) {
-        props.setDraggableBounds(deltaPosition as any);
-      }
-    } else {
+    if(!boundsUpdated) {
       props.setDraggableBounds(deltaPosition as any);
+      toggleBoundsUpdated();
     }
+    
   }, [deltaPosition]);
+
+
+
 
   return (
     <Draggable

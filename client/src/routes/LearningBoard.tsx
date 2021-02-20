@@ -87,9 +87,9 @@ const LearningBoard = (props: Props) => {
       ...props.currentBoard,
       boardState: [...wordList, newWord],
     });
-    // props.updateBoard(props.currentBoard._id, {
-    //   boardState: props.currentBoard.boardState,
-    // });
+    props.updateBoard(props.currentBoard._id, {
+      boardState: [...wordList, newWord],
+    });
   };
 
   const handleResetWord = (event: React.MouseEvent<HTMLButtonElement>) => {

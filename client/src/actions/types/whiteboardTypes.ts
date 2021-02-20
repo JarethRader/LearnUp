@@ -36,6 +36,13 @@ declare global {
     boardState: IWordList[];
   }
 
+  interface IWhiteboardEditObj {
+    name?: string;
+    author?: string;
+    audience?: string;
+    whiteboard?: IWordList[];
+  }
+
   interface WhiteboardResponse {
     whiteboard: IWhiteboardModel;
   }

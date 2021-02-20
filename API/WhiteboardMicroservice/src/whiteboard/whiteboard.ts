@@ -19,8 +19,9 @@ const buildMakeWhiteboard = (
     if (!Id.isValidId(_id)) throw new Error('Must have a valid ID');
     if (!author || !Id.isValidId(author))
       throw new Error('Must have a valid author');
-    if (audience !== undefined && !Id.isValidId(audience))
-      throw new Error('Must have a valid audience ID');
+    if (audience !== 'none'){
+      if(audience && !Id.isValidId(audience)) throw new Error('Must have a valid audience ID');
+    }
     if (!boardState) throw new Error('Must have a valid board state');
     if (name && !Name.isValidName(name))
       throw new Error('Board name can only contain alphanumeric characters');

@@ -31,6 +31,7 @@ export default function (
         sharedBoards: action.payload.sharedWhiteboards,
       };
     case 'SET_CURRENT_BOARD':
+      console.log(action)
       return {
         ...state,
         currentBoard: {

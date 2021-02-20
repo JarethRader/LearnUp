@@ -3,9 +3,9 @@ import makeWhiteboard from '../whiteboard';
 const buildEditWhiteboard: BuildEditWhiteboard = (whiteboardDB) => {
   const editWhiteboard = async (id: string, updatedInfo: IMakeWhiteboard) => {
     const whiteboardInstance = await whiteboardDB();
-
+    
     const whiteboard = await whiteboardInstance.findOneById(id);
-
+  
     const changes: IMakeWhiteboard = makeWhiteboard({
       ...(whiteboard && whiteboard.toObject()),
       ...updatedInfo,

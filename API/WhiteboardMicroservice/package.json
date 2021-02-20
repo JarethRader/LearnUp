@@ -4,7 +4,7 @@
   "description": "Whiteboard API for LearnUp Phonetics learning board",
   "main": "src/server.ts",
   "scripts": {
-    "start": "env NODE_ENV=development nodemon src/server.ts",
+    "start": "env NODE_ENV=development nodemon --watch src src/server.ts",
     "build": "tsc -p .",
     "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand"
   },

@@ -54,13 +54,15 @@ const CreateBoardModal = (props: Props) => {
     findUserByEmail(shareEmail)
       .then((response) => {
         if (response && Object.keys(response).length !== 0) {
-          const body = {
+          let body: {[key: string]: any} = {
             name: boardName,
             author: props.userID,
-            audience: response.user._id,
+            // audience: response.user._id,
             boardState: [],
           };
-          props.uploadBoard(body);
+          shareEmail !== '' ? body['audience'] = response.user._id : null;
+          
+          props.uploadBoard(body as IWhiteboardInfoObj);
         } else {
           throw new Error(`Unable to share with ${shareEmail}`);
         }

@@ -38,6 +38,7 @@ export const WhiteboardSchema = new Schema({
   audience: {
     type: String,
     required: false,
+    default: 'none',
     trim: true,
   },
   boardState: {

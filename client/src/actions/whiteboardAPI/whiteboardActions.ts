@@ -106,13 +106,15 @@ export const getBoards = (userID: string): WhiteboardThunk => async (
   }
 };
 
-export function setCurrentBoard(
+export const setCurrentBoard = (
   board: IWhiteboardModel
-): WhiteboardActionTypes {
-  return {
+): WhiteboardThunk => async (
+  dispatch: ThunkDispatch<RootState, void, Action>
+) => {
+  dispatch({
     type: 'SET_CURRENT_BOARD',
     payload: board,
-  };
+  });
 }
 
 export function clearCurrentBoard(): WhiteboardActionTypes {

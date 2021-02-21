@@ -92,7 +92,6 @@ const LearningBoard = (props: Props) => {
   };
 
   const updateBoardState = (wordList: IWordList[]) => {
-    console.log(wordList)
     setWord(wordList);
     props.setCurrentBoard({
       ...props.currentBoard,

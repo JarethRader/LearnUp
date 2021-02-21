@@ -21,6 +21,7 @@ const mapStateToProps = (state: RootState) => ({
   ownBoards: state.whiteboard.ownBoards,
   sharedBoards: state.whiteboard.sharedBoards,
   userLoading: state.user.userLoading,
+  whiteboardLoading: state.whiteboard.whiteboardLoading
 });
 
 const mapDispatchToProps = {
@@ -56,6 +57,7 @@ const Dashboard = (props: Props) => {
     event.preventDefault();
     setShowModal(!showModal);
   };
+  
 
   if (!props.isAuthenticated) {
     return <Redirect to='/login' />;

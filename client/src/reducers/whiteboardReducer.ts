@@ -29,6 +29,7 @@ export default function (
         ...state,
         ownBoards: action.payload.ownWhiteboards,
         sharedBoards: action.payload.sharedWhiteboards,
+        whiteboardLoading: false,
       };
     case 'SET_CURRENT_BOARD':
       return {
@@ -41,11 +42,13 @@ export default function (
           audience: action.payload.audience || 'none',
           boardState: action.payload.boardState,
         },
+        whiteboardLoading: false,
       };
     case 'CLEAR_CURRENT_BOARD':
       return {
         ...state,
         boardState: [],
+        whiteboardLoading: false,
       };
     case 'DELETE_BOARD_SUCCESS':
       return {

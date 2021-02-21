@@ -75,8 +75,6 @@ const CreateBoardModal = (props: Props) => {
         };
         props.uploadBoard(body);
       });
-
-    props.getBoards(props.userID);
     setBoardName('');
     setShareEmail('');
     props.toggleModal(event as any);

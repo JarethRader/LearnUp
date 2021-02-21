@@ -16,15 +16,15 @@ const buildGetAudio = (generateAudio: any) => {
       };
     } catch (err) {
       throw new Error(err);
-      // return {
-      //     headers: {
-      //         'Content-Type': 'application/json',
-      //     },
-      //     statusCode: 400,
-      //     body: {
-      //         error: err.message,
-      //     }
-      // }
+      //   return {
+      //       headers: {
+      //           'Content-Type': 'application/json',
+      //       },
+      //       statusCode: 400,
+      //       body: {
+      //           error: err.message,
+      //       }
+      //   }
     }
   };
   return GetAudio;

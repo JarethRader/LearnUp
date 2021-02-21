@@ -32,10 +32,12 @@ const makeExpressCallback = (controller: any) => {
           })
           .on("end", () => {
             res.end();
-            // fs.unlink(httpResponse.audioFile, (err) => {
-            //     if(err) throw new Error(err.message);
-            //     return;
-            // })
+            setTimeout(() => {
+              fs.unlink(httpResponse.audioFile, (err) => {
+                if (err) throw new Error(err.message);
+                return;
+              });
+            }, 1000);
           });
       })
       .catch((err: any) => next(err));

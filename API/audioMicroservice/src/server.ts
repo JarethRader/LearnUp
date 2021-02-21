@@ -13,6 +13,11 @@ const app = express();
 
 const port = process.env.PORT || 5002;
 
+// create tempAudio folder if it doenst exist
+if (!fs.existsSync("./src/tempAudio")) {
+  fs.mkdirSync("./src/tempAudio");
+}
+
 // http request logger
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
@@ -27,56 +32,6 @@ app.post(
   `${envConfig["API_ROOT"]}/audio/generate`,
   MakeExpressCallback(getAudio)
 );
-
-// app.post(`${envConfig["API_ROOT"]}/audio/generate`, async (req, res) => {
-//   // get list of tiles from request
-//   const tiles = req.body.tiles;
-//   // separate the letters out from each element of the body
-//   const letterList = tiles.map((element: any) => {
-//     let acc: any = [];
-//     acc = [...acc, element.tile.letters];
-//     return acc;
-//   });
-
-//   // create new temporary audio file to store all pronunciations together
-//   const pronounce = fs.createWriteStream(
-//     path.join(__dirname, "./tempAudio/spoken.mp3")
-//   );
-//   // loop through each letter from the request, find its audio file, and append it to the tmp file we created above
-//   while (letterList.length) {
-//     try {
-//       await appendAudioFiles(letterList.shift(), pronounce)
-//         .then((success) => {
-//           console.log("Appended");
-//         })
-//         .catch((err: Error) => {
-//           throw new Error(err.message);
-//         });
-//     } catch (err) {
-//       console.log(err);
-//       throw new Error("Failed to generate audio");
-//     }
-//   }
-
-//   console.log("Finished generating audio");
-
-//   // // this works and returns an mp3 to the client
-//   // // read in audio file
-//   // const testAudio = fs.createReadStream(path.join(__dirname, './audio/a.mp3'));
-
-//   // // create response with headers and stream mp3 to client
-//   // testAudio.on('open', () => {
-//   //     res.statusCode = 200;
-//   //     res.setHeader("Accept-Ranges", "bytes");
-//   //     res.setHeader('Content-Type', "audio/mpeg");
-//   //     testAudio.pipe(res);
-//   // }).on("end", () => {
-//   //     res.end();
-//   //     console.log("Done")
-//   // })
-
-//   res.sendStatus(200);
-// });
 
 app.use(
   (

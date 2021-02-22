@@ -1,9 +1,7 @@
-import { Request, Response, NextFunction } from "express";
 import fs from "fs";
-import path from "path";
 
-const makeExpressCallback = (controller: any) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+const makeExpressCallback: MakeExpressCallback = (controller) => {
+  return (req, res, next) => {
     const httpRequest = {
       body: req.body,
       query: req.query,
@@ -19,28 +17,36 @@ const makeExpressCallback = (controller: any) => {
     };
     // httpRequest will have to return the filename for the audio file
     controller(httpRequest)
-      .then((httpResponse: any) => {
-        if (httpResponse.headers) {
-          res.set(httpResponse.headers);
-        }
-        res.statusCode = httpResponse.statusCode;
+      .then((httpResponse: IController) => {
+        if (httpResponse.statusCode === 200) {
+          if (httpResponse.headers) {
+            res.set(httpResponse.headers);
+          }
+          res.statusCode = httpResponse.statusCode;
 
-        const fileStream = fs.createReadStream(httpResponse.audioFile);
-        fileStream
-          .on("open", () => {
-            fileStream.pipe(res);
-          })
-          .on("end", () => {
-            res.end();
-            setTimeout(() => {
-              fs.unlink(httpResponse.audioFile, (err) => {
-                if (err) throw new Error(err.message);
-                return;
-              });
-            }, 1000);
-          });
+          const fileStream = fs.createReadStream(httpResponse.audioFile);
+          fileStream
+            .on("open", () => {
+              fileStream.pipe(res);
+            })
+            .on("end", () => {
+              res.end();
+              setTimeout(() => {
+                fs.unlink(httpResponse.audioFile, (err) => {
+                  if (err) throw new Error(err.message);
+                  return;
+                });
+              }, 1000);
+            });
+        } else {
+          if (httpResponse.headers) {
+            res.set(httpResponse.headers);
+          }
+          res.type("json");
+          res.status(httpResponse.statusCode).send(httpResponse.body);
+        }
       })
-      .catch((err: any) => next(err));
+      .catch((err: Error) => next(err));
   };
 };
 

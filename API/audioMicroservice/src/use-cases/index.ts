@@ -8,7 +8,7 @@ import buildGenerateAudio from "./generate-audio";
 
 const extractLetters = (tileList: ITile[]) => {
   let letterList: string[] = [];
-  tileList.map((element: any) => {
+  tileList.map((element: ITile) => {
     letterList = [...letterList, element.tile.letters];
   });
   return letterList;

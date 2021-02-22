@@ -1,10 +1,7 @@
-const buildGetAudio = (generateAudio: any) => {
-  const GetAudio = async (request: any) => {
+const buildGetAudio: BuildGetAudio = (generateAudio) => {
+  const GetAudio = async (request: ExpressHttpRequest) => {
     try {
-      console.log("Generating audio");
       const audioFile = await generateAudio(request.body.tiles);
-
-      console.log("finished generating");
 
       return {
         headers: {
@@ -15,16 +12,15 @@ const buildGetAudio = (generateAudio: any) => {
         audioFile: audioFile,
       };
     } catch (err) {
-      throw new Error(err);
-      //   return {
-      //       headers: {
-      //           'Content-Type': 'application/json',
-      //       },
-      //       statusCode: 400,
-      //       body: {
-      //           error: err.message,
-      //       }
-      //   }
+      return {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        statusCode: 400,
+        body: {
+          error: err.message,
+        },
+      };
     }
   };
   return GetAudio;

@@ -1,8 +1,8 @@
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
-import { RootState } from '../../reducers/index';
+import { ThunkDispatch } from "redux-thunk";
+import { Action } from "redux";
+import { RootState } from "../../reducers/index";
 
-import { USER_BASE, API_SUFFIX, CSRFConfig } from '../utils/config';
+import { USER_BASE, API_SUFFIX, CSRFConfig } from "../utils/config";
 
 // import helper functions
 import {
@@ -13,7 +13,7 @@ import {
   getUserHelper,
   findUserHelper,
   deleteHelper,
-} from './functions';
+} from "./functions";
 
 const USER_API = USER_BASE + API_SUFFIX;
 
@@ -24,12 +24,12 @@ const USER_API = USER_BASE + API_SUFFIX;
 export const register = (body: UserInfoObj): UserThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
-  dispatch({ type: 'USER_LOADING ' });
+  dispatch({ type: "USER_LOADING " });
   try {
     await RegisterHelper(body, USER_API, CSRFConfig)
       .then((response) => {
         dispatch({
-          type: 'REGISTER_SUCCESS',
+          type: "REGISTER_SUCCESS",
           payload: response,
         });
       })
@@ -39,7 +39,7 @@ export const register = (body: UserInfoObj): UserThunk => async (
   } catch (err) {
     // add error handling state
     dispatch({
-      type: 'REGISTER_FAILED',
+      type: "REGISTER_FAILED",
     });
   }
 };
@@ -51,13 +51,12 @@ export const register = (body: UserInfoObj): UserThunk => async (
 export const login = (body: UserLoginInfoObj): UserThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
-  dispatch({ type: 'USER_LOADING' });
+  dispatch({ type: "USER_LOADING" });
   try {
     await LoginHelper(body, USER_API, CSRFConfig)
       .then((response) => {
-        console.group(response);
         dispatch({
-          type: 'LOGIN_SUCCESS',
+          type: "LOGIN_SUCCESS",
           payload: response,
         });
       })
@@ -66,7 +65,7 @@ export const login = (body: UserLoginInfoObj): UserThunk => async (
       });
   } catch (err) {
     dispatch({
-      type: 'LOGIN_FAILED',
+      type: "LOGIN_FAILED",
     });
   }
 };
@@ -74,12 +73,12 @@ export const login = (body: UserLoginInfoObj): UserThunk => async (
 export const logout = (): UserThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
-  dispatch({ type: 'USER_LOADING' });
+  dispatch({ type: "USER_LOADING" });
   try {
     await LogoutHelper(USER_API, CSRFConfig)
       .then((response) => {
         dispatch({
-          type: 'LOGOUT_SUCCESS',
+          type: "LOGOUT_SUCCESS",
         });
       })
       .catch((err) => {
@@ -87,7 +86,7 @@ export const logout = (): UserThunk => async (
       });
   } catch (err) {
     dispatch({
-      type: 'LOGOUT_FAILED',
+      type: "LOGOUT_FAILED",
     });
   }
 };
@@ -96,12 +95,12 @@ export const update = (
   body: UpdateUserInfoObj,
   userID: string
 ): UserThunk => async (dispatch: ThunkDispatch<RootState, void, Action>) => {
-  dispatch({ type: 'USER_LOADING' });
+  dispatch({ type: "USER_LOADING" });
   try {
     await UpdateHelper(body, userID, USER_API, CSRFConfig)
       .then((response) => {
         dispatch({
-          type: 'UPDATE_USER_SUCCESS',
+          type: "UPDATE_USER_SUCCESS",
           payload: response,
         });
       })
@@ -110,7 +109,7 @@ export const update = (
       });
   } catch (err) {
     dispatch({
-      type: 'UPDATE_USER_FAILED',
+      type: "UPDATE_USER_FAILED",
     });
   }
 };
@@ -118,12 +117,12 @@ export const update = (
 export const getUser = (userID: string): UserThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
-  dispatch({ type: 'USER_LOADING' });
+  dispatch({ type: "USER_LOADING" });
   try {
     await getUserHelper(userID, USER_API, CSRFConfig)
       .then((response) => {
         dispatch({
-          type: 'GET_SELF_SUCCESS',
+          type: "GET_SELF_SUCCESS",
           payload: response,
         });
       })
@@ -132,7 +131,7 @@ export const getUser = (userID: string): UserThunk => async (
       });
   } catch (err) {
     dispatch({
-      type: 'GET_SELF_FAILED',
+      type: "GET_SELF_FAILED",
     });
   }
 };
@@ -140,12 +139,12 @@ export const getUser = (userID: string): UserThunk => async (
 export const deleteUser = (userID: string): UserThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
-  dispatch({ type: 'USER_LOADING' });
+  dispatch({ type: "USER_LOADING" });
   try {
     await deleteHelper(userID, USER_API, CSRFConfig)
       .then((response) => {
         dispatch({
-          type: 'DELETE_USER_SUCCESS',
+          type: "DELETE_USER_SUCCESS",
         });
       })
       .catch((err) => {
@@ -153,7 +152,7 @@ export const deleteUser = (userID: string): UserThunk => async (
       });
   } catch (err) {
     dispatch({
-      type: 'DELETE_USER_FAILED',
+      type: "DELETE_USER_FAILED",
     });
   }
 };
@@ -173,6 +172,6 @@ export const findUserByEmail = async (email: string) => {
  */
 export function setUserLoading(): UserActionTypes {
   return {
-    type: 'USER_LOADING',
+    type: "USER_LOADING",
   };
 }

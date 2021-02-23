@@ -1,19 +1,19 @@
-import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React from "react";
+import { Link, Redirect } from "react-router-dom";
 
-import tiles from '../components/tiles/index';
-import FrontBoard from './learningBoard/frontBoard';
-import BackBoard from './learningBoard/backBoard';
-import BoardInput from './learningBoard/boardInput';
-import DraggableTile from './learningBoard/draggableTile';
+import tiles from "../components/tiles/index";
+import FrontBoard from "./learningBoard/frontBoard";
+import BackBoard from "./learningBoard/backBoard";
+import BoardInput from "./learningBoard/boardInput";
+import DraggableTile from "./learningBoard/draggableTile";
 
-import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../reducers/index';
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "../reducers/index";
 import {
   setCurrentBoard,
   clearCurrentBoard,
   updateBoard,
-} from '../actions/whiteboardAPI/whiteboardActions';
+} from "../actions/whiteboardAPI/whiteboardActions";
 
 declare global {
   interface IBounds {
@@ -29,7 +29,7 @@ declare global {
 
   interface BoardProps {
     tiles: any;
-    BoardInput: (props: IBoardInputProps) => JSX.Element;
+    BoardInput: any;
     handleResetWord: (event: React.MouseEvent<HTMLButtonElement>) => void;
     wordList: IWordList[];
     selectedTile?: ITile | undefined;
@@ -83,7 +83,6 @@ const LearningBoard = (props: Props) => {
       deltaPosition: tile.deltaPosition,
     };
     updateBoardState([...wordList, newWord]);
-    
   };
 
   const handleResetWord = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -100,7 +99,7 @@ const LearningBoard = (props: Props) => {
     props.updateBoard(props.currentBoard._id, {
       boardState: wordList,
     });
-  }
+  };
 
   const [boardSide, setBoardSide] = React.useState(true);
   const toggleBoardSide = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -183,84 +182,85 @@ const LearningBoard = (props: Props) => {
     }
   };
 
-  if (!props.isAuthenticated) {
-    return <Redirect to='/login' />;
-  } else {
-    return (
-      <div>
-        <div className='absolute z-20'>
-          {selectedTile && (
-            <DraggableTile
-              tile={selectedTile}
-              bounds={selectedBounds}
-              setSelectedTile={handleSetSelected}
-              handleSetBounds={handleSetBounds}
-              addTile={addTileToInput}
-              draggableBounds={draggableBounds}
-              setDraggableBounds={setDraggableBounds}
-            />
-          )}
-        </div>
-        <div className='w-full min-h-screen flex items-center flex-col bg-gray-300 py-4'>
-          <div className='w-7/12 flex flex-col'>
-            <div className='flex self-center'>
-              <h1 className='text-yellow-500 font-bold text-5xl'>
-                Learning Board
-              </h1>
+  // if (!props.isAuthenticated) {
+  //   return <Redirect to="/login" />;
+  // } else {
+  return (
+    <div>
+      <div className="absolute z-20">
+        {selectedTile && (
+          <DraggableTile
+            tile={selectedTile}
+            bounds={selectedBounds}
+            setSelectedTile={handleSetSelected}
+            handleSetBounds={handleSetBounds}
+            addTile={addTileToInput}
+            draggableBounds={draggableBounds}
+            setDraggableBounds={setDraggableBounds}
+          />
+        )}
+      </div>
+      <div className="w-full min-h-screen flex items-center flex-col bg-gray-300 py-4">
+        <div className="w-7/12 flex flex-col">
+          <div className="flex self-center">
+            <h1 className="text-yellow-500 font-bold text-5xl">
+              Learning Board
+            </h1>
+          </div>
+          <div className="flex flex-row justify-around">
+            <div className="flex flex-col justify-center">
+              <p className="text-xl font-semibold flex justify-center">
+                {props.currentBoard.name}
+              </p>
+              {boardSide ? (
+                <p className="text-lg font-medium flex justify-left">Front</p>
+              ) : (
+                <p className="text-lg font-medium flex justify-left">Back</p>
+              )}
             </div>
-            <div className='flex flex-row justify-around'>
-              <div className='flex flex-col justify-center'>
-                <p className='text-xl font-semibold flex justify-center'>
-                  {props.currentBoard.name}
-                </p>
-                {boardSide ? (
-                  <p className='text-lg font-medium flex justify-left'>Front</p>
-                ) : (
-                  <p className='text-lg font-medium flex justify-left'>Back</p>
-                )}
-              </div>
-              <div>
-                <button
-                  onClick={(e) => toggleBoardSide(e)}
-                  className='px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-600 focus:outline-none text-white font-semibold stroke'>
-                  Flip Board
+            <div>
+              <button
+                onClick={(e) => toggleBoardSide(e)}
+                className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-600 focus:outline-none text-white font-semibold stroke"
+              >
+                Flip Board
+              </button>
+              <Link to="/dashboard">
+                <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-600 focus:outline-none text-white font-semibold stroke">
+                  Dashboard
                 </button>
-                <Link to='/dashboard'>
-                  <button className='px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-600 focus:outline-none text-white font-semibold stroke'>
-                    Dashboard
-                  </button>
-                </Link>
-              </div>
+              </Link>
             </div>
           </div>
-          <hr className='my-2' />
-          {boardSide ? (
-            <FrontBoard
-              tiles={tiles}
-              BoardInput={BoardInput}
-              handleResetWord={handleResetWord}
-              wordList={wordList}
-              selectedTile={selectedTile}
-              setSelectedTile={handleSetSelected}
-              handleSetBounds={handleSetBounds}
-              setInputBounds={setInputBounds}
-            />
-          ) : (
-            <BackBoard
-              tiles={tiles}
-              BoardInput={BoardInput}
-              handleResetWord={handleResetWord}
-              wordList={wordList}
-              selectedTile={selectedTile}
-              setSelectedTile={handleSetSelected}
-              handleSetBounds={handleSetBounds}
-              setInputBounds={setInputBounds}
-            />
-          )}
         </div>
+        <hr className="my-2" />
+        {boardSide ? (
+          <FrontBoard
+            tiles={tiles}
+            BoardInput={BoardInput}
+            handleResetWord={handleResetWord}
+            wordList={wordList}
+            selectedTile={selectedTile}
+            setSelectedTile={handleSetSelected}
+            handleSetBounds={handleSetBounds}
+            setInputBounds={setInputBounds}
+          />
+        ) : (
+          <BackBoard
+            tiles={tiles}
+            BoardInput={BoardInput}
+            handleResetWord={handleResetWord}
+            wordList={wordList}
+            selectedTile={selectedTile}
+            setSelectedTile={handleSetSelected}
+            handleSetBounds={handleSetBounds}
+            setInputBounds={setInputBounds}
+          />
+        )}
       </div>
-    );
-  }
+    </div>
+  );
+  // }
 };
 
 export default connector(LearningBoard);

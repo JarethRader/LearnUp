@@ -63,6 +63,15 @@ declare global {
   type MakeExpressCallback = (
     controller: (request: ExpressHttpRequest) => Promise<IController>
   ) => (req: Request, res: Response, next: NextFunction) => any;
+
+  type BuildCookieConfig = (
+    envConfig: dotenv.DotenvParseOutput
+  ) => {
+    [key: string]: any;
+    maxAge: number;
+    sameSite: boolean;
+    secure: boolean;
+  };
 }
 
 export {};

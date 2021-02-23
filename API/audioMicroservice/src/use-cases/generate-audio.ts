@@ -21,7 +21,6 @@ const buildGenerateAudio: BuildGenerateAudio = (
           }
         );
       } catch (err) {
-        console.log(err);
         throw new Error("Failed to generate audio");
       }
     }

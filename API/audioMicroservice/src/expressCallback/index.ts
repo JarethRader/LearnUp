@@ -25,18 +25,48 @@ const makeExpressCallback: MakeExpressCallback = (controller) => {
           res.statusCode = httpResponse.statusCode;
 
           const fileStream = fs.createReadStream(httpResponse.audioFile);
+          const range = req.headers.range?.replace("bytes=", "").split("-");
+
           fileStream
             .on("open", () => {
+              const stats = fs.statSync(httpResponse.audioFile);
+              const fileSizeInBytes = stats["size"];
+
+              let bytes_start, bytes_end;
+              if (range) {
+                bytes_start = range[0] ? parseInt(range[0], 10) : 0;
+                bytes_end = range[1] ? parseInt(range[1], 10) : fileSizeInBytes;
+              } else {
+                bytes_start = 0;
+                bytes_end = fileSizeInBytes;
+              }
+              const chunk_size = bytes_end - bytes_start;
+              if (chunk_size == fileSizeInBytes) {
+                // Serve the whole file as before
+                res.setHeader("Content-Length", fileSizeInBytes);
+              } else {
+                // HTTP/1.1 206 is the partial content response code
+                res.setHeader(
+                  "Content-Range",
+                  "bytes " +
+                    bytes_start +
+                    "-" +
+                    bytes_end +
+                    "/" +
+                    fileSizeInBytes
+                );
+                res.setHeader("Content-Length", fileSizeInBytes);
+              }
               fileStream.pipe(res);
             })
             .on("end", () => {
               res.end();
-              setTimeout(() => {
-                fs.unlink(httpResponse.audioFile, (err) => {
-                  if (err) throw new Error(err.message);
-                  return;
-                });
-              }, 1000);
+              // setTimeout(() => {
+              //   fs.unlink(httpResponse.audioFile, (err) => {
+              //     if (err) throw new Error(err.message);
+              //     return;
+              //   });
+              // }, 1000);
             });
         } else {
           if (httpResponse.headers) {

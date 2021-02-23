@@ -4,15 +4,15 @@
 
 export {};
 
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
-import { RootState } from '../reducers/index';
+import { ThunkAction } from "redux-thunk";
+import { Action } from "redux";
+import { RootState } from "../reducers/index";
 
 declare global {
   interface CSRFConfig {
     Accept: string;
-    'Content-Type': string;
-    'CSRF-Token': string | null;
+    "Content-Type": string;
+    "CSRF-Token": string | null;
   }
 
   type UserThunk<ReturnType = void> = ThunkAction<
@@ -27,5 +27,12 @@ declare global {
     RootState,
     unknown,
     Action<WhiteboardActionTypes>
+  >;
+
+  type AudioThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    RootState,
+    unknown,
+    Action<AudioActionTypes>
   >;
 }

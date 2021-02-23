@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 services:
   client:
     container_name: learnup_react
@@ -8,7 +8,7 @@ services:
       context: ./client
       dockerfile: ./Dockerfile
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
       - ./client:/app
       - /app/node_modules/
@@ -22,7 +22,7 @@ services:
       context: ./API/UserMicroservice
       dockerfile: ./Dockerfile
     ports:
-      - '5000:5000'
+      - "5000:5000"
     volumes:
       - ./API/UserMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
@@ -34,7 +34,19 @@ services:
       context: ./API/WhiteboardMicroservice
       dockerfile: ./Dockerfile
     ports:
-      - '5001:5001'
+      - "5001:5001"
     volumes:
       - ./API/WhiteboardMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
+  audio:
+    container_name: learnup_audio
+    image: learnup_audio:dev
+    restart: always
+    build:
+      context: ./API/AudioMicroservice
+      dockerfile: ./Dockerfile
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./API/AudioMicroservice:/usr/src/app
+      - /usr/src/app/nodemodules/

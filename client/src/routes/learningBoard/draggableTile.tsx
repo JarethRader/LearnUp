@@ -1,6 +1,6 @@
-import React from 'react';
-import Draggable, { DraggableEvent } from 'react-draggable';
-import { TileDisplay } from './tile';
+import React from "react";
+import Draggable, { DraggableEvent } from "react-draggable";
+import { TileDisplay } from "./tile";
 
 declare global {
   interface IDraggableTileProps {
@@ -48,7 +48,6 @@ const DraggableTile = (props: IDraggableTileProps) => {
   const [hasMoved, setHasMoved] = React.useState(false);
   const toggleHasMoved = () => setHasMoved(!hasMoved);
 
-
   React.useEffect(() => {
     if (!isClicked && hasMoved) {
       props.setSelectedTile(undefined);
@@ -79,17 +78,21 @@ const DraggableTile = (props: IDraggableTileProps) => {
       setBoundsUpdated(false);
     }, 200);
   };
-  
+
   React.useEffect(() => {
-    if(!boundsUpdated) {
+    if (!boundsUpdated) {
       props.setDraggableBounds(deltaPosition as any);
       toggleBoundsUpdated();
     }
-    
   }, [deltaPosition]);
 
+  const mountedRef = React.useRef(true);
 
-
+  React.useEffect(() => {
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   return (
     <Draggable
@@ -98,13 +101,15 @@ const DraggableTile = (props: IDraggableTileProps) => {
       defaultPosition={{
         x: deltaPosition.x,
         y: deltaPosition.y,
-      }}>
+      }}
+    >
       <div
         onClickCapture={(e) => handleOnClickCapture(e)}
-        onMouseLeave={(e) => handleOnMouseLeave(e)}>
+        onMouseLeave={(e) => handleOnMouseLeave(e)}
+      >
         <TileDisplay
           tile={props.tile!}
-          style={'cursor-move border-fuschia-500'}
+          style={"cursor-move border-fuschia-500"}
         />
       </div>
     </Draggable>

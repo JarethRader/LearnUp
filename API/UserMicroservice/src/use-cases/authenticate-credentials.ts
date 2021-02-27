@@ -12,15 +12,15 @@ const buildAuthenticateCredentials = (
       const db = await userDb();
       const user = await db.findOneByEmail(email);
       if (!user) {
-        throw new Error('User not found');
+        reject("User not found");
+      } else {
+        const isValid = await Authenticate.validatePassword(
+          password,
+          user.password
+        );
+        isValid && resolve(user.id);
+        resolve(undefined);
       }
-
-      const isValid = await Authenticate.validatePassword(
-        password,
-        user.password
-      );
-      isValid && resolve(user.id);
-      resolve(undefined);
     });
   };
 

@@ -61,9 +61,11 @@ export const login = (body: UserLoginInfoObj): UserThunk => async (
         });
       })
       .catch((err) => {
+        // console.log("Error:", err);
         throw err;
       });
   } catch (err) {
+    // console.log("Error:", err);
     dispatch({
       type: "LOGIN_FAILED",
     });

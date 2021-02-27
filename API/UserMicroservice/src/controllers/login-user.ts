@@ -13,16 +13,22 @@ const buildLoginUser = (
       const validPassword = await authenticate(
         request.body.email,
         request.body.password
-      );
-      if (!validPassword) {
-        throw new Error('Invalid password');
-      }
+      )
+        .then((userID) => {
+          if (!userID) {
+            throw new Error("Invalid password");
+          }
+          return userID;
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
       const user =
         validPassword !== undefined ? await listUser(validPassword) : undefined;
 
       return {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         statusCode: 201,
         body: { user },
@@ -33,7 +39,7 @@ const buildLoginUser = (
     } catch (err) {
       return {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         statusCode: 400,
         body: {

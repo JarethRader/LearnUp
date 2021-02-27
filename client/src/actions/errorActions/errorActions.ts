@@ -1,5 +1,5 @@
 export const returnErrors = (
-  type = null,
+  type: errorTypes,
   msg: string,
   status: number,
   id = null

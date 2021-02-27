@@ -10,16 +10,15 @@ export const LoginHelper = (
       headers: CSRFConfig() as any,
       body: JSON.stringify(userInfo),
     })
-      .then((response: any) => {
+      .then(async (response: any) => {
         response.status === 201 && resolve(response.json());
         if (response.status === 400) {
-          console.log(response.json());
-          throw new Error();
+          reject(await response.json());
         }
       })
-      .catch((err: Error) => {
-        // console.log("Error", err);
-        reject(new Error(err.message));
+      .catch(async (err: Error) => {
+        // reject(new Error(err.message));
+        reject(new Error("An unknown error occured"));
       });
   });
 };

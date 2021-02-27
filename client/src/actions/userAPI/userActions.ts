@@ -1,3 +1,5 @@
+import { returnErrors } from "../errorActions/errorActions";
+
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
 import { RootState } from "../../reducers/index";
@@ -61,11 +63,10 @@ export const login = (body: UserLoginInfoObj): UserThunk => async (
         });
       })
       .catch((err) => {
-        // console.log("Error:", err);
-        throw err;
+        throw err.error;
       });
   } catch (err) {
-    // console.log("Error:", err);
+    dispatch(returnErrors("authentication", err, 400));
     dispatch({
       type: "LOGIN_FAILED",
     });

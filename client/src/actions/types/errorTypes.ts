@@ -1,8 +1,10 @@
 import { GET_ERRORS, CLEAR_ERRORS } from "./types";
 
 declare global {
+  type errorTypes = null | "authentication" | "whiteboard" | "audio";
+
   interface IError {
-    type: string | null;
+    type: errorTypes;
     msg: string;
     status: number;
     id: number | null;

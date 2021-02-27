@@ -35,4 +35,11 @@ declare global {
     unknown,
     Action<AudioActionTypes>
   >;
+
+  type ErrorThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    RootState,
+    unknown,
+    Action<ErrorActionTypes>
+  >;
 }

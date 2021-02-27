@@ -2,7 +2,6 @@ const buildGetAudio: BuildGetAudio = (generateAudio) => {
   const GetAudio = async (request: ExpressHttpRequest) => {
     try {
       const audioFile = await generateAudio(request.body.tiles);
-
       return {
         headers: {
           "Accepted-Ranges": "bytes",

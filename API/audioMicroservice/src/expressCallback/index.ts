@@ -61,12 +61,12 @@ const makeExpressCallback: MakeExpressCallback = (controller) => {
             })
             .on("end", () => {
               res.end();
-              // setTimeout(() => {
-              //   fs.unlink(httpResponse.audioFile, (err) => {
-              //     if (err) throw new Error(err.message);
-              //     return;
-              //   });
-              // }, 1000);
+              setTimeout(() => {
+                fs.unlink(httpResponse.audioFile, (err) => {
+                  if (err) throw new Error(err.message);
+                  return;
+                });
+              }, 1000);
             });
         } else {
           if (httpResponse.headers) {

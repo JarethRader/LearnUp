@@ -15,7 +15,7 @@ export const returnErrors = (
   };
 };
 
-export const clearError = () => {
+export const clearErrors = () => {
   return {
     type: "CLEAR_ERRORS",
   };

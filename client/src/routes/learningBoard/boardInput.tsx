@@ -49,7 +49,7 @@ const BoardInput = (props: Props) => {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const src = audioCtx.createBufferSource();
       audioCtx.decodeAudioData(props.audio, (decoded) => {
-        console.log(decoded);
+        // console.log(decoded);
         src.buffer = decoded;
         src.connect(audioCtx.destination);
         src.start(0);

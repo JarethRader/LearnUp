@@ -35,11 +35,12 @@ export const register = (body: UserInfoObj): UserThunk => async (
           payload: response,
         });
       })
-      .catch((err: Error) => {
+      .catch((err) => {
+        console.log(err);
         throw err;
       });
   } catch (err) {
-    // add error handling state
+    dispatch(returnErrors("authentication", err, 400));
     dispatch({
       type: "REGISTER_FAILED",
     });

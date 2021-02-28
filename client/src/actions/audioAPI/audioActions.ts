@@ -45,7 +45,7 @@ export const playAudio = (wordList: IWordList[]): AudioThunk => async (
         throw new Error(err.message);
       });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     dispatch({ type: "GENERATE_AUDIO_FAILURE" });
   }
 };

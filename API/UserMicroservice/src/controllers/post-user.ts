@@ -6,7 +6,7 @@ const buildPostUser: BuildPostUser = (addUser) => {
       const newUser = await addUser({ ...request.body });
       return {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         statusCode: 201,
         body: { user: newUser },
@@ -17,7 +17,7 @@ const buildPostUser: BuildPostUser = (addUser) => {
     } catch (err) {
       return {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         statusCode: 400,
         body: {

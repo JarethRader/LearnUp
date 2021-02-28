@@ -25,6 +25,7 @@ const LoginForm: React.FC<Props> = (props: Props) => {
       | React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
+    props.clearErrors();
     if (email == "" || password == "") {
       props.returnErrors(
         "authentication",

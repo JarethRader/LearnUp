@@ -23,6 +23,7 @@ const RegisterForm: React.FC<Props> = (props: Props) => {
 
   const handleRegister = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    props.clearErrors();
     // I need to get errors form the request as well and display them here
     if (
       username === "" ||

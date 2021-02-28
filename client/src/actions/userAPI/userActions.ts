@@ -36,8 +36,7 @@ export const register = (body: UserInfoObj): UserThunk => async (
         });
       })
       .catch((err) => {
-        console.log(err);
-        throw err;
+        throw err.error;
       });
   } catch (err) {
     dispatch(returnErrors("authentication", err, 400));

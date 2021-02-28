@@ -11,7 +11,8 @@ const makeUserDb: MakeDB = (userSchema) =>
         updatedAt: userInfo.modifiedOn || userInfo.updatedAt,
       });
       return await newUser.save().then((user) => {
-        return user && user;
+        if (!user) throw new Error("Failed to create new user");
+        return user;
       });
     },
     findOneByEmail: async (email: string) => {
@@ -54,7 +55,7 @@ const makeUserDb: MakeDB = (userSchema) =>
         .findOneAndUpdate({ _id: id }, { ...updatedInfo }, { new: true })
         .then((user: IUserModel) => {
           if (!user) {
-            throw new Error('Failed to updated User');
+            throw new Error("Failed to updated User");
           }
           return user;
         });

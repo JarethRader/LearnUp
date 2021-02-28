@@ -1,5 +1,5 @@
-import express from 'express';
-import envConfig from './env';
+import express from "express";
+import envConfig from "./env";
 import {
   postUser,
   patchUser,
@@ -8,21 +8,21 @@ import {
   deleteUser,
   loginUser,
   logoutUser,
-} from './controllers';
-import makeCallback from './express-callback';
+} from "./controllers";
+import makeCallback from "./express-callback";
 
-import buildAuthMiddleware from './auth';
-import buildRedisStore from './cache';
-import buildCookieConfig from './cookie';
+import buildAuthMiddleware from "./auth";
+import buildRedisStore from "./cache";
+import buildCookieConfig from "./cookie";
 // import buildLogout from './logout';
 
-import morgan from 'morgan';
-import helmet from 'helmet';
+import morgan from "morgan";
+import helmet from "helmet";
 
-import session from 'express-session';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import makeDb from './data-access';
+import session from "express-session";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import makeDb from "./data-access";
 // import csrf from 'csurf';
 // import rateLimit from 'express-rate-limit';
 
@@ -36,7 +36,7 @@ const port = process.env.PORT || 5000;
 
 // http request logger
 app.use(
-  morgan(':method :url :status :res[content-length] - :response-time ms')
+  morgan(":method :url :status :res[content-length] - :response-time ms")
 );
 
 // Middleware
@@ -46,30 +46,30 @@ app.use(helmet());
 
 app.use(
   session({
-    name: envConfig['SESS_NAME'],
+    name: envConfig["SESS_NAME"],
     store: buildRedisStore(session, envConfig),
     resave: true,
     rolling: true,
     saveUninitialized: false,
-    secret: envConfig['SESS_SECRET'],
+    secret: envConfig["SESS_SECRET"],
     cookie: cookieConfig,
   })
 );
 
 const corsOptions = cors({
   credentials: true,
-  origin: envConfig['PUBLIC_PATH'],
-  maxAge: parseInt(envConfig['SESS_LIFETIME'], 10),
+  origin: envConfig["PUBLIC_PATH"],
+  maxAge: parseInt(envConfig["SESS_LIFETIME"], 10),
 });
 
-app.options(envConfig['PUBLIC_PATH'], corsOptions);
+app.options(envConfig["PUBLIC_PATH"], corsOptions);
 app.use(corsOptions);
 
 // cookieConfig['key'] = '_csrf';
 // export const csrfProtection = csrf({
 //   cookie: cookieConfig,
 // });
-app.use(cookieParser(envConfig['COOKIE_SECRET']));
+app.use(cookieParser(envConfig["COOKIE_SECRET"]));
 // app.use(
 //   csrf({
 //     cookie: cookieConfig,
@@ -96,36 +96,36 @@ app.use(cookieParser(envConfig['COOKIE_SECRET']));
 
 // User CRUD
 // login
-app.post(`${envConfig['API_ROOT']}/user/login`, makeCallback(loginUser));
+app.post(`${envConfig["API_ROOT"]}/user/login`, makeCallback(loginUser));
 // logout
 app.post(
-  `${envConfig['API_ROOT']}/user/logout`,
+  `${envConfig["API_ROOT"]}/user/logout`,
   auth.checkSignOut,
   makeCallback(logoutUser)
 );
 // register
-app.post(`${envConfig['API_ROOT']}/user`, makeCallback(postUser));
+app.post(`${envConfig["API_ROOT"]}/user`, makeCallback(postUser));
 // update
 app.patch(
-  `${envConfig['API_ROOT']}/user/:id`,
+  `${envConfig["API_ROOT"]}/user/:id`,
   auth.checkSignIn,
   makeCallback(patchUser)
 );
 // get own info
 app.get(
-  `${envConfig['API_ROOT']}/user/:id`,
+  `${envConfig["API_ROOT"]}/user/:id`,
   auth.checkSignIn,
   makeCallback(listSelf)
 );
 // get other users info
 app.get(
-  `${envConfig['API_ROOT']}/user`,
+  `${envConfig["API_ROOT"]}/user`,
   auth.checkSignIn,
   makeCallback(findOther)
 );
 // delete
 app.delete(
-  `${envConfig['API_ROOT']}/user/:id`,
+  `${envConfig["API_ROOT"]}/user/:id`,
   auth.checkSignIn,
   makeCallback(deleteUser)
 );
@@ -138,7 +138,8 @@ app.use(
     next: express.NextFunction
   ) => {
     console.error(err.stack);
-    res.status(500).send({ error: 'An unknown error occurred.' });
+    res.status(500).send({ error: "An unknown error occurred." });
+    next();
   }
 );
 

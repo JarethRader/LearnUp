@@ -1,8 +1,8 @@
 /// <reference types='node' />
 
-import { Model, Document, Request, Response, NextFunction } from 'mongoose';
-import session from 'express-session';
-import express from 'express';
+import { Model, Document, Request, Response, NextFunction } from "mongoose";
+import session from "express-session";
+import express from "express";
 
 declare global {
   // User types
@@ -65,7 +65,7 @@ declare global {
   type MakeUserValidate = (
     userDB: () => Promise<UserDB>,
     toObjectId: (id: string) => ObjectId
-  ) => IUserValidate;
+  ) => (user: IUserObject) => Promise<IMakeUser>;
 
   type MakeEditValidate = (
     userDB: () => Promise<UserDB>,
@@ -100,7 +100,7 @@ declare global {
   // use-case types
   type BuildAddUser = (
     userDB: () => Promise<UserDB>,
-    validate: IUserValidate
+    validate: (user: IUserObject) => Promise<IMakeUser>
   ) => (userInfo: IMakeUser) => Promise<IUserModel | undefined>;
 
   type BuildEditUser = (
@@ -123,7 +123,7 @@ declare global {
   // Controller
   interface IControllerResponse {
     headers: {
-      'Content-Type': string;
+      "Content-Type": string;
     };
     statusCode: number;
     body: {
@@ -137,7 +137,7 @@ declare global {
 
   interface IControllerError {
     headers: {
-      'Content-Type': string;
+      "Content-Type": string;
     };
     statusCode: number;
     body: {
@@ -183,9 +183,9 @@ declare global {
     method?: string;
     path?: string;
     headers: {
-      'Content-Type': string | undefined;
+      "Content-Type": string | undefined;
       Referer?: string;
-      'User-Agent'?: string;
+      "User-Agent"?: string;
     };
   }
 

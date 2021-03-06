@@ -1,9 +1,11 @@
 import express from "express";
 import helmet from "helmet";
+import morgan from "morgan";
 import WebSocket from "ws";
 import http from "http";
 
 import messageUtils from "./messages";
+import broadcast from "./broadcast";
 
 const port = process.env.PORT || 8081;
 
@@ -12,58 +14,48 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+app.use(morgan("common"));
 app.use(helmet());
 
 // keep track of all users that have connected (I want to store these in redis eventually)
 let users: any = {};
 
-// send back to user
-const sendTo = (connection: WebSocket, message: object) => {
-  connection.send(JSON.stringify(message));
-};
-
-const sendToAll = (ws: WebSocket, message: object) => {
-  wss.clients.forEach((client) => {
-    if (client !== ws && client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(message));
-    }
-  });
-};
-
 wss.on("connection", (ws) => {
-  console.log("Socket connected");
-  sendTo(ws, { type: "connection", message: "Socket connected" });
+  broadcast.sendTo(ws, { type: "connection", message: "Socket connected" });
 
   ws.on("message", (message) => {
     const data = JSON.parse(message.toString());
 
     switch (data.type) {
       case "message": {
-        messageUtils.messageResponse(ws as any, data);
+        messageUtils.messageResponse(ws, data);
         break;
       }
       case "connect": {
-        messageUtils.connectResponse(wss, ws as any, data);
+        messageUtils.connectResponse(wss, ws, data);
         break;
       }
       case "offer": {
-        messageUtils.offerResponse(ws as any, data);
+        messageUtils.offerResponse(ws, data);
         break;
       }
       case "answer": {
-        messageUtils.answerResponse(ws as any, data);
+        messageUtils.answerResponse(ws, data);
         break;
       }
       case "candidate": {
-        messageUtils.candidateResponse(ws as any, data);
+        messageUtils.candidateResponse(ws, data);
         break;
       }
       case "leave": {
-        sendToAll(ws, { type: "leave" });
+        broadcast.sendToAll(wss, ws, { type: "leave" });
         break;
       }
       default: {
-        sendTo(ws, { type: "error", message: "An unknown error occured" });
+        broadcast.sendTo(ws, {
+          type: "error",
+          message: "An unknown error occured",
+        });
         break;
       }
     }
@@ -72,8 +64,11 @@ wss.on("connection", (ws) => {
   ws.on("close", () => {
     // @ts-ignore
     delete users[ws.name];
-    // @ts-ignore
-    sendToAll(ws, { type: "leave", user: { id: ws.id, name: ws.name } });
+    broadcast.sendToAll(wss, ws, {
+      type: "leave",
+      // @ts-ignore
+      user: { id: ws.id, name: ws.name },
+    });
   });
 });
 

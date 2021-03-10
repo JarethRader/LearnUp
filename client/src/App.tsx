@@ -29,6 +29,8 @@ const routes = [
   { path: "/", name: "Landing", Component: Landing },
 ];
 
+import { LayoutProvider } from "./context/layoutContext";
+
 const App = () => {
   return (
     <div className="min-h-screen min-w-screen bg-gray-200 lexend-font">
@@ -37,7 +39,9 @@ const App = () => {
           {routes.map(({ path, Component }) => (
             <Route key={path} path={path}>
               <div>
-                <Component Navbar={Navbar} />
+                <LayoutProvider>
+                  <Component Navbar={Navbar} />
+                </LayoutProvider>
               </div>
             </Route>
           ))}

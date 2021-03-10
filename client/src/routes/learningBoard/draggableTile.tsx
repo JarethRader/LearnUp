@@ -1,3 +1,6 @@
+/**
+ * @ATTN depricated after refactored, delete later
+ */
 import React from "react";
 import Draggable, { DraggableEvent } from "react-draggable";
 import { TileDisplay } from "./tile";

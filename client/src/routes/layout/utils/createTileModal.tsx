@@ -2,7 +2,7 @@ import React from "react";
 const tileset: {
   tiles: [{ letters: string; color: string }];
 } = require("../../../components/tiles/defaultTileSets/tileSet.json");
-import TileComponent from "../../../components/tiles/tileComponent";
+import DraggableTile from "../../../components/tiles/draggableTile";
 
 import { useLayout } from "../../../context/layoutContext";
 
@@ -59,7 +59,9 @@ const CreateTileModal = (props: ICreateTileModal) => {
         </button>
       </div>
       <div className="flex justify-left">
-        {state.selectedTile && <TileComponent tile={state.selectedTile} />}
+        {state.selectedTile && (
+          <DraggableTile closeModal={handleClose} tile={state.selectedTile} />
+        )}
       </div>
     </div>
   );

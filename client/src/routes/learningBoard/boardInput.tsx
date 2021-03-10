@@ -1,3 +1,6 @@
+/**
+ * @ATTN depricated after refactored, delete later
+ */
 import React from "react";
 import { Sound, Erase } from "@styled-icons/entypo";
 

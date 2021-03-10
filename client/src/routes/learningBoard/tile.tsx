@@ -1,5 +1,8 @@
-import React from 'react';
-import useMeasure from 'react-use-measure';
+/**
+ * @ATTN depricated after refactored, delete later
+ */
+import React from "react";
+import useMeasure from "react-use-measure";
 
 declare global {
   interface tileComponentProps {
@@ -33,14 +36,15 @@ export const TileComponent = (props: tileComponentProps) => {
   const [ref, bounds] = useMeasure({});
 
   return (
-    <div className='flex justify-center'>
+    <div className="flex justify-center">
       <div
         ref={ref}
         onMouseEnter={(e) => handleEvent(e)}
         onTouchEndCapture={(e) => handleEvent(e)}
         className={`px-2 py-1 m-1 text-center border-4 border-black hover:border-fuschia-500 cursor-pointer rounded-lg text-md font-semibold shadow-xl focus:outline-none ${
           props.tile.color
-        } ${props.style && props.style}`}>
+        } ${props.style && props.style}`}
+      >
         <p>{props.tile.letters}</p>
       </div>
     </div>
@@ -50,7 +54,8 @@ export const TileComponent = (props: tileComponentProps) => {
 export const TileDisplay = (props: tileDisplayProps) => {
   return (
     <div
-      className={`px-2 py-1 m-1 text-center border-4 hover:border-purple-500 cursor-pointer rounded-lg text-md font-semibold shadow-xl ${props.tile.color} ${props.style}`}>
+      className={`px-2 py-1 m-1 text-center border-4 hover:border-purple-500 cursor-pointer rounded-lg text-md font-semibold shadow-xl ${props.tile.color} ${props.style}`}
+    >
       <p>{props.tile.letters}</p>
     </div>
   );

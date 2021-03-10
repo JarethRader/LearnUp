@@ -1,6 +1,9 @@
-import React from 'react';
-import Draggable from 'react-draggable';
-import { TileDisplay } from './tile';
+/**
+ * @ATTN depricated after refactored, delete later
+ */
+import React from "react";
+import Draggable from "react-draggable";
+import { TileDisplay } from "./tile";
 
 declare global {
   interface IDraggableDisplayProps {
@@ -28,11 +31,12 @@ const DraggableDisplayTile = (props: IDraggableDisplayProps) => {
         x: deltaPosition.x,
         y: deltaPosition.y,
       }}
-      grid={[5, 50]}>
-      <div className='flex justify-center'>
+      grid={[5, 50]}
+    >
+      <div className="flex justify-center">
         <TileDisplay
           tile={props.word!.tile}
-          style={'border-black cursor-move'}
+          style={"border-black cursor-move"}
         />
       </div>
     </Draggable>

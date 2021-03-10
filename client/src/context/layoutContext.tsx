@@ -19,6 +19,16 @@ const reducer = (
         ...state,
         selectedTile: undefined,
       };
+    case "ADD_TILE":
+      return {
+        ...state,
+        tileList: [...state.tileList, action.payload],
+      };
+    case "REMOVE_TILE":
+      return {
+        ...state,
+        tileList: state.tileList.filter((tile) => tile.uid !== action.payload),
+      };
     default:
       return state;
   }
@@ -27,6 +37,11 @@ const reducer = (
 // State
 const initialState: LayoutState = {
   selectedTile: undefined,
+  selectedBounds: {
+    x: undefined,
+    y: undefined,
+  },
+  tileList: [],
 };
 
 // Context
@@ -47,7 +62,7 @@ const LayoutProvider: React.FC = ({ children }: any) => {
 function useLayout() {
   const context = React.useContext(LayoutContext);
   if (context === undefined) {
-    throw new Error("useLayout must be used within a LayoutProvider");
+    throw new Error("useLayout must be used within a Layout Provider");
   }
   return context;
 }

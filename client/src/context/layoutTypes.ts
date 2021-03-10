@@ -6,8 +6,24 @@ declare global {
     color: string;
   }
 
+  interface ILayoutBounds {
+    x: number | undefined;
+    y: number | undefined;
+  }
+
+  interface ITileList {
+    uid: number;
+    tile: TileType;
+    delta: {
+      x: number;
+      y: number;
+    };
+  }
+
   interface LayoutState {
     selectedTile: TileType | undefined;
+    selectedBounds: ILayoutBounds;
+    tileList: ITileList[];
   }
 
   type LayoutContextType = {
@@ -24,7 +40,17 @@ declare global {
     type: "CLEAR_TILE";
   }
 
-  type LayoutActionTypes = SetTile | ClearTile;
+  interface AddTile {
+    type: "ADD_TILE";
+    payload: ITileList;
+  }
+
+  interface RemoveTile {
+    type: "REMOVE_TILE";
+    payload: number;
+  }
+
+  type LayoutActionTypes = SetTile | ClearTile | AddTile | RemoveTile;
 
   type LayoutDispatch = (action: LayoutActionTypes) => void;
 }

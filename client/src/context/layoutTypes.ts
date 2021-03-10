@@ -21,8 +21,8 @@ declare global {
   }
 
   interface LayoutState {
+    offsetBounds: ILayoutBounds;
     selectedTile: TileType | undefined;
-    selectedBounds: ILayoutBounds;
     tileList: ITileList[];
   }
 
@@ -30,6 +30,11 @@ declare global {
     tile: TileType | undefined;
     setTile: (tile: TileType) => void;
   };
+
+  interface SetOffset {
+    type: "SET_OFFSET";
+    payload: ILayoutBounds;
+  }
 
   interface SetTile {
     type: "SET_TILE";
@@ -50,7 +55,12 @@ declare global {
     payload: number;
   }
 
-  type LayoutActionTypes = SetTile | ClearTile | AddTile | RemoveTile;
+  type LayoutActionTypes =
+    | SetOffset
+    | SetTile
+    | ClearTile
+    | AddTile
+    | RemoveTile;
 
   type LayoutDispatch = (action: LayoutActionTypes) => void;
 }

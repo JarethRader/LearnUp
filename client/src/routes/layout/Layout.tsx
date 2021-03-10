@@ -1,5 +1,7 @@
 import React from "react";
 import CreateTileModal from "./utils/createTileModal";
+import TileComponent from "../../components/tiles/tileComponent";
+import DraggableDisplayTile from "../../components/tiles/draggableDisplayTile";
 
 import { useLayout } from "../../context/layoutContext";
 
@@ -10,20 +12,20 @@ interface Props {}
 const Layout = (props: Props) => {
   const { state, dispatch } = useLayout();
 
-  // const [mouseDelta, setMouseDelta] = React.useState({ x: 0, y: 0 });
-  // const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-  //   setMouseDelta({
-  //     x: event.nativeEvent.offsetX,
-  //     y: event.nativeEvent.offsetY,
-  //   });
-  // };
-
-  //   React.useEffect(() => {
-  //     console.log(mouseDelta);
-  //   }, [mouseDelta]);
-
   const [showCreate, setShowCreate] = React.useState(false);
   const toggleShowCreate = () => setShowCreate(!showCreate);
+
+  const LayoutRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    console.log(LayoutRef.current?.getBoundingClientRect());
+    dispatch({
+      type: "SET_OFFSET",
+      payload: {
+        x: LayoutRef.current?.getBoundingClientRect().x,
+        y: LayoutRef.current?.getBoundingClientRect().y,
+      },
+    });
+  }, []);
 
   return (
     <div>
@@ -32,7 +34,7 @@ const Layout = (props: Props) => {
           <h1 className="text-yellow-500 font-bold text-2xl">
             Create a New Layout
           </h1>
-          <div className="flex justify-left w-1/2">
+          <div className="flex justify-left w-1/2 mb-2">
             <button
               className="text-blue-500 hover:text-blue-700 cursor-pointer focus:outline-none"
               title="Add a new tile"
@@ -43,15 +45,14 @@ const Layout = (props: Props) => {
             {showCreate && <CreateTileModal toggleModal={toggleShowCreate} />}
           </div>
           <div
-            className="bg-white w-11/12 h-11/12 rounded-xl shadow-xl  border-black border-4 mt-3"
-            // onMouseMove={(e) => handleMouseMove(e)}
+            className="bg-white w-11/12 h-11/12 rounded-xl shadow-xl  border-black border-4"
+            ref={LayoutRef}
           >
-            <div className="w-0">
-              {/* <DraggableTile
-            tile={{ letters: "a", color: "bg-white" }}
-            // delta={{ x: mouseDelta.x, y: mouseDelta.y }}
-          /> */}
-            </div>
+            {state.tileList.map((tile) => (
+              <div className="relative flex h-0 w-0">
+                <DraggableDisplayTile tile={tile.tile} delta={tile.delta} />
+              </div>
+            ))}
           </div>
         </div>
       </div>

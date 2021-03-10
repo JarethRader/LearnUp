@@ -9,6 +9,11 @@ const reducer = (
   action: LayoutActionTypes
 ): LayoutState => {
   switch (action.type) {
+    case "SET_OFFSET":
+      return {
+        ...state,
+        offsetBounds: action.payload,
+      };
     case "SET_TILE":
       return {
         ...state,
@@ -36,11 +41,11 @@ const reducer = (
 
 // State
 const initialState: LayoutState = {
-  selectedTile: undefined,
-  selectedBounds: {
+  offsetBounds: {
     x: undefined,
     y: undefined,
   },
+  selectedTile: undefined,
   tileList: [],
 };
 

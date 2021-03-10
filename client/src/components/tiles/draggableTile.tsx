@@ -18,7 +18,7 @@ const DraggableTile = (props: any) => {
     });
   };
 
-  const myRef = React.useRef<HTMLDivElement>(null);
+  const draggableRef = React.useRef<HTMLDivElement>(null);
 
   const handleOnClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -28,8 +28,8 @@ const DraggableTile = (props: any) => {
         uid: 0,
         tile: props.tile,
         delta: {
-          x: myRef.current?.getBoundingClientRect().x!,
-          y: myRef.current?.getBoundingClientRect().y!,
+          x: draggableRef.current?.getBoundingClientRect().x!,
+          y: draggableRef.current?.getBoundingClientRect().y!,
         },
       },
     });
@@ -44,7 +44,7 @@ const DraggableTile = (props: any) => {
         y: deltaPosition.y,
       }}
     >
-      <div ref={myRef} onClickCapture={(e) => handleOnClickCapture(e)}>
+      <div ref={draggableRef} onClickCapture={(e) => handleOnClickCapture(e)}>
         <TileComponent
           tile={props.tile!}
           style={"cursor-move border-fuschia-500"}

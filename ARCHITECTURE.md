@@ -76,6 +76,8 @@ Learnup
 |   |   |
 |   |   └── **components** - contains .jsx/.tsx elements that are reused multiple times on the top level of the app
 |   |   |
+|   |   └── **context** - contains context elements for React Context API
+|   |   |
 |   |   └── **reducers** - contains reducers for modifying the redux store locally
 |   |   |   |
 |   |   |   └── index - combines all separate reducers and export it for the app to subscribe to

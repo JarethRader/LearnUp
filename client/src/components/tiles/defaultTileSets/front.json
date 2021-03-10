@@ -1,0 +1,188 @@
+{
+  "tiles": [
+    {
+      "letters": "b",
+      "color": "bg-white",
+      "delta": {
+        "x": 85,
+        "y": 55
+      }
+    },
+    {
+      "letters": "c",
+      "color": "bg-white",
+      "delta": {
+        "x": 170,
+        "y": 55
+      }
+    },
+    {
+      "letters": "d",
+      "color": "bg-white",
+      "delta": {
+        "x": 250,
+        "y": 55
+      }
+    },
+    {
+      "letters": "f",
+      "color": "bg-white",
+      "delta": {
+        "x": 340,
+        "y": 55
+      }
+    },
+    {
+      "letters": "ph",
+      "color": "bg-white",
+      "delta": {
+        "x": 425,
+        "y": 55
+      }
+    },
+    {
+      "letters": "g",
+      "color": "bg-white",
+      "delta": {
+        "x": 550,
+        "y": 55
+      }
+    },
+    {
+      "letters": "h",
+      "color": "bg-white",
+      "delta": {
+        "x": 630,
+        "y": 55
+      }
+    },
+    {
+      "letters": "j",
+      "color": "bg-white",
+      "delta": {
+        "x": 700,
+        "y": 55
+      }
+    },
+    {
+      "letters": "k",
+      "color": "bg-white",
+      "delta": {
+        "x": 780,
+        "y": 55
+      }
+    },
+    {
+      "letters": "l",
+      "color": "bg-white",
+      "delta": {
+        "x": 865,
+        "y": 55
+      }
+    },
+    {
+      "letters": "m",
+      "color": "bg-white",
+      "delta": {
+        "x": 950,
+        "y": 55
+      }
+    },
+    {
+      "letters": "n",
+      "color": "bg-white",
+      "delta": {
+        "x": 1035,
+        "y": 55
+      }
+    },
+    {
+      "letters": "kn",
+      "color": "bg-white",
+      "delta": {
+        "x": 1100,
+        "y": 55
+      }
+    },
+    {
+      "letters": "p",
+      "color": "bg-white",
+      "delta": {
+        "x": 1185,
+        "y": 55
+      }
+    },
+    {
+      "letters": "r",
+      "color": "bg-white",
+      "delta": {
+        "x": 1270,
+        "y": 55
+      }
+    },
+    {
+      "letters": "wr",
+      "color": "bg-white",
+      "delta": {
+        "x": 1355,
+        "y": 55
+      }
+    },
+    {
+      "letters": "s",
+      "color": "bg-white",
+      "delta": {
+        "x": 1440,
+        "y": 55
+      }
+    },
+    {
+      "letters": "t",
+      "color": "bg-white",
+      "delta": {
+        "x": 1525,
+        "y": 55
+      }
+    },
+    {
+      "letters": "v",
+      "color": "bg-white",
+      "delta": {
+        "x": 1600,
+        "y": 55
+      }
+    },
+    {
+      "letters": "w",
+      "color": "bg-white",
+      "delta": {
+        "x": 1685,
+        "y": 55
+      }
+    },
+    {
+      "letters": "x",
+      "color": "bg-white",
+      "delta": {
+        "x": 1770,
+        "y": 55
+      }
+    },
+    {
+      "letters": "y",
+      "color": "bg-white",
+      "delta": {
+        "x": 1855,
+        "y": 55
+      }
+    },
+    {
+      "letters": "z",
+      "color": "bg-white",
+      "delta": {
+        "x": 1940,
+        "y": 55
+      }
+    }
+  ]
+}

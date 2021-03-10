@@ -3,23 +3,23 @@
  * It could be optimized further after allowing users to use teh site and seeing what order they visit which pages in.
  */
 
-const Landing = () => import('../routes/Landing');
-const Authentication = () => import('../routes/Authentication');
-const LearningBoard = () => import('../routes/LearningBoard');
-const Home = () => import('../routes/Home');
-const Dashboard = () => import('../routes/Dashboard');
+const Landing = () => import("../routes/Landing");
+const Authentication = () => import("../routes/authentication/Authentication");
+const LearningBoard = () => import("../routes/LearningBoard");
+const Home = () => import("../routes/Home");
+const Dashboard = () => import("../routes/Dashboard");
 
 export const prefetchMap = [
   {
-    path: '/',
+    path: "/",
     prefetchComponents: [Authentication, Home],
   },
   {
-    path: '/login',
+    path: "/login",
     prefetchComponents: [Dashboard],
   },
   {
-    path: '/dashboard',
+    path: "/dashboard",
     prefetchComponents: [LearningBoard],
   },
 ];

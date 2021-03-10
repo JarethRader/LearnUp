@@ -1,18 +1,18 @@
 import React from "react";
 
 import { connect, ConnectedProps } from "react-redux";
-import { RootState } from "../reducers/index";
-import { register, login } from "../actions/userAPI/userActions";
+import { RootState } from "../../reducers/index";
+import { register, login } from "../../actions/userAPI/userActions";
 import {
   clearErrors,
   returnErrors,
-} from "../actions/errorActions/errorActions";
+} from "../../actions/errorActions/errorActions";
 
 import { Redirect } from "react-router-dom";
 
 // import forms
-import RegisterForm from "./authentication/register";
-import LoginForm from "./authentication/login";
+import RegisterForm from "./utils/register";
+import LoginForm from "./utils/login";
 
 export interface ToggleProps {
   ClickHandler: (event: React.MouseEvent<HTMLDivElement>) => void;

@@ -14,6 +14,7 @@
     "strict": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "typeRoots": ["src/actions/types", "src/types", "node_modules/@types"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -21,5 +22,9 @@
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["./node_modules/", "./webpack.config.js"],
-  "include": ["./src/**/*", "./src/components/tiles/index.ts"]
+  "include": [
+    "./src/**/*",
+    "./src/components/tiles/index.ts",
+    "./src/components/tiles/defaultTileSets/*.json"
+  ]
 }

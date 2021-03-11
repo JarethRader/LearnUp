@@ -4,7 +4,7 @@ const tileset: {
 } = require("../../../components/tiles/defaultTileSets/tileSet.json");
 import DraggableTile from "../../../components/tiles/draggableTile";
 
-import { useLayout } from "../../../context/layoutContext";
+import { useLayout } from "../../../context/layout/layoutContext";
 
 import { Cross } from "@styled-icons/entypo";
 

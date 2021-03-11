@@ -34,6 +34,15 @@ const reducer = (
         ...state,
         tileList: state.tileList.filter((tile) => tile.uid !== action.payload),
       };
+    case "UPDATE_TILE":
+      return {
+        ...state,
+        tileList: state.tileList.map((tile) => {
+          if (tile.uid === action.payload.uid)
+            return Object.assign({}, tile, action.payload);
+          return tile;
+        }),
+      };
     default:
       return state;
   }
@@ -44,6 +53,8 @@ const initialState: LayoutState = {
   offsetBounds: {
     x: undefined,
     y: undefined,
+    width: undefined,
+    height: undefined,
   },
   selectedTile: undefined,
   tileList: [],

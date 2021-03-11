@@ -22,6 +22,7 @@
     "@types/react-dom": "^17.0.1",
     "@types/react-redux": "^7.1.16",
     "@types/styled-components": "^5.1.7",
+    "@types/uuid": "^8.3.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.1.1",
     "css-minimizer-webpack-plugin": "^1.2.0",
@@ -59,11 +60,13 @@
     "react-use-measure": "^2.0.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "resize-observer-polyfill": "^1.5.1",
     "styled-components": "^5.2.1",
     "styled-icons": "^10.29.0",
     "tailwindcss": "^2.0.3",
     "ts-loader": "^8.0.17",
     "typescript": "^4.2.3",
-    "universal-cookie": "^4.0.4"
+    "universal-cookie": "^4.0.4",
+    "uuid": "^3.4.0"
   }
 }

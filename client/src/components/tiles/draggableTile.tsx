@@ -1,7 +1,9 @@
 import React from "react";
 import Draggable, { DraggableEvent } from "react-draggable";
 import TileComponent from "./tileComponent";
-import { useLayout } from "../../context/layoutContext";
+import { useLayout } from "../../context/layout/layoutContext";
+
+import { v4 as uuidv4 } from "uuid";
 
 const DraggableTile = (props: any) => {
   const { dispatch } = useLayout();
@@ -25,7 +27,7 @@ const DraggableTile = (props: any) => {
     dispatch({
       type: "ADD_TILE",
       payload: {
-        uid: 0,
+        uid: uuidv4(),
         tile: props.tile,
         delta: {
           x: draggableRef.current?.getBoundingClientRect().x!,

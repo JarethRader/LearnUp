@@ -9,10 +9,12 @@ declare global {
   interface ILayoutBounds {
     x: number | undefined;
     y: number | undefined;
+    width: number | undefined;
+    height: number | undefined;
   }
 
   interface ITileList {
-    uid: number;
+    uid: string;
     tile: TileType;
     delta: {
       x: number;
@@ -52,7 +54,12 @@ declare global {
 
   interface RemoveTile {
     type: "REMOVE_TILE";
-    payload: number;
+    payload: string;
+  }
+
+  interface UpdateTile {
+    type: "UPDATE_TILE";
+    payload: ITileList;
   }
 
   type LayoutActionTypes =
@@ -60,7 +67,8 @@ declare global {
     | SetTile
     | ClearTile
     | AddTile
-    | RemoveTile;
+    | RemoveTile
+    | UpdateTile;
 
   type LayoutDispatch = (action: LayoutActionTypes) => void;
 }

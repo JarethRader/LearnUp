@@ -21,7 +21,7 @@ const NotFound = React.lazy(() => retry(() => import("./routes/NotFound")));
 
 const routes = [
   { path: "/login", name: "Sign In", Component: Authentication },
-  { path: "/learningboard", name: "Learning", Component: LearningBoard },
+  // { path: "/learningboard", name: "Learning", Component: LearningBoard },
   { path: "/whiteboard", name: "Learning", Component: Whiteboard },
   { path: "/layout", name: "Layout", Component: Layout },
   { path: "/dashboard", name: "Dashboard", Component: Dashboard },
@@ -29,7 +29,7 @@ const routes = [
   { path: "/", name: "Landing", Component: Landing },
 ];
 
-import { LayoutProvider } from "./context/layoutContext";
+import { LayoutProvider } from "./context/layout/layoutContext";
 
 const App = () => {
   return (
@@ -39,6 +39,7 @@ const App = () => {
           {routes.map(({ path, Component }) => (
             <Route key={path} path={path}>
               <div>
+                {/* I should move the providers into a separate abstraction so they only provide context to the components that use the state they provide, instead of providing them to every component */}
                 <LayoutProvider>
                   <Component Navbar={Navbar} />
                 </LayoutProvider>

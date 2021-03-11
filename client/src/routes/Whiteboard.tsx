@@ -36,8 +36,10 @@ const Whiteboard = (props: Props) => {
             </div>
           </div>
         </div>
-        <hr className="my-2" />
-        <Board />
+        <hr className="" />
+        <div className="flex flex-1 w-11/12 my-4">
+          <Board />
+        </div>
       </div>
     </div>
   );

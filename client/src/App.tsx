@@ -30,6 +30,7 @@ const routes = [
 ];
 
 import { LayoutProvider } from "./context/layout/layoutContext";
+import { WhiteboardProvider } from "./context/whiteboard/whiteboardContext";
 
 const App = () => {
   return (
@@ -41,7 +42,9 @@ const App = () => {
               <div>
                 {/* I should move the providers into a separate abstraction so they only provide context to the components that use the state they provide, instead of providing them to every component */}
                 <LayoutProvider>
-                  <Component Navbar={Navbar} />
+                  <WhiteboardProvider>
+                    <Component Navbar={Navbar} />
+                  </WhiteboardProvider>
                 </LayoutProvider>
               </div>
             </Route>

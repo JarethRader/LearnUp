@@ -1,6 +1,6 @@
 import React from "react";
 import CreateTileModal from "./utils/createTileModal";
-import DraggableDisplayTile from "../../components/tiles/draggableDisplayTile";
+import DraggableDisplayTile from "./tiles/draggableDisplayTile";
 
 import { useLayout } from "../../context/layout/layoutContext";
 
@@ -8,6 +8,7 @@ import { SquaredPlus } from "@styled-icons/entypo";
 
 interface Props {}
 
+// TODO: add a way to remove tiles from the layout
 const Layout = (props: Props) => {
   const { state, dispatch } = useLayout();
 

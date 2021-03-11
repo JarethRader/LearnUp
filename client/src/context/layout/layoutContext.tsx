@@ -4,10 +4,7 @@
 import React from "react";
 
 // Reducer
-const reducer = (
-  state: LayoutState,
-  action: LayoutActionTypes
-): LayoutState => {
+const reducer = (state: LayoutState, action: LayoutAction): LayoutState => {
   switch (action.type) {
     case "SET_OFFSET":
       return {

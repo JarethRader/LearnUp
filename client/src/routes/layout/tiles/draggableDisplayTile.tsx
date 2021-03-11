@@ -1,7 +1,7 @@
 import React from "react";
-import TileComponent from "./tileComponent";
+import TileComponent from "../../../components/tiles/tileComponent";
 import Draggable, { DraggableEvent } from "react-draggable";
-import { useLayout } from "../../context/layout/layoutContext";
+import { useLayout } from "../../../context/layout/layoutContext";
 
 interface Props {}
 

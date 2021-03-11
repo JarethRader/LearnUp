@@ -1,11 +1,6 @@
 export {};
 
 declare global {
-  interface TileType {
-    letters: string;
-    color: string;
-  }
-
   interface ILayoutBounds {
     x: number | undefined;
     y: number | undefined;
@@ -13,25 +8,11 @@ declare global {
     height: number | undefined;
   }
 
-  interface ITileList {
-    uid: string;
-    tile: TileType;
-    delta: {
-      x: number;
-      y: number;
-    };
-  }
-
   interface LayoutState {
     offsetBounds: ILayoutBounds;
     selectedTile: TileType | undefined;
     tileList: ITileList[];
   }
-
-  type LayoutContextType = {
-    tile: TileType | undefined;
-    setTile: (tile: TileType) => void;
-  };
 
   interface SetOffset {
     type: "SET_OFFSET";
@@ -62,7 +43,7 @@ declare global {
     payload: ITileList;
   }
 
-  type LayoutActionTypes =
+  type LayoutAction =
     | SetOffset
     | SetTile
     | ClearTile
@@ -70,5 +51,5 @@ declare global {
     | RemoveTile
     | UpdateTile;
 
-  type LayoutDispatch = (action: LayoutActionTypes) => void;
+  type LayoutDispatch = (action: LayoutAction) => void;
 }

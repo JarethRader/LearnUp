@@ -1,7 +1,7 @@
 import React from "react";
 import Draggable, { DraggableEvent } from "react-draggable";
-import TileComponent from "./tileComponent";
-import { useLayout } from "../../context/layout/layoutContext";
+import TileComponent from "../../../components/tiles/tileComponent";
+import { useLayout } from "../../../context/layout/layoutContext";
 
 import { v4 as uuidv4 } from "uuid";
 

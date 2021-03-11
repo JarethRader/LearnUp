@@ -3,9 +3,22 @@ import { Link, Redirect } from "react-router-dom";
 
 import Board from "./whiteboard/board";
 
+import { useWhiteboard } from "../context/whiteboard/whiteboardContext";
+
 interface Props {}
 
+const frontTileSet = require("../components/tiles/defaultTileSets/front.json");
+
 const Whiteboard = (props: Props) => {
+  const { state, dispatch } = useWhiteboard();
+
+  React.useEffect(() => {
+    dispatch({
+      type: "SET_TILELIST",
+      payload: frontTileSet,
+    });
+  }, []);
+
   return (
     <div>
       <div className="w-full min-h-screen flex items-center flex-col bg-gray-300 py-4">

@@ -2,7 +2,7 @@ import React from "react";
 const tileset: {
   tiles: [{ letters: string; color: string }];
 } = require("../../../components/tiles/defaultTileSets/tileSet.json");
-import DraggableTile from "../../../components/tiles/draggableTile";
+import DraggableTile from "../tiles/draggableTile";
 
 import { useLayout } from "../../../context/layout/layoutContext";
 

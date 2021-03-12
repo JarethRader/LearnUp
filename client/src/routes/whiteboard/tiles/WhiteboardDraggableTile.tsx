@@ -5,7 +5,7 @@ import { useWhiteboard } from "../../../context/whiteboard/whiteboardContext";
 
 interface Props {}
 
-const WhiteboardDraggableDisplayTile = (props: any) => {
+const WhiteboardDraggableTile = (props: any) => {
   const { state, dispatch } = useWhiteboard();
 
   const scaleFactor = {
@@ -14,14 +14,22 @@ const WhiteboardDraggableDisplayTile = (props: any) => {
   };
 
   const [deltaPosition, setDelta] = React.useState({
-    x: props.tile.delta.x * scaleFactor.width,
-    y: props.tile.delta.y * scaleFactor.height,
+    x: state.selectedTile!.delta.x,
+    y: state.selectedTile!.delta.y,
   });
 
   const handleDrag = (e: DraggableEvent, ui: any) => {
     setDelta({
       x: deltaPosition.x + ui.deltaX,
       y: deltaPosition.y + ui.deltaY,
+    });
+  };
+
+  const handleOnMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    dispatch({
+      type: "CLEAR_SELECTED_TILE",
     });
   };
 
@@ -34,11 +42,11 @@ const WhiteboardDraggableDisplayTile = (props: any) => {
         y: deltaPosition.y,
       }}
     >
-      <div>
-        <TileComponent tile={props.tile.tile} />
+      <div onMouseLeave={(e) => handleOnMouseLeave(e)}>
+        <TileComponent tile={state.selectedTile!.tile} cursor={"cursor-move"} />
       </div>
     </Draggable>
   );
 };
 
-export default WhiteboardDraggableDisplayTile;
+export default WhiteboardDraggableTile;

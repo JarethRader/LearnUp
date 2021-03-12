@@ -5,9 +5,20 @@ const reducer = (
   action: WhiteboardAction
 ): WhiteboardState => {
   switch (action.type) {
+    case "SET_SELECTED_TILE":
+      return {
+        ...state,
+        selectedTile: action.payload,
+      };
+    case "CLEAR_SELECTED_TILE":
+      return {
+        ...state,
+        selectedTile: undefined,
+      };
     case "SET_TILELIST":
       return {
         ...state,
+        tileSetName: action.payload.name,
         tileList: action.payload.tiles,
         tileSetRect: action.payload.tileSetRect,
       };
@@ -28,6 +39,8 @@ const intialState: WhiteboardState = {
     width: 1,
     height: 1,
   },
+  selectedTile: undefined,
+  tileSetName: "",
   tileSetRect: {
     top: 1,
     left: 1,

@@ -1,12 +1,14 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
-import WhiteboardDraggableDisplayTile from "./tiles/WhiteboardDraggableDisplayTile";
+import WhiteboardDraggableTile from "./tiles/WhiteboardDraggableTile";
+import WhiteboardDisplayTile from "./tiles/WhiteboardDisplayTile";
 
 import { useWhiteboard } from "../../context/whiteboard/whiteboardContext";
 
 interface Props {}
 
-const frontTileSet = require("../../components/tiles/defaultTileSets/back.json");
+const frontTileSet = require("../../components/tiles/defaultTileSets/front.json");
+const backTileSet = require("../../components/tiles/defaultTileSets/back.json");
 
 const Whiteboard = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
@@ -17,6 +19,15 @@ const Whiteboard = (props: Props) => {
       payload: frontTileSet,
     });
   }, []);
+
+  const flipBoard = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    // dispatch({
+    //   type: "SET_TILELIST",
+    //   payload: backTileSet,
+    // });
+  };
 
   const WhiteboardRef = React.useRef<HTMLDivElement>(null);
 
@@ -34,6 +45,9 @@ const Whiteboard = (props: Props) => {
 
   return (
     <div>
+      <div className="absolute z-20">
+        {state.selectedTile && <WhiteboardDraggableTile />}
+      </div>
       <div className="w-full min-h-screen flex items-center flex-col bg-gray-300 py-4">
         <div className="w-7/12 flex flex-col">
           <div className="flex self-center">
@@ -49,7 +63,7 @@ const Whiteboard = (props: Props) => {
             </div>
             <div>
               <button
-                // onClick={(e) => toggleBoardSide(e)}
+                onClick={(e) => flipBoard(e)}
                 className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-600 focus:outline-none text-white font-semibold stroke"
               >
                 Flip Board
@@ -71,7 +85,7 @@ const Whiteboard = (props: Props) => {
             {state.tileList &&
               state.tileList.map((tile: any) => (
                 <div className="relative flex h-0 w-0">
-                  <WhiteboardDraggableDisplayTile tile={tile} />
+                  <WhiteboardDisplayTile tile={tile} />
                 </div>
               ))}
           </div>

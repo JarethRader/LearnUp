@@ -28,10 +28,6 @@ const Layout = (props: Props) => {
     });
   }, []);
 
-  React.useEffect(() => {
-    console.log(state.tileList);
-  }, [state.tileList]);
-
   return (
     <div className="h-screen w-full flex justify-center items-center flex-col py-4">
       <h1 className="text-yellow-500 font-bold text-2xl">

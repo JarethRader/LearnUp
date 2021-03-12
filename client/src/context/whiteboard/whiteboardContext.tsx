@@ -34,6 +34,11 @@ const reducer = (
           (tile) => tile.uid !== action.payload
         ),
       };
+    case "CLEAR_WHITEBOARD":
+      return {
+        ...state,
+        whiteboardList: [],
+      };
     case "SET_OFFSET":
       return {
         ...state,

@@ -12,6 +12,10 @@ const WhiteboardDisplayTile = (props: any) => {
     event.preventDefault();
 
     dispatch({
+      type: "CLEAR_SELECTED_TILE",
+    });
+
+    dispatch({
       type: "SET_SELECTED_TILE",
       payload: {
         uid: props.tile.uid,

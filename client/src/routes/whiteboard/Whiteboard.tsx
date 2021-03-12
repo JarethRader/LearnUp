@@ -44,6 +44,14 @@ const Whiteboard = (props: Props) => {
     });
   }, []);
 
+  const handleClearBoard = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    dispatch({
+      type: "CLEAR_WHITEBOARD",
+    });
+  };
+
   return (
     <div>
       <div className="absolute z-20">
@@ -74,6 +82,12 @@ const Whiteboard = (props: Props) => {
                   Dashboard
                 </button>
               </Link>
+              <button
+                onClick={(e) => handleClearBoard(e)}
+                className="px-4 py-2 mx-1 rounded bg-red-500 hover:bg-red-600 focus:outline-none text-white font-semibold stroke"
+              >
+                Clear Board
+              </button>
             </div>
           </div>
         </div>

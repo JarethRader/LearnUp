@@ -55,6 +55,10 @@ declare global {
     payload: string;
   }
 
+  interface ClearWhiteboard {
+    type: "CLEAR_WHITEBOARD";
+  }
+
   interface SetBoardOffset {
     type: "SET_OFFSET";
     payload: IWhiteboardOffest;
@@ -66,7 +70,8 @@ declare global {
     | SetSelectedTile
     | ClearSelectedTile
     | AddWhiteboardTile
-    | RemoveWhiteboardTile;
+    | RemoveWhiteboardTile
+    | ClearWhiteboard;
 
   type WhiteboardDispatch = (action: WhiteboardAction) => void;
 }

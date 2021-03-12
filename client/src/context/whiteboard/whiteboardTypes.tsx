@@ -2,22 +2,29 @@ export {};
 
 declare global {
   interface IWhiteboardOffest {
-    x: number | undefined;
-    y: number | undefined;
-    width: number | undefined;
-    height: number | undefined;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
   }
 
   interface WhiteboardState {
     offsetBounds: IWhiteboardOffest;
-    boardRect: { width: number | undefined; height: number | undefined };
+    tileSetRect: {
+      top: number;
+      left: number;
+      width: number;
+      height: number;
+    };
     tileList: ITileList[] | undefined;
   }
 
   interface SetTilelist {
     type: "SET_TILELIST";
     payload: {
-      pageRect: {
+      tileSetRect: {
+        top: number;
+        left: number;
         width: number;
         height: number;
       };
@@ -25,12 +32,12 @@ declare global {
     };
   }
 
-  interface SetOffset {
+  interface SetBoardOffset {
     type: "SET_OFFSET";
     payload: IWhiteboardOffest;
   }
 
-  type WhiteboardAction = SetOffset | SetTilelist;
+  type WhiteboardAction = SetBoardOffset | SetTilelist;
 
   type WhiteboardDispatch = (action: WhiteboardAction) => void;
 }

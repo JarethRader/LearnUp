@@ -13,7 +13,9 @@ const Authentication = React.lazy(() =>
 const LearningBoard = React.lazy(() =>
   retry(() => import("./routes/LearningBoard"))
 );
-const Whiteboard = React.lazy(() => retry(() => import("./routes/Whiteboard")));
+const Whiteboard = React.lazy(() =>
+  retry(() => import("./routes/whiteboard/Whiteboard"))
+);
 const Layout = React.lazy(() => retry(() => import("./routes/layout/Layout")));
 const Home = React.lazy(() => retry(() => import("./routes/Home")));
 const Dashboard = React.lazy(() => retry(() => import("./routes/Dashboard")));
@@ -37,18 +39,38 @@ const App = () => {
     <div className="min-h-screen min-w-screen bg-gray-200 lexend-font">
       <React.Suspense fallback={<div></div>}>
         <Switch>
-          {routes.map(({ path, Component }) => (
-            <Route key={path} path={path}>
-              <div>
-                {/* I should move the providers into a separate abstraction so they only provide context to the components that use the state they provide, instead of providing them to every component */}
-                <LayoutProvider>
-                  <WhiteboardProvider>
-                    <Component Navbar={Navbar} />
-                  </WhiteboardProvider>
-                </LayoutProvider>
-              </div>
-            </Route>
-          ))}
+          {routes.map(({ path, Component }) => {
+            switch (path) {
+              case "/layout":
+                return (
+                  <Route key={path} path={path}>
+                    <div>
+                      <LayoutProvider>
+                        <Component Navbar={Navbar} />
+                      </LayoutProvider>
+                    </div>
+                  </Route>
+                );
+              case "/whiteboard":
+                return (
+                  <Route key={path} path={path}>
+                    <div>
+                      <WhiteboardProvider>
+                        <Component Navbar={Navbar} />
+                      </WhiteboardProvider>
+                    </div>
+                  </Route>
+                );
+              default:
+                return (
+                  <Route key={path} path={path}>
+                    <div>
+                      <Component Navbar={Navbar} />
+                    </div>
+                  </Route>
+                );
+            }
+          })}
         </Switch>
       </React.Suspense>
     </div>

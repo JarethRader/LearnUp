@@ -11,8 +11,6 @@ const buildAddUser: BuildAddUser = (userDb, validate) => {
         throw new Error(err);
       });
 
-    console.log(validated);
-
     const userInstance = await userDb();
 
     return await userInstance.insert(validated);

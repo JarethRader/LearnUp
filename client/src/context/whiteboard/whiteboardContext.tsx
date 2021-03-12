@@ -6,11 +6,10 @@ const reducer = (
 ): WhiteboardState => {
   switch (action.type) {
     case "SET_TILELIST":
-      console.log(action.payload);
       return {
         ...state,
         tileList: action.payload.tiles,
-        boardRect: action.payload.pageRect,
+        tileSetRect: action.payload.tileSetRect,
       };
     case "SET_OFFSET":
       return {
@@ -24,14 +23,16 @@ const reducer = (
 
 const intialState: WhiteboardState = {
   offsetBounds: {
-    x: undefined,
-    y: undefined,
-    width: undefined,
-    height: undefined,
+    x: 0,
+    y: 0,
+    width: 1,
+    height: 1,
   },
-  boardRect: {
-    width: undefined,
-    height: undefined,
+  tileSetRect: {
+    top: 1,
+    left: 1,
+    width: 1,
+    height: 1,
   },
   tileList: undefined,
 };

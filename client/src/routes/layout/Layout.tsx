@@ -17,7 +17,6 @@ const Layout = (props: Props) => {
 
   const LayoutRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
-    console.log(LayoutRef.current?.getBoundingClientRect());
     dispatch({
       type: "SET_OFFSET",
       payload: {
@@ -29,12 +28,16 @@ const Layout = (props: Props) => {
     });
   }, []);
 
+  React.useEffect(() => {
+    console.log(state.tileList);
+  }, [state.tileList]);
+
   return (
-    <div className="h-screen w-full flex justify-center items-center flex-col pt-4">
+    <div className="h-screen w-full flex justify-center items-center flex-col py-4">
       <h1 className="text-yellow-500 font-bold text-2xl">
         Create a New Layout
       </h1>
-      <div className="flex justify-left w-1/2 mb-2">
+      <div className="flex justify-left w-1/2 mb-6">
         <button
           className="text-blue-500 hover:text-blue-700 cursor-pointer focus:outline-none"
           title="Add a new tile"
@@ -45,8 +48,8 @@ const Layout = (props: Props) => {
         {showCreate && <CreateTileModal toggleModal={toggleShowCreate} />}
       </div>
       <div
-        className="bg-white w-11/12 h-11/12 rounded-xl shadow-xl  border-black border-4"
         ref={LayoutRef}
+        className="flex flex-1 w-11/12 bg-white rounded-xl shadow-xl  border-black border-4 my-4"
       >
         {state.tileList.map((tile) => (
           <div className="relative flex h-0 w-0">

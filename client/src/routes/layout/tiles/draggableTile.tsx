@@ -6,7 +6,7 @@ import { useLayout } from "../../../context/layout/layoutContext";
 import { v4 as uuidv4 } from "uuid";
 
 const DraggableTile = (props: any) => {
-  const { dispatch } = useLayout();
+  const { state, dispatch } = useLayout();
 
   const [deltaPosition, setDelta] = React.useState({
     x: 0,
@@ -30,8 +30,12 @@ const DraggableTile = (props: any) => {
         uid: uuidv4(),
         tile: props.tile,
         delta: {
-          x: draggableRef.current?.getBoundingClientRect().x!,
-          y: draggableRef.current?.getBoundingClientRect().y!,
+          x:
+            draggableRef.current?.getBoundingClientRect().x! -
+            (state.offsetBounds.x || 0),
+          y:
+            draggableRef.current?.getBoundingClientRect().y! -
+            (state.offsetBounds.y || 0),
         },
       },
     });

@@ -1,13 +1,12 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
+import WhiteboardDraggableDisplayTile from "./tiles/WhiteboardDraggableDisplayTile";
 
-import Board from "./whiteboard/board";
-
-import { useWhiteboard } from "../context/whiteboard/whiteboardContext";
+import { useWhiteboard } from "../../context/whiteboard/whiteboardContext";
 
 interface Props {}
 
-const frontTileSet = require("../components/tiles/defaultTileSets/front.json");
+const frontTileSet = require("../../components/tiles/defaultTileSets/front.json");
 
 const Whiteboard = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
@@ -19,12 +18,26 @@ const Whiteboard = (props: Props) => {
     });
   }, []);
 
+  const WhiteboardRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    dispatch({
+      type: "SET_OFFSET",
+      payload: {
+        x: WhiteboardRef.current?.getBoundingClientRect().left || 0,
+        y: WhiteboardRef.current?.getBoundingClientRect().top || 0,
+        width: WhiteboardRef.current?.getBoundingClientRect().width || 1,
+        height: WhiteboardRef.current?.getBoundingClientRect().height || 1,
+      },
+    });
+  }, []);
+
   return (
     <div>
       <div className="w-full min-h-screen flex items-center flex-col bg-gray-300 py-4">
         <div className="w-7/12 flex flex-col">
           <div className="flex self-center">
-            <h1 className="text-yellow-500 font-bold text-5xl">
+            <h1 className="text-yellow-500 font-bold text-2xl">
               Learning Board
             </h1>
           </div>
@@ -51,7 +64,17 @@ const Whiteboard = (props: Props) => {
         </div>
         <hr className="" />
         <div className="flex flex-1 w-11/12 my-4">
-          <Board />
+          <div
+            ref={WhiteboardRef}
+            className="flex flex-1 bg-white rounded-xl shadow-xl  border-black border-4"
+          >
+            {state.tileList &&
+              state.tileList.map((tile: any) => (
+                <div className="relative flex h-0 w-0">
+                  <WhiteboardDraggableDisplayTile tile={tile} />
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>

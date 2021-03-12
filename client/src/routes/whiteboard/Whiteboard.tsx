@@ -2,6 +2,7 @@ import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import WhiteboardDraggableTile from "./tiles/WhiteboardDraggableTile";
 import WhiteboardDisplayTile from "./tiles/WhiteboardDisplayTile";
+import WhiteboardDraggableDisplayTile from "./tiles/WhiteboardDraggableDisplayTile";
 
 import { useWhiteboard } from "../../context/whiteboard/whiteboardContext";
 
@@ -88,6 +89,11 @@ const Whiteboard = (props: Props) => {
                   <WhiteboardDisplayTile tile={tile} />
                 </div>
               ))}
+            {state.whiteboardList.map((tile: any) => (
+              <div className="relative flex h-0 w-0">
+                <WhiteboardDraggableDisplayTile tile={tile} />
+              </div>
+            ))}
           </div>
         </div>
       </div>

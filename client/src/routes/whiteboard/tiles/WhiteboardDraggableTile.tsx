@@ -8,11 +8,6 @@ interface Props {}
 const WhiteboardDraggableTile = (props: any) => {
   const { state, dispatch } = useWhiteboard();
 
-  const scaleFactor = {
-    width: state.offsetBounds.width / state.tileSetRect.width,
-    height: state.offsetBounds.height / state.tileSetRect.height,
-  };
-
   const [deltaPosition, setDelta] = React.useState({
     x: state.selectedTile!.delta.x,
     y: state.selectedTile!.delta.y,
@@ -33,6 +28,25 @@ const WhiteboardDraggableTile = (props: any) => {
     });
   };
 
+  const handleOnClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    dispatch({
+      type: "ADD_WHITEBOARD_TILE",
+      payload: {
+        uid: state.selectedTile!.uid,
+        tile: state.selectedTile!.tile,
+        delta: {
+          x: deltaPosition.x - state.offsetBounds.x,
+          y: deltaPosition.y - state.offsetBounds.y,
+        },
+      },
+    });
+    dispatch({
+      type: "CLEAR_SELECTED_TILE",
+    });
+  };
+
   return (
     <Draggable
       //   bounds="parent"
@@ -42,7 +56,10 @@ const WhiteboardDraggableTile = (props: any) => {
         y: deltaPosition.y,
       }}
     >
-      <div onMouseLeave={(e) => handleOnMouseLeave(e)}>
+      <div
+        onClickCapture={(e) => handleOnClickCapture(e)}
+        onMouseLeave={(e) => handleOnMouseLeave(e)}
+      >
         <TileComponent tile={state.selectedTile!.tile} cursor={"cursor-move"} />
       </div>
     </Draggable>

@@ -8,16 +8,6 @@ interface Props {}
 const WhiteboardDisplayTile = (props: any) => {
   const { state, dispatch } = useWhiteboard();
 
-  const scaleFactor = {
-    width: state.offsetBounds.width / state.tileSetRect.width,
-    height: state.offsetBounds.height / state.tileSetRect.height,
-  };
-
-  const [deltaPosition, setDelta] = React.useState({
-    x: props.tile.delta.x * scaleFactor.width,
-    y: props.tile.delta.y * scaleFactor.height,
-  });
-
   const handleOnHover = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
 
@@ -35,9 +25,6 @@ const WhiteboardDisplayTile = (props: any) => {
   };
 
   const [ref, bounds] = useMeasure({});
-  React.useEffect(() => {
-    console.log(bounds);
-  }, [bounds]);
 
   return (
     <div
@@ -45,8 +32,14 @@ const WhiteboardDisplayTile = (props: any) => {
       onMouseEnter={(e) => handleOnHover(e)}
       className="cursor-pointer relative"
       style={{
-        top: `${deltaPosition.y}px`,
-        left: `${deltaPosition.x}px`,
+        top: `${
+          (props.tile.delta.y * state.offsetBounds.height) /
+          state.tileSetRect.height
+        }px`,
+        left: `${
+          (props.tile.delta.x * state.offsetBounds.width) /
+          state.tileSetRect.width
+        }px`,
       }}
     >
       <TileComponent tile={props.tile.tile} />

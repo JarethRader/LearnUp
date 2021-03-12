@@ -10,9 +10,6 @@ const Landing = React.lazy(() => retry(() => import("./routes/Landing")));
 const Authentication = React.lazy(() =>
   retry(() => import("./routes/authentication/Authentication"))
 );
-const LearningBoard = React.lazy(() =>
-  retry(() => import("./routes/LearningBoard"))
-);
 const Whiteboard = React.lazy(() =>
   retry(() => import("./routes/whiteboard/Whiteboard"))
 );
@@ -23,7 +20,6 @@ const NotFound = React.lazy(() => retry(() => import("./routes/NotFound")));
 
 const routes = [
   { path: "/login", name: "Sign In", Component: Authentication },
-  // { path: "/learningboard", name: "Learning", Component: LearningBoard },
   { path: "/whiteboard", name: "Learning", Component: Whiteboard },
   { path: "/layout", name: "Layout", Component: Layout },
   { path: "/dashboard", name: "Dashboard", Component: Dashboard },

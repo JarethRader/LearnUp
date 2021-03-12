@@ -1,11 +1,9 @@
 const initialState: IWhiteboardState = {
-  boardState: [],
   currentBoard: {
-    _id: '',
-    name: '',
-    author: '',
-    audience: '',
-    boardState: [],
+    _id: "",
+    name: "",
+    author: "",
+    audience: "",
   },
   ownBoards: [],
   sharedBoards: [],
@@ -17,21 +15,21 @@ export default function (
   action: WhiteboardActionTypes
 ): IWhiteboardState {
   switch (action.type) {
-    case 'UPLOAD_BOARD_SUCCESS':
-    case 'UPDATE_BOARD_SUCCESS':
+    case "UPLOAD_BOARD_SUCCESS":
+    case "UPDATE_BOARD_SUCCESS":
       return {
         ...state,
         currentBoard: action.payload.whiteboard,
         whiteboardLoading: false,
       };
-    case 'GET_BOARD_SUCCESS':
+    case "GET_BOARD_SUCCESS":
       return {
         ...state,
         ownBoards: action.payload.ownWhiteboards,
         sharedBoards: action.payload.sharedWhiteboards,
         whiteboardLoading: false,
       };
-    case 'SET_CURRENT_BOARD':
+    case "SET_CURRENT_BOARD":
       return {
         ...state,
         currentBoard: {
@@ -39,39 +37,35 @@ export default function (
           _id: action.payload._id,
           name: action.payload.name,
           author: action.payload.author,
-          audience: action.payload.audience || 'none',
-          boardState: action.payload.boardState,
+          audience: action.payload.audience || "none",
         },
         whiteboardLoading: false,
       };
-    case 'CLEAR_CURRENT_BOARD':
+    case "CLEAR_CURRENT_BOARD":
       return {
         ...state,
-        boardState: [],
         whiteboardLoading: false,
       };
-    case 'DELETE_BOARD_SUCCESS':
+    case "DELETE_BOARD_SUCCESS":
       return {
         ...state,
         currentBoard: {
-          _id: '',
-          name: '',
-          author: '',
-          audience: '',
-          boardState: [],
+          _id: "",
+          name: "",
+          author: "",
+          audience: "",
         },
-        boardState: [],
         whiteboardLoading: false,
       };
-    case 'GET_BOARD_FAILURE':
-    case 'UPLOAD_BOARD_FAILURE':
-    case 'UPDATE_BOARD_FAILURE':
-    case 'DELETE_BOARD_FAILURE':
+    case "GET_BOARD_FAILURE":
+    case "UPLOAD_BOARD_FAILURE":
+    case "UPDATE_BOARD_FAILURE":
+    case "DELETE_BOARD_FAILURE":
       return {
         ...state,
         whiteboardLoading: false,
       };
-    case 'BOARD_STATE_LOADING':
+    case "BOARD_STATE_LOADING":
       return {
         ...state,
         whiteboardLoading: true,

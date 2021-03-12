@@ -10,7 +10,7 @@ import {
   SET_CURRENT_BOARD,
   CLEAR_CURRENT_BOARD,
   BOARD_STATE_LOADING,
-} from './types';
+} from "./types";
 
 declare global {
   interface IWhiteboardModel {
@@ -18,11 +18,9 @@ declare global {
     name?: string;
     author?: string;
     audience?: string;
-    boardState: IWordList[];
   }
 
   interface IWhiteboardState {
-    boardState: IWordList[];
     currentBoard: IWhiteboardModel;
     ownBoards: IWhiteboardModel[];
     sharedBoards: IWhiteboardModel[];
@@ -33,14 +31,12 @@ declare global {
     name?: string;
     author?: string;
     audience?: string;
-    boardState: IWordList[];
   }
 
   interface IWhiteboardEditObj {
     name?: string;
     author?: string;
     audience?: string;
-    whiteboard?: IWordList[];
   }
 
   interface WhiteboardResponse {

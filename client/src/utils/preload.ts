@@ -5,7 +5,8 @@
 
 const Landing = () => import("../routes/Landing");
 const Authentication = () => import("../routes/authentication/Authentication");
-const LearningBoard = () => import("../routes/LearningBoard");
+const Layout = () => import("../routes/layout/Layout");
+const Whiteboard = () => import("../routes/whiteboard/Whiteboard");
 const Home = () => import("../routes/Home");
 const Dashboard = () => import("../routes/Dashboard");
 
@@ -20,6 +21,6 @@ export const prefetchMap = [
   },
   {
     path: "/dashboard",
-    prefetchComponents: [LearningBoard],
+    prefetchComponents: [Layout, Whiteboard],
   },
 ];

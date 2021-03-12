@@ -22,6 +22,18 @@ const reducer = (
         tileList: action.payload.tiles,
         tileSetRect: action.payload.tileSetRect,
       };
+    case "ADD_WHITEBOARD_TILE":
+      return {
+        ...state,
+        whiteboardList: [...state.whiteboardList, action.payload],
+      };
+    case "REMOVE_WHITEBOARD_TILE":
+      return {
+        ...state,
+        whiteboardList: state.whiteboardList.filter(
+          (tile) => tile.uid !== action.payload
+        ),
+      };
     case "SET_OFFSET":
       return {
         ...state,
@@ -48,6 +60,7 @@ const intialState: WhiteboardState = {
     height: 1,
   },
   tileList: undefined,
+  whiteboardList: [],
 };
 
 const WhiteboardContext = React.createContext<

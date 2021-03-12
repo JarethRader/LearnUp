@@ -6,7 +6,7 @@ import { useWhiteboard } from "../../context/whiteboard/whiteboardContext";
 
 interface Props {}
 
-const frontTileSet = require("../../components/tiles/defaultTileSets/front.json");
+const frontTileSet = require("../../components/tiles/defaultTileSets/back.json");
 
 const Whiteboard = (props: Props) => {
   const { state, dispatch } = useWhiteboard();

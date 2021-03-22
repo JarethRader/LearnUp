@@ -1,8 +1,11 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
+import { SelectableGroup, DeselectAll } from "react-selectable-fast";
+
 import WhiteboardDraggableTile from "./tiles/WhiteboardDraggableTile";
 import WhiteboardDisplayTile from "./tiles/WhiteboardDisplayTile";
 import WhiteboardDraggableDisplayTile from "./tiles/WhiteboardDraggableDisplayTile";
+import SelectableTile from "./tiles/SelectableTile";
 
 import { useWhiteboard } from "../../context/whiteboard/whiteboardContext";
 
@@ -52,6 +55,10 @@ const Whiteboard = (props: Props) => {
     });
   };
 
+  const getSelectableGroupRef = (ref: SelectableGroup | null) => {
+    (window as any).selectableGroup = ref;
+  };
+
   return (
     <div>
       <div className="absolute z-20">
@@ -95,19 +102,29 @@ const Whiteboard = (props: Props) => {
         <div className="flex flex-1 w-11/12 my-4">
           <div
             ref={WhiteboardRef}
-            className="flex flex-1 bg-white rounded-xl shadow-xl  border-black border-4"
+            className="flex flex-1 bg-white rounded-xl shadow-xl  border-black border-4 z-10"
           >
             {state.tileList &&
               state.tileList.map((tile: any) => (
-                <div className="relative flex h-0 w-0">
+                <div className="relative flex h-0 w-0 z-10">
                   <WhiteboardDisplayTile tile={tile} />
                 </div>
               ))}
-            {state.whiteboardList.map((tile: any) => (
-              <div className="relative flex h-0 w-0">
-                <WhiteboardDraggableDisplayTile tile={tile} />
-              </div>
-            ))}
+            <SelectableGroup
+              ref={getSelectableGroupRef}
+              className="main w-full h-full relative z-0"
+              clickClassName="tick"
+              enableDeselect={true}
+              tolerance={0}
+              deselectOnEsc={true}
+              allowClickWithoutSelected={false}
+            >
+              {state.whiteboardList.map((tile: any) => (
+                <div className="relative flex h-0 w-0">
+                  <SelectableTile tile={tile} />
+                </div>
+              ))}
+            </SelectableGroup>
           </div>
         </div>
       </div>

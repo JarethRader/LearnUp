@@ -1,13 +1,13 @@
-@import 'tailwindcss/base';
+@import "tailwindcss/base";
 
-@import 'tailwindcss/components';
+@import "tailwindcss/components";
 
-@import 'tailwindcss/utilities';
+@import "tailwindcss/utilities";
 
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Mega&display=swap");
 
 .lexend-font {
-  font-family: 'Lexend Mega', sans-serif;
+  font-family: "Lexend Mega", sans-serif;
 }
 
 .stroke {

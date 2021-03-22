@@ -1,16 +1,16 @@
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const safePostCssParser = require('postcss-safe-parser');
-var ManifestPlugin = require('webpack-manifest-plugin');
+const { merge } = require("webpack-merge");
+const common = require("./webpack.common.js");
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const safePostCssParser = require("postcss-safe-parser");
+var ManifestPlugin = require("webpack-manifest-plugin");
 
 module.exports = merge(common, {
-  mode: 'production',
+  mode: "production",
   optimization: {
     minimize: true,
     minimizer: [
@@ -31,7 +31,7 @@ module.exports = merge(common, {
           },
           output: {
             ecma: 5,
-            comments: 'all',
+            comments: "all",
             ascii_only: true,
           },
         },
@@ -39,15 +39,10 @@ module.exports = merge(common, {
         cache: true,
         sourceMap: false,
       }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: {
-          parser: safePostCssParser,
-          map: false,
-        },
-      }),
+      new CssMinimizerPlugin(),
     ],
     splitChunks: {
-      chunks: 'all',
+      chunks: "all",
       name: false,
     },
     // Keep the runtime chunk separated to enable long term caching
@@ -65,27 +60,27 @@ module.exports = merge(common, {
           {
             loader: MiniCssExtractPlugin.loader,
           },
-          'css-loader',
-          'postcss-loader',
+          "css-loader",
+          "postcss-loader",
         ],
       },
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'build/'),
-    publicPath: './',
+    path: path.resolve(__dirname, "build/"),
+    publicPath: "./",
     pathinfo: false,
-    filename: 'static/js/[name].[hash:8].js',
-    chunkFilename: 'static/js/[name].[hash:8].chunk.js',
+    filename: "static/js/[name].[hash:8].js",
+    chunkFilename: "static/js/[name].[hash:8].chunk.js",
   },
   plugins: [
     new HtmlWebpackPlugin({
       inject: true,
-      template: path.join(__dirname, 'assets/index.ejs'),
-      filename: path.join(__dirname, 'build/index.html'),
-      title: 'LearnUp Phonetics Board',
-      favicon: path.join(__dirname, 'public/favicon.ico'),
-      url: 'https://phonicsboard.learnupcenters.org/',
+      template: path.join(__dirname, "assets/index.ejs"),
+      filename: path.join(__dirname, "build/index.html"),
+      title: "LearnUp Phonetics Board",
+      favicon: path.join(__dirname, "public/favicon.ico"),
+      url: "https://phonicsboard.learnupcenters.org/",
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -101,8 +96,8 @@ module.exports = merge(common, {
     }),
     new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime~.+[.]js/]),
     new MiniCssExtractPlugin({
-      filename: 'static/css/[name].[chunkhash:8].css',
-      chunkFilename: 'static/css/[id].[contenthash].css',
+      filename: "static/css/[name].[chunkhash:8].css",
+      chunkFilename: "static/css/[id].[contenthash].css",
       ignoreOrder: true,
     }),
   ],

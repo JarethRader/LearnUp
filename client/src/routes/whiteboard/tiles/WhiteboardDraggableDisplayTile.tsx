@@ -30,7 +30,7 @@ const WhiteboardDraggableDisplayTile = (props: any) => {
         y: deltaPosition.y,
       }}
     >
-      <div className="relative ">
+      <div className="">
         <TileComponent
           tile={props.tile.tile}
           cursor={"cursor-move"}

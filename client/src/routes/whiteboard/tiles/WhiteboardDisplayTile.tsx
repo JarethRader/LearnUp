@@ -15,17 +15,20 @@ const WhiteboardDisplayTile = (props: any) => {
       type: "CLEAR_SELECTED_TILE",
     });
 
-    dispatch({
-      type: "SET_SELECTED_TILE",
-      payload: {
-        uid: props.tile.uid,
-        tile: props.tile.tile,
-        delta: {
-          x: bounds.x,
-          y: bounds.y,
+    const timer = setTimeout(() => {
+      dispatch({
+        type: "SET_SELECTED_TILE",
+        payload: {
+          uid: props.tile.uid,
+          tile: props.tile.tile,
+          delta: {
+            x: bounds.x,
+            y: bounds.y,
+          },
         },
-      },
-    });
+      });
+    }, 50);
+    return () => clearTimeout(timer);
   };
 
   const [ref, bounds] = useMeasure({});

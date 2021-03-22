@@ -20,6 +20,7 @@ declare global {
     tileList: ITileList[] | undefined;
     tileSetName: string;
     whiteboardList: ITileList[];
+    selectedList: ITileList[];
   }
 
   interface SetTilelist {
@@ -64,6 +65,16 @@ declare global {
     payload: IWhiteboardOffest;
   }
 
+  interface AddSelected {
+    type: "ADD_SELECTED";
+    payload: ITileList;
+  }
+
+  interface RemoveSelected {
+    type: "REMOVE_SELECTED";
+    payload: string; //tile UID
+  }
+
   type WhiteboardAction =
     | SetBoardOffset
     | SetTilelist
@@ -71,7 +82,9 @@ declare global {
     | ClearSelectedTile
     | AddWhiteboardTile
     | RemoveWhiteboardTile
-    | ClearWhiteboard;
+    | ClearWhiteboard
+    | AddSelected
+    | RemoveSelected;
 
   type WhiteboardDispatch = (action: WhiteboardAction) => void;
 }

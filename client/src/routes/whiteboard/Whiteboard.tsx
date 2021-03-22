@@ -4,8 +4,7 @@ import { SelectableGroup, DeselectAll } from "react-selectable-fast";
 
 import WhiteboardDraggableTile from "./tiles/WhiteboardDraggableTile";
 import WhiteboardDisplayTile from "./tiles/WhiteboardDisplayTile";
-import WhiteboardDraggableDisplayTile from "./tiles/WhiteboardDraggableDisplayTile";
-import SelectableTile from "./tiles/SelectableTile";
+import WhiteboardSelectableTile from "./tiles/WhiteboardSelectableTile";
 
 import { useWhiteboard } from "../../context/whiteboard/whiteboardContext";
 
@@ -121,7 +120,7 @@ const Whiteboard = (props: Props) => {
             >
               {state.whiteboardList.map((tile: any) => (
                 <div className="relative flex h-0 w-0">
-                  <SelectableTile tile={tile} />
+                  <WhiteboardSelectableTile tile={tile} />
                 </div>
               ))}
             </SelectableGroup>

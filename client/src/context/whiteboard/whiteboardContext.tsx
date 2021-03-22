@@ -39,6 +39,19 @@ const reducer = (
         ...state,
         whiteboardList: [],
       };
+
+    case "ADD_SELECTED":
+      return {
+        ...state,
+        selectedList: [...state.selectedList, action.payload],
+      };
+    case "REMOVE_SELECTED":
+      return {
+        ...state,
+        selectedList: state.selectedList.filter(
+          (tile) => tile.uid !== action.payload
+        ),
+      };
     case "SET_OFFSET":
       return {
         ...state,
@@ -66,6 +79,7 @@ const intialState: WhiteboardState = {
   },
   tileList: undefined,
   whiteboardList: [],
+  selectedList: [],
 };
 
 const WhiteboardContext = React.createContext<

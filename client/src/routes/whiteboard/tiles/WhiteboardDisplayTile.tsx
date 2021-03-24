@@ -3,9 +3,11 @@ import TileComponent from "../../../components/tiles/tileComponent";
 import useMeasure from "react-use-measure";
 import { useWhiteboard } from "../../../context/whiteboard/whiteboardContext";
 
-interface Props {}
+interface Props {
+  tile: ITileList;
+}
 
-const WhiteboardDisplayTile = (props: any) => {
+const WhiteboardDisplayTile = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
 
   const handleOnHover = (event: React.MouseEvent<HTMLDivElement>) => {

@@ -4,9 +4,11 @@ import useMeasure from "react-use-measure";
 import Draggable, { DraggableEvent } from "react-draggable";
 import { useWhiteboard } from "../../../context/whiteboard/whiteboardContext";
 
-interface Props {}
+interface Props {
+  tile: ITileList;
+}
 
-const WhiteboardDraggableDisplayTile = (props: any) => {
+const WhiteboardDraggableDisplayTile = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
 
   const [deltaPosition, setDelta] = React.useState({

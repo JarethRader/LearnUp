@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { SelectableGroup, DeselectAll } from "react-selectable-fast";
+import { Trash } from "@styled-icons/entypo";
 
 import WhiteboardDraggableTile from "./tiles/WhiteboardDraggableTile";
 import WhiteboardDisplayTile from "./tiles/WhiteboardDisplayTile";
@@ -52,10 +53,10 @@ const Whiteboard = (props: Props) => {
     dispatch({
       type: "CLEAR_WHITEBOARD",
     });
-  };
 
-  const getSelectableGroupRef = (ref: SelectableGroup | null) => {
-    (window as any).selectableGroup = ref;
+    dispatch({
+      type: "CLEAR_SELECTED",
+    });
   };
 
   return (
@@ -65,35 +66,40 @@ const Whiteboard = (props: Props) => {
       </div>
       <div className="w-full min-h-screen flex items-center flex-col bg-gray-300 py-4">
         <div className="w-7/12 flex flex-col">
-          <div className="flex self-center">
-            <h1 className="text-yellow-500 font-bold text-2xl">
-              Learning Board
-            </h1>
-          </div>
-          <div className="flex flex-row justify-around py-2">
+          <div className="grid grid-cols-3">
             <div className="flex self-center">
               <p className="text-xl font-semibold flex justify-center">
                 Board Name
               </p>
             </div>
-            <div>
+            <div className="text-center">
+              <h1 className="text-yellow-500 font-bold text-2xl">
+                Learning Board
+              </h1>
+            </div>
+          </div>
+          <div className="flex flex-row justify-center py-2">
+            <div className="flex flex-row">
               <button
                 onClick={(e) => flipBoard(e)}
-                className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-600 focus:outline-none text-white font-semibold stroke"
+                className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-700 focus:outline-none text-white font-semibold stroke"
               >
                 Flip Board
               </button>
               <Link to="/dashboard">
-                <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-600 focus:outline-none text-white font-semibold stroke">
+                <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-700 focus:outline-none text-white font-semibold stroke">
                   Dashboard
                 </button>
               </Link>
               <button
                 onClick={(e) => handleClearBoard(e)}
-                className="px-4 py-2 mx-1 rounded bg-red-500 hover:bg-red-600 focus:outline-none text-white font-semibold stroke"
+                className="px-4 py-2 mx-1 rounded bg-red-500 hover:bg-red-700 focus:outline-none text-white font-semibold stroke"
               >
                 Clear Board
               </button>
+              <div className="border-4 border-black rounded-md py-1 px-12 bg-white">
+                <Trash size="24" />
+              </div>
             </div>
           </div>
         </div>
@@ -110,13 +116,14 @@ const Whiteboard = (props: Props) => {
                 </div>
               ))}
             <SelectableGroup
-              ref={getSelectableGroupRef}
               className="main w-full h-full relative z-0"
-              clickClassName="tick"
               enableDeselect={true}
               tolerance={0}
               deselectOnEsc={true}
               allowClickWithoutSelected={false}
+              selectOnClick={false}
+              allowCtrlClick={true}
+              resetOnStart={true}
             >
               {state.whiteboardList.map((tile: any) => (
                 <div className="relative flex h-0 w-0">

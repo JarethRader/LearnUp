@@ -1,4 +1,4 @@
-import { Document, Model, Request, Response, NextFunction } from 'mongoose';
+import { Document, Model, Request, Response, NextFunction } from "mongoose";
 
 export {};
 
@@ -95,7 +95,7 @@ declare global {
 
   interface IControllerResponse {
     headers: {
-      'Content-Type': string;
+      "Content-Type": string;
     };
     statusCode: number;
     body:
@@ -107,7 +107,7 @@ declare global {
 
   interface IControllerError {
     headers: {
-      'Content-Type': string;
+      "Content-Type": string;
     };
     statusCode: number;
     body: {
@@ -153,9 +153,9 @@ declare global {
     method?: string;
     path?: string;
     headers: {
-      'Content-Type': string | undefined;
+      "Content-Type": string | undefined;
       Referer?: string;
-      'User-Agent'?: string;
+      "User-Agent"?: string;
     };
   }
 

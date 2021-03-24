@@ -34,6 +34,15 @@ const reducer = (
           (tile) => tile.uid !== action.payload
         ),
       };
+    case "UPDATE_WHITEBOARD_TILE":
+      return {
+        ...state,
+        whiteboardList: state.whiteboardList.map((tile) =>
+          tile.uid === action.payload.uid
+            ? { ...tile, delta: action.payload.delta }
+            : tile
+        ),
+      };
     case "CLEAR_WHITEBOARD":
       return {
         ...state,
@@ -51,6 +60,11 @@ const reducer = (
         selectedList: state.selectedList.filter(
           (tile) => tile.uid !== action.payload
         ),
+      };
+    case "CLEAR_SELECTED":
+      return {
+        ...state,
+        selectedList: [],
       };
     case "SET_OFFSET":
       return {

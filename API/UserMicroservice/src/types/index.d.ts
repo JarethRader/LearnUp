@@ -15,6 +15,7 @@ declare global {
     email?: string;
     password?: string;
     verified?: boolean;
+    teacher?: boolean;
     createdOn?: number;
     modifiedOn?: number;
   }
@@ -26,6 +27,7 @@ declare global {
     email?: string;
     password?: string;
     verified?: boolean;
+    teacher?: boolean;
     createdOn?: number;
     modifiedOn?: number;
   }
@@ -37,6 +39,8 @@ declare global {
     getPassword: () => Promise<string>;
     getCreatedOn: () => number;
     getModifiedOn: () => number;
+    getIsTeacher: () => boolean;
+    makeTeacher: () => void;
     getVerified: () => boolean;
     verify: () => void;
     toObject: () => IMakeUser;
@@ -56,6 +60,7 @@ declare global {
       username: string;
       email: string;
       password: string;
+      teacher: boolean;
       verified: boolean;
       createdAt: number;
       updatedAt: number;
@@ -78,6 +83,7 @@ declare global {
     username: string;
     email: string;
     password: string;
+    teacher: boolean;
     verified: boolean;
   }
 

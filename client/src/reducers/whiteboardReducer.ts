@@ -29,23 +29,6 @@ export default function (
         sharedBoards: action.payload.sharedWhiteboards,
         whiteboardLoading: false,
       };
-    case "SET_CURRENT_BOARD":
-      return {
-        ...state,
-        currentBoard: {
-          // @ts-ignore
-          _id: action.payload._id,
-          name: action.payload.name,
-          author: action.payload.author,
-          audience: action.payload.audience || "none",
-        },
-        whiteboardLoading: false,
-      };
-    case "CLEAR_CURRENT_BOARD":
-      return {
-        ...state,
-        whiteboardLoading: false,
-      };
     case "DELETE_BOARD_SUCCESS":
       return {
         ...state,

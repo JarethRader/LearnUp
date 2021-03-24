@@ -1,15 +1,15 @@
-import { ThunkDispatch } from 'redux-thunk';
-import { Action } from 'redux';
-import { RootState } from '../../reducers/index';
+import { ThunkDispatch } from "redux-thunk";
+import { Action } from "redux";
+import { RootState } from "../../reducers/index";
 
 import {
   uploadHelper,
   updateHelper,
   deleteHelper,
   getHelper,
-} from './functions';
+} from "./functions";
 
-import { WHITEBOARD_BASE, API_SUFFIX, CSRFConfig } from '../utils/config';
+import { WHITEBOARD_BASE, API_SUFFIX, CSRFConfig } from "../utils/config";
 
 const WHITEBOARD_API = WHITEBOARD_BASE + API_SUFFIX;
 
@@ -18,12 +18,12 @@ export const uploadBoard = (
 ): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
-  dispatch({ type: 'BOARD_STATE_LOADING' });
+  dispatch({ type: "BOARD_STATE_LOADING" });
   try {
     await uploadHelper(body, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
         dispatch({
-          type: 'UPLOAD_BOARD_SUCCESS',
+          type: "UPLOAD_BOARD_SUCCESS",
           payload: response,
         });
       })
@@ -32,7 +32,7 @@ export const uploadBoard = (
       });
   } catch (err) {
     dispatch({
-      type: 'UPLOAD_BOARD_FAILURE',
+      type: "UPLOAD_BOARD_FAILURE",
     });
   }
 };
@@ -43,12 +43,12 @@ export const updateBoard = (
 ): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
-  dispatch({ type: 'BOARD_STATE_LOADING' });
+  dispatch({ type: "BOARD_STATE_LOADING" });
   try {
     await updateHelper(whiteboardID, body, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
         dispatch({
-          type: 'UPDATE_BOARD_SUCCESS',
+          type: "UPDATE_BOARD_SUCCESS",
           payload: response,
         });
       })
@@ -57,7 +57,7 @@ export const updateBoard = (
       });
   } catch (err) {
     dispatch({
-      type: 'UPDATE_BOARD_FAILURE',
+      type: "UPDATE_BOARD_FAILURE",
     });
   }
 };
@@ -65,12 +65,12 @@ export const updateBoard = (
 export const deleteBoard = (whiteboardID: string): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
-  dispatch({ type: 'BOARD_STATE_LOADING' });
+  dispatch({ type: "BOARD_STATE_LOADING" });
   try {
     await deleteHelper(whiteboardID, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
         dispatch({
-          type: 'DELETE_BOARD_SUCCESS',
+          type: "DELETE_BOARD_SUCCESS",
           payload: response,
         });
       })
@@ -79,7 +79,7 @@ export const deleteBoard = (whiteboardID: string): WhiteboardThunk => async (
       });
   } catch (err) {
     dispatch({
-      type: 'DELETE_BOARD_FAILURE',
+      type: "DELETE_BOARD_FAILURE",
     });
   }
 };
@@ -87,12 +87,12 @@ export const deleteBoard = (whiteboardID: string): WhiteboardThunk => async (
 export const getBoards = (userID: string): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
-  dispatch({ type: 'BOARD_STATE_LOADING' });
+  dispatch({ type: "BOARD_STATE_LOADING" });
   try {
     await getHelper(userID, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
         dispatch({
-          type: 'GET_BOARD_SUCCESS',
+          type: "GET_BOARD_SUCCESS",
           payload: response,
         });
       })
@@ -101,7 +101,7 @@ export const getBoards = (userID: string): WhiteboardThunk => async (
       });
   } catch (err) {
     dispatch({
-      type: 'GET_BOARD_SUCCESS',
+      type: "GET_BOARD_SUCCESS",
     });
   }
 };
@@ -112,19 +112,7 @@ export const setCurrentBoard = (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
   dispatch({
-    type: 'SET_CURRENT_BOARD',
+    type: "SET_CURRENT_BOARD",
     payload: board,
   });
-}
-
-export function clearCurrentBoard(): WhiteboardActionTypes {
-  return {
-    type: 'CLEAR_CURRENT_BOARD',
-  };
-}
-
-export function setWhiteboardLoading(): WhiteboardActionTypes {
-  return {
-    type: 'BOARD_STATE_LOADING',
-  };
-}
+};

@@ -5,7 +5,7 @@ import { useWhiteboard } from "../../../context/whiteboard/whiteboardContext";
 
 interface Props {}
 
-const WhiteboardDraggableTile = (props: any) => {
+const WhiteboardDraggableTile = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
 
   const [deltaPosition, setDelta] = React.useState({

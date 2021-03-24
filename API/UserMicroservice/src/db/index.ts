@@ -1,5 +1,5 @@
 // Definition for User document in MongoDB
-import { Schema, Model, model } from 'mongoose';
+import { Schema, Model, model } from "mongoose";
 
 // export interface IUserModel extends IUser, Document {}
 
@@ -19,6 +19,10 @@ export const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  teacher: {
+    type: Boolean,
+    default: false,
+  },
   verified: {
     type: Boolean,
     default: false,
@@ -33,6 +37,6 @@ export const UserSchema = new Schema({
   },
 });
 
-export const User: Model<IUserModel> = model<IUserModel>('User', UserSchema);
+export const User: Model<IUserModel> = model<IUserModel>("User", UserSchema);
 
 export default User;

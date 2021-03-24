@@ -36,9 +36,30 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
           });
     }, [props.isSelected]);
 
+    const [isMouseClicked, setClicked] = React.useState(false);
+    const toggleClicked = () => setClicked(!isMouseClicked);
+
+    React.useEffect(() => {
+      deltaPosition.y < 0 && !isMouseClicked
+        ? dispatch({
+            type: "REMOVE_WHITEBOARD_TILE",
+            payload: props.tile.uid,
+          })
+        : dispatch({
+            type: "UPDATE_WHITEBOARD_TILE",
+            payload: {
+              ...props.tile,
+              delta: deltaPosition,
+            },
+          });
+    }, [deltaPosition, isMouseClicked]);
+
     return (
       <Draggable
         //   bounds="parent"
+        onMouseDown={toggleClicked}
+        // @ts-ignore
+        onStop={toggleClicked}
         onDrag={handleDrag}
         defaultPosition={{
           x: deltaPosition.x,

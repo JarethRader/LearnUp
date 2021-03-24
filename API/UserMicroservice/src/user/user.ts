@@ -24,28 +24,29 @@ const buildMakeUser = (
     email,
     password,
     verified = false,
+    teacher = false,
     createdOn = Date.now(),
     modifiedOn = Date.now(),
   }) => {
     // TODO add validations
     if (!Id.isValidId(id)) {
-      throw new Error('Must have a valid id');
+      throw new Error("Must have a valid id");
     }
 
     if (!username) {
-      throw new Error('Must have a username');
+      throw new Error("Must have a username");
     }
     if (username.length < 2) {
-      throw new Error('Username must be longer than 2 characters');
+      throw new Error("Username must be longer than 2 characters");
     }
     if (!Email.isValidEmail(email as string)) {
-      throw new Error('Must have a valid email address');
+      throw new Error("Must have a valid email address");
     }
     if (!password) {
-      throw new Error('Must have a password');
+      throw new Error("Must have a password");
     }
     if (password.length < 8) {
-      throw new Error('Password must be longer than 8 charcters');
+      throw new Error("Password must be longer than 8 charcters");
     }
 
     return Object.freeze({
@@ -53,17 +54,22 @@ const buildMakeUser = (
       getUsername: () => username,
       getEmail: () => Email.normalizeEmail(email as string),
       getPassword: async () => await hashPassword(password),
+      getIsTeacher: () => teacher,
       getCreatedOn: () => createdOn,
       getModifiedOn: () => modifiedOn,
       getVerified: () => verified,
       verify: () => {
         verified = true;
       },
+      makeTeacher: () => {
+        teacher = true;
+      },
       toObject: () => {
         return {
           id,
           username,
           email,
+          teacher,
           createdOn,
           modifiedOn,
           verified,

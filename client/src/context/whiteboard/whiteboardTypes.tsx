@@ -51,6 +51,11 @@ declare global {
     payload: ITileList;
   }
 
+  interface UpdateWhiteboardTile {
+    type: "UPDATE_WHITEBOARD_TILE";
+    payload: ITileList;
+  }
+
   interface RemoveWhiteboardTile {
     type: "REMOVE_WHITEBOARD_TILE";
     payload: string;
@@ -75,16 +80,22 @@ declare global {
     payload: string; //tile UID
   }
 
+  interface ClearSelected {
+    type: "CLEAR_SELECTED";
+  }
+
   type WhiteboardAction =
     | SetBoardOffset
     | SetTilelist
     | SetSelectedTile
     | ClearSelectedTile
     | AddWhiteboardTile
+    | UpdateWhiteboardTile
     | RemoveWhiteboardTile
     | ClearWhiteboard
     | AddSelected
-    | RemoveSelected;
+    | RemoveSelected
+    | ClearSelected;
 
   type WhiteboardDispatch = (action: WhiteboardAction) => void;
 }

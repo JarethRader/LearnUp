@@ -1,10 +1,9 @@
-import { Document, Model, Request, Response, NextFunction } from "mongoose";
-
-export {};
+import { Document, Request, Response, NextFunction } from "mongoose";
+import { Sequelize, DataTypes, Model, BuildOptions } from "sequelize";
 
 declare global {
   // types for whiteboard object
-  type MakeWhiteboard = (userInput: IMakeWhiteboard) => IWhiteboardObject;
+  type MakeWhiteboard = (input: IMakeWhiteboard) => IWhiteboardObject;
 
   interface IMakeWhiteboard {
     [key: string]: any;
@@ -12,7 +11,7 @@ declare global {
     name?: string;
     author?: string;
     audience?: string;
-    boardState?: IWordList[];
+    boardState?: ITileList[];
     createdOn?: number;
     modifiedOn?: number;
   }
@@ -22,10 +21,57 @@ declare global {
     getName: () => string;
     getAuthor: () => string;
     getAudience: () => string;
-    getBoardState: () => IWordList[];
+    getBoardState: () => ITileList[];
     getCreatedOn: () => number;
     getModifiedOn: () => number;
     toObject: () => IMakeWhiteboard;
+  }
+
+  type MakeLayout = (input: IMakeLayout) => ILayoutObject;
+
+  interface IMakeLayout {
+    [key: string]: any;
+    __id?: string;
+    layoutRect?: {
+      top: number;
+      left: number;
+      width: number;
+      height: number;
+    };
+    layout?: ITileList[];
+    createdOn?: number;
+    modifiedOn?: number;
+  }
+
+  interface ILayoutObject {
+    getId: () => string;
+    getLayoutRect: () => {
+      top: number;
+      left: number;
+      width: number;
+      height: number;
+    };
+    getLayout: () => ITileList[];
+    getCreatedOn: () => number;
+    getModifiedOn: () => number;
+    toObject: () => IMakeLayout;
+  }
+
+  type MakeLearningSet = (input: IMakeLearningSet) => ILearningSetObject;
+
+  interface IMakeLearningSet {
+    [key: string]: any;
+    __id?: string;
+    tiles: ITileList[];
+    createdOn?: number;
+    modifiedOn?: number;
+  }
+
+  interface ILearningSetObject {
+    getId: () => string;
+    getTiles: () => ITileList[];
+    getCreatedOn: () => number;
+    getModifiedOn: () => number;
   }
 
   // Whiteboard mongodb schema types
@@ -34,7 +80,7 @@ declare global {
     color: string;
   }
 
-  interface IWordList {
+  interface ITileList {
     index: number;
     tile: ITile;
     deltaPosition: {
@@ -47,12 +93,13 @@ declare global {
     name: string;
     author: string;
     audience: string;
-    boardState: IWordList[];
+    boardState: ITileList[];
   }
 
-  interface IWhiteboardModel extends IWhiteboard, Document {}
+  // interface IWhiteboardModel extends IWhiteboard, Document {}
+  interface IWhiteboardModel extends IWhiteboard {}
 
-  type DBModel = Model<IMakeWhiteboard>;
+  // type DBModel = Model<IMakeWhiteboard>;
 
   type WhiteboardDB = Readonly<{
     insert: (whiteboardInfo: any) => Promise<IWhiteboardModel>;
@@ -66,6 +113,72 @@ declare global {
     WhiteboardSchema: Mongoose.Model<IWhiteboardModel>
   ) => WhiteboardDB;
 
+  // postgres sequelize types
+  type DT = typeof DataTypes;
+
+  interface Whiteboard extends Model {
+    readonly whiteboardID: string;
+    readonly boardName: string;
+    readonly author: string;
+    readonly audience: string;
+    readonly layoutID: string;
+
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
+  }
+  type WhiteboardStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): Whiteboard;
+  };
+
+  interface layout extends Model {
+    readonly layoutID: string;
+    readonly boundingX: number;
+    readonly boundingY: number;
+    readonly boundingWidth: number;
+    readonly boundingHeight: number;
+    readonly whiteboardID: number;
+
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
+  }
+  type LayoutStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): layout;
+  };
+
+  interface Tile extends Model {
+    readonly tilesID: string;
+    readonly letters: string;
+    readonly color: string;
+
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
+  }
+  type TilesStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): Tile;
+  };
+
+  interface CollectionTile extends Model {
+    readonly collectionID: string;
+    readonly parentID: string;
+    readonly tileID: string;
+    readonly deltaX: number;
+    readonly deltaY: number;
+
+    readonly createdAt: Date;
+    readonly updatedAt: Date;
+  }
+  type CollectionTileStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): CollectionTile;
+  };
+
+  type SchemaType =
+    | WhiteboardStatic
+    | LayoutStatic
+    | TilesStatic
+    | CollectionTileStatic;
+  type TBuildSchema = (sequelize: Sequelize, DataTypes: DT) => SchemaType;
+
+  // controller types
   type BuildAddWhiteboard = (
     whiteboardDB: () => Promise<WhiteboardDB>
   ) => (

@@ -1,62 +1,54 @@
-import { Schema, Model, model } from 'mongoose';
+import { Sequelize, DataTypes } from "sequelize";
 
-const boardStateSchema = new Schema(
-  {
-    index: {
-      type: Number,
-      required: true,
-    },
-    tile: {
-      type: {
-        letters: String,
-        color: String,
-      },
-      required: true,
-    },
-    deltaPosition: {
-      type: {
-        x: Number,
-        y: Number,
-      },
-      required: true,
-    },
-  },
-  { _id: false }
-);
+import buildWhiteboardSchema from "./schemas/Whiteboard";
+import buildLayoutSchema from "./schemas/Layout";
+import buildTileSchema from "./schemas/Tile";
+import buildCollectionTileSchema from "./schemas/CollectionTile";
 
-export const WhiteboardSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  author: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  audience: {
-    type: String,
-    required: false,
-    default: 'none',
-    trim: true,
-  },
-  boardState: {
-    type: [boardStateSchema],
-  },
-  createdAt: {
-    type: Date,
-    default: new Date(),
-  },
-  updatedAt: {
-    type: Date,
-    default: new Date(),
-  },
-});
+const buildSchemas = (sequelize: Sequelize) => {
+  const WhiteboardSchema = buildWhiteboardSchema(sequelize, DataTypes);
+  const LayoutSchema = buildLayoutSchema(sequelize, DataTypes);
+  const TileSchema = buildTileSchema(sequelize, DataTypes);
+  const CollectionTileSchema = buildCollectionTileSchema(sequelize, DataTypes);
 
-export const Whiteboard: Model<IWhiteboardModel> = model<IWhiteboardModel>(
-  'Whiteboard',
-  WhiteboardSchema
-);
+  // define relationships between schemas
+  // 1:1 whiteboard:layout
+  // @ts-ignore
+  WhiteboardSchema.hasOne(LayoutSchema, { foreignKey: "l_id" });
+  // @ts-ignore
+  LayoutSchema.belongsTo(WhiteboardSchema, { foreignKey: "l_id" });
+  // 1:1 CollectionTile:Tile
+  // @ts-ignore
+  CollectionTileSchema.hasOne(TileSchema, { foreignKey: "t_id" });
+  // @ts-ignore
+  TileSchema.belongsTo(CollectionTileSchema, { foreignKey: "t_id" });
+  // N:M CollectionTile:Layout
+  // @ts-ignore
+  CollectionTileSchema.belongsToMany(LayoutSchema, {
+    through: "Collection_Layout",
+  });
+  // @ts-ignore
+  LayoutSchema.belongsToMany(CollectionTileSchema, {
+    through: "Collection_Layout",
+  });
+  // N:M CollectionTile:Whiteboard
+  // @ts-ignore
+  CollectionTileSchema.belongsToMany(WhiteboardSchema, {
+    through: "Collection_Whiteboard",
+  });
+  // @ts-ignore
+  WhiteboardSchema.belongsToMany(CollectionTileSchema, {
+    through: "Collection_Whiteboard",
+  });
 
-export default Whiteboard;
+  const Schemas = Object.freeze({
+    WhiteboardSchema,
+    LayoutSchema,
+    TileSchema,
+    CollectionTileSchema,
+  });
+
+  return Schemas;
+};
+
+export default buildSchemas;

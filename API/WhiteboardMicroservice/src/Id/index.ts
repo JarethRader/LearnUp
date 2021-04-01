@@ -1,4 +1,4 @@
-import ObjectID from 'bson-objectid';
+import ObjectID from "bson-objectid";
 
 const Id = Object.freeze({
   makeId: () => new ObjectID().toHexString(),

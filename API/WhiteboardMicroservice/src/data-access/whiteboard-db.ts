@@ -11,6 +11,7 @@ const makeWhiteboardDb: MakeDB = (whiteboardSchema) =>
         updatedAt: whiteboardInfo.modifiedOn || whiteboardInfo.updatedAt,
       });
 
+      // @ts-ignore
       return await newWhiteboard.save().then((whiteboard) => {
         return whiteboard && whiteboard;
       });
@@ -27,7 +28,7 @@ const makeWhiteboardDb: MakeDB = (whiteboardSchema) =>
         .findOneAndUpdate({ _id: id }, { ...updatedInfo }, { new: true })
         .then((whiteboard: IWhiteboardModel) => {
           if (!whiteboard) {
-            throw new Error('Failed to update Whiteboard');
+            throw new Error("Failed to update Whiteboard");
           }
           return whiteboard;
         });

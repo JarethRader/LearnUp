@@ -9,39 +9,41 @@ const buildMakeWhiteboard = (
 ) => {
   const makeWhiteboard: MakeWhiteboard = ({
     _id = Id.makeId(),
-    name,
+    boardName,
     author, // the userID of the user who created the board
     audience, // (optional) a userID for a user who was a part of the lesson
-    boardState = [],
+    layout, //UID of layout in DB
+    learningSet, //UID of learningSet in DB
     createdOn = Date.now(),
     modifiedOn = Date.now(),
   }) => {
-    if (!Id.isValidId(_id)) throw new Error('Must have a valid ID');
+    if (!Id.isValidId(_id)) throw new Error("Must have a valid ID");
     if (!author || !Id.isValidId(author))
-      throw new Error('Must have a valid author');
-    if (audience !== 'none'){
-      if(audience && !Id.isValidId(audience)) throw new Error('Must have a valid audience ID');
+      throw new Error("Must have a valid author");
+    if (audience !== "none") {
+      if (audience && !Id.isValidId(audience))
+        throw new Error("Must have a valid audience ID");
     }
-    if (!boardState) throw new Error('Must have a valid board state');
-    if (name && !Name.isValidName(name))
-      throw new Error('Board name can only contain alphanumeric characters');
+    if (!layout) throw new Error("Must have an associated layout");
+    if (!learningSet) throw new Error("Must have an associated learning set");
+    if (boardName && !Name.isValidName(boardName))
+      throw new Error("Board name can only contain alphanumeric characters");
 
     return Object.freeze({
       getId: () => _id,
-      getName: () => name || 'MyBoard',
+      getName: () => boardName || "MyBoard",
       getAuthor: () => author,
-      getAudience: () => audience || 'none',
-      getBoardState: () => boardState,
+      getAudience: () => audience || "none",
+      getBoardState: () => learningSet,
       getCreatedOn: () => createdOn,
       getModifiedOn: () => modifiedOn,
-
       toObject: () => {
         return {
           _id,
-          name,
+          boardName,
           author,
           audience,
-          boardState,
+          learningSet,
           createdOn,
           modifiedOn,
         };

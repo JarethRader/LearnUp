@@ -3,6 +3,8 @@ import envConfig from "../env";
 import buildSchemas from "../db";
 import buildMakeWhiteboardDB from "./pg-whiteboard-bd";
 
+import Id from "../Id";
+
 const buildMakeDB = () => {
   const sequelize = new Sequelize(envConfig["POSTGRES_URI"]);
   sequelize
@@ -16,7 +18,7 @@ const buildMakeDB = () => {
 
   // TODO: I should check it the databases already exist, and it they don't I'll need to populate the Tiles DB atleast, but I could do other setup here
 
-  const whiteboardDB = buildMakeWhiteboardDB(DBSchemas);
+  const whiteboardDB = buildMakeWhiteboardDB(DBSchemas, Id);
 
   return whiteboardDB;
 };

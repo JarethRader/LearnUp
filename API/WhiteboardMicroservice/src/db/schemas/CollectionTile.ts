@@ -13,15 +13,11 @@ const buildCollectionTileSchema: TBuildSchema = (sequelize, DataTypes) => {
       // parentID
       p_id: {
         type: DataTypes.STRING(128),
-        primaryKey: true,
-        unique: true,
         allowNull: false,
       },
       // tileID
       t_id: {
         type: DataTypes.STRING(128),
-        primaryKey: true,
-        unique: true,
         allowNull: false,
       },
       // deltaX

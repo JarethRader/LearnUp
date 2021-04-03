@@ -1,14 +1,18 @@
 /// <reference path='../types/index.d.ts' />
 
-import makeWhiteboard from '../whiteboard';
+import makeWhiteboard from "../whiteboard";
+const frontTiles = require("../data-access/utils/front.json");
 
-const buildAddWhiteboard: BuildAddWhiteboard = (whiteboardDB) => {
+// @ts-ignore
+const buildAddWhiteboard = (whiteboardDB) => {
   const addWhiteboard = async (whiteboardInfo: IMakeWhiteboard) => {
     const whiteboard = makeWhiteboard(whiteboardInfo);
 
     const whiteboardInstance = await whiteboardDB();
 
-    return await whiteboardInstance.insert(whiteboard.toObject());
+    console.log(console.log("Creating new whiteboard"));
+
+    return await whiteboardInstance.insert(whiteboard, frontTiles.tiles);
   };
 
   return addWhiteboard;

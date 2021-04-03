@@ -7,11 +7,19 @@ declare global {
 
   interface IMakeWhiteboard {
     [key: string]: any;
-    _id?: string;
-    name?: string;
-    author?: string;
+    whiteboard_id?: string;
+    boardName: string;
+    author: string;
     audience?: string;
-    boardState?: ITileList[];
+    layout: {
+      layout_id: string;
+      boundingRect: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      };
+    };
     createdOn?: number;
     modifiedOn?: number;
   }
@@ -21,57 +29,9 @@ declare global {
     getName: () => string;
     getAuthor: () => string;
     getAudience: () => string;
-    getBoardState: () => ITileList[];
     getCreatedOn: () => number;
     getModifiedOn: () => number;
     toObject: () => IMakeWhiteboard;
-  }
-
-  type MakeLayout = (input: IMakeLayout) => ILayoutObject;
-
-  interface IMakeLayout {
-    [key: string]: any;
-    __id?: string;
-    layoutRect?: {
-      top: number;
-      left: number;
-      width: number;
-      height: number;
-    };
-    layout?: ITileList[];
-    createdOn?: number;
-    modifiedOn?: number;
-  }
-
-  interface ILayoutObject {
-    getId: () => string;
-    getLayoutRect: () => {
-      top: number;
-      left: number;
-      width: number;
-      height: number;
-    };
-    getLayout: () => ITileList[];
-    getCreatedOn: () => number;
-    getModifiedOn: () => number;
-    toObject: () => IMakeLayout;
-  }
-
-  type MakeLearningSet = (input: IMakeLearningSet) => ILearningSetObject;
-
-  interface IMakeLearningSet {
-    [key: string]: any;
-    __id?: string;
-    tiles: ITileList[];
-    createdOn?: number;
-    modifiedOn?: number;
-  }
-
-  interface ILearningSetObject {
-    getId: () => string;
-    getTiles: () => ITileList[];
-    getCreatedOn: () => number;
-    getModifiedOn: () => number;
   }
 
   // Whiteboard mongodb schema types
@@ -81,9 +41,9 @@ declare global {
   }
 
   interface ITileList {
-    index: number;
+    uid: string;
     tile: ITile;
-    deltaPosition: {
+    delta: {
       x: number;
       y: number;
     };

@@ -7,6 +7,8 @@ import { Sequelize } from "sequelize";
 import envConfig from "../../env";
 import buildSchemas from "../../db";
 const tileSet = require("./tileSet.json");
+const frontSet = require("./front.json");
+const backSet = require("./back.json");
 
 type TTile = {
   tileID: string;
@@ -15,20 +17,21 @@ type TTile = {
 };
 
 const setupDB = () => {
+  console.log("Initialize Database");
   const sequelize = new Sequelize(envConfig["POSTGRES_URI"], {
     dialect: "postgres",
     logging: false,
   });
   sequelize
     .authenticate()
-    .then(() => {
+    .then(async () => {
       console.log("Database connection has been established successfully");
       const DBSchemas = buildSchemas(sequelize);
 
-      DBSchemas.WhiteboardSchema.sync({ force: true });
-      DBSchemas.LayoutSchema.sync({ force: true });
-      DBSchemas.CollectionTileSchema.sync({ force: true });
-      DBSchemas.TileSchema.sync({ force: true }).then((success) => {
+      await DBSchemas.WhiteboardSchema.sync({ force: true });
+      await DBSchemas.LayoutSchema.sync({ force: true });
+      await DBSchemas.CollectionTileSchema.sync({ force: true });
+      await DBSchemas.TileSchema.sync({ force: true }).then((success) => {
         tileSet.tiles.forEach((tile: TTile) => {
           // @ts-ignore
           DBSchemas.TileSchema.create({

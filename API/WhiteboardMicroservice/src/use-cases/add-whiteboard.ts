@@ -10,8 +10,6 @@ const buildAddWhiteboard = (whiteboardDB) => {
 
     const whiteboardInstance = await whiteboardDB();
 
-    console.log(console.log("Creating new whiteboard"));
-
     return await whiteboardInstance.insert(whiteboard, frontTiles.tiles);
   };
 

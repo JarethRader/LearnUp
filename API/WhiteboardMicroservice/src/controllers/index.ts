@@ -4,18 +4,20 @@ import {
   removeWhiteboard,
   getOwnWhiteboards,
   getSharedWhiteboards,
-} from '../use-cases';
-import buildPostWhiteboard from './post-whiteboard';
-import buildPatchWhiteboard from './patch-whiteboard';
-import buildDeleteWhiteboard from './delete-whiteboard';
-import buildGetWhiteboards from './get-whiteboard';
+  findOneWhiteboard,
+} from "../use-cases";
+import buildPostWhiteboard from "./post-whiteboard";
+import buildPatchWhiteboard from "./patch-whiteboard";
+import buildDeleteWhiteboard from "./delete-whiteboard";
+import buildGetWhiteboards from "./get-whiteboard";
 
 const postWhiteboard = buildPostWhiteboard(addWhiteboard);
 const patchWhiteboard = buildPatchWhiteboard(editWhiteboard);
 const deleteWhiteboard = buildDeleteWhiteboard(removeWhiteboard);
 const getWhiteboards = buildGetWhiteboards(
-  getOwnWhiteboards,
-  getSharedWhiteboards
+  // getOwnWhiteboards,
+  // getSharedWhiteboards
+  findOneWhiteboard
 );
 
 const whiteboardController = {

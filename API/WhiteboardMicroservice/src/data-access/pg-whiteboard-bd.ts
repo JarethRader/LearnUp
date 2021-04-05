@@ -15,7 +15,7 @@ const buildMakeWhiteboardDB = (
       const data = whiteboardInput.toObject();
       try {
         // @ts-ignore
-        DB.WhiteboardSchema.create({
+        await DB.WhiteboardSchema.create({
           w_id: data.whiteboard_id,
           bn: data.boardName,
           ar: data.author,
@@ -47,7 +47,44 @@ const buildMakeWhiteboardDB = (
       } catch (err) {
         console.log("Something went wrong");
       }
+      return "Success";
+    },
+    remove: async (whiteboardID: string) => {
+      // @ts-ignore
+      return await DB.WhiteboardSchema.findOne({
+        where: { w_id: whiteboardID },
+      })
+        .then((whiteboard) => {
+          whiteboard ? whiteboard.destroy() : "Whiteboard was not found";
+        })
+        .catch((err) => {
+          console.log("Got error while trying to find whiteboard: ", err);
+        });
+    },
+    findOneById: async (whiteboardID: string) => {
+      // @ts-ignore
+      return await DB.WhiteboardSchema.findOne({
+        where: { w_id: whiteboardID },
+        include: [
+          DB.LayoutSchema,
+          {
+            model: DB.LayoutSchema,
+            include: [
+              {
+                model: DB.CollectionTileSchema,
+                include: [DB.TileSchema],
+              },
+            ],
+          },
+          DB.CollectionTileSchema,
+        ],
+      })
+        .then((whiteboard: any) =>
+          whiteboard ? whiteboard : "Whiteboard not found"
+        )
+        .catch((err) =>
+          console.log("Got error while trying to find whiteboard: ", err)
+        );
     },
   });
-
 export default buildMakeWhiteboardDB;

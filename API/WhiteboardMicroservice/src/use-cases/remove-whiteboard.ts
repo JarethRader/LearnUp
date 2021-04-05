@@ -1,4 +1,5 @@
-const buildRemoveWhiteboard: BuildRemoveWhiteboard = (whiteboardDB) => {
+// @ts-ignore
+const buildRemoveWhiteboard = (whiteboardDB) => {
   const deleteWhiteboard = async (id: string) => {
     const whiteboardInstance = await whiteboardDB();
 

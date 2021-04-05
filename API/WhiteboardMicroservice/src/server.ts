@@ -22,7 +22,7 @@ const port = process.env.PORT || 5001;
 
 // TODO: I'll need to some database setup here when the server first starts up
 // this should drop all tables if they already exist, and then populate the tiles db
-setupDB();
+// setupDB();
 
 // http request logger
 app.use(

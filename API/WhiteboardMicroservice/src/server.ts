@@ -4,6 +4,7 @@ import {
   patchWhiteboard,
   deleteWhiteboard,
   getWhiteboards,
+  getAllWhiteboards,
 } from "./controllers";
 import makeCallback from "./express-callback";
 import envConfig from "./env";
@@ -57,6 +58,12 @@ app.patch(
 app.get(
   `${envConfig["API_ROOT"]}/whiteboard/:id`,
   makeCallback(getWhiteboards)
+);
+// get all whiteboards associated with userID
+app.get(
+  `${envConfig["API_ROOT"]}/whiteboards/:userid`,
+  // @ts-ignore
+  makeCallback(getAllWhiteboards)
 );
 // delete state
 app.delete(

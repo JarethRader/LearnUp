@@ -3,14 +3,15 @@ import { Sequelize, DataTypes } from "sequelize";
 import buildWhiteboardSchema from "./schemas/Whiteboard";
 import buildLayoutSchema from "./schemas/Layout";
 import buildTileSchema from "./schemas/Tile";
-import buildCollectionTileSchema from "./schemas/CollectionTile";
-import whiteboardController from "../controllers";
+import buildLayoutTileSchema from "./schemas/LayoutTile";
+import buildWhiteboardTileSchema from "./schemas/WhiteboardTile";
 
 const buildSchemas = (sequelize: Sequelize) => {
   const WhiteboardSchema = buildWhiteboardSchema(sequelize, DataTypes);
   const LayoutSchema = buildLayoutSchema(sequelize, DataTypes);
   const TileSchema = buildTileSchema(sequelize, DataTypes);
-  const CollectionTileSchema = buildCollectionTileSchema(sequelize, DataTypes);
+  const LayoutTileSchema = buildLayoutTileSchema(sequelize, DataTypes);
+  const WhiteboardTileSchema = buildWhiteboardTileSchema(sequelize, DataTypes);
 
   // define relationships between schemas
   // whiteboard:layout
@@ -21,27 +22,34 @@ const buildSchemas = (sequelize: Sequelize) => {
 
   // Layout:CollectionTile
   // @ts-ignore
-  LayoutSchema.hasMany(CollectionTileSchema, { foreignKey: "p_id" });
+  LayoutSchema.hasMany(LayoutTileSchema, { foreignKey: "p_id" });
   // @ts-ignore
-  CollectionTileSchema.belongsTo(LayoutSchema, { foreignKey: "p_id" });
+  LayoutTileSchema.belongsTo(LayoutSchema, { foreignKey: "p_id" });
 
   // Whiteboard:CollectionTile
   // @ts-ignore
-  WhiteboardSchema.hasMany(CollectionTileSchema, { foreignKey: "p_id" });
+  WhiteboardSchema.hasMany(WhiteboardTileSchema, { foreignKey: "p_id" });
   // @ts-ignore
-  CollectionTileSchema.belongsTo(WhiteboardSchema, { foreignKey: "p_id" });
+  WhiteboardTileSchema.belongsTo(WhiteboardSchema, { foreignKey: "p_id" });
 
   // CollectionTile:Tile
   // @ts-ignore
-  TileSchema.hasOne(CollectionTileSchema, { foreignKey: "t_id" });
+  TileSchema.hasOne(LayoutTileSchema, { foreignKey: "t_id" });
   // @ts-ignore
-  CollectionTileSchema.belongsTo(TileSchema, { foreignKey: "t_id" });
+  LayoutTileSchema.belongsTo(TileSchema, { foreignKey: "t_id" });
+
+  // CollectionTile:Tile
+  // @ts-ignore
+  TileSchema.hasOne(WhiteboardTileSchema, { foreignKey: "t_id" });
+  // @ts-ignore
+  WhiteboardTileSchema.belongsTo(TileSchema, { foreignKey: "t_id" });
 
   const Schemas = Object.freeze({
-    CollectionTileSchema,
     WhiteboardSchema,
     LayoutSchema,
     TileSchema,
+    LayoutTileSchema,
+    WhiteboardTileSchema,
   });
 
   return Schemas;

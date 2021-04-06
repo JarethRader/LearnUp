@@ -30,7 +30,8 @@ const setupDB = () => {
 
       await DBSchemas.WhiteboardSchema.sync({ force: true });
       await DBSchemas.LayoutSchema.sync({ force: true });
-      await DBSchemas.CollectionTileSchema.sync({ force: true });
+      await DBSchemas.LayoutTileSchema.sync({ force: true });
+      await DBSchemas.WhiteboardTileSchema.sync({ force: true });
       await DBSchemas.TileSchema.sync({ force: true }).then((success) => {
         tileSet.tiles.forEach((tile: TTile) => {
           // @ts-ignore

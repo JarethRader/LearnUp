@@ -12,7 +12,7 @@ import buildMakeDB from "../data-access/pg-index";
 const addWhiteboard = buildAddWhiteboard(buildMakeDB);
 const editWhiteboard = buildEditWhiteboard(makeDb);
 const removeWhiteboard = buildRemoveWhiteboard(buildMakeDB);
-const getOwnWhiteboards = buildGetOwn(makeDb);
+const getOwnWhiteboards = buildGetOwn(buildMakeDB);
 const getSharedWhiteboards = buildGetShared(makeDb);
 const findOneWhiteboard = buildFindOne(buildMakeDB);
 

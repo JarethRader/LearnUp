@@ -3,7 +3,8 @@ const buildMakeWhiteboardDB = (
     WhiteboardSchema: SchemaType;
     LayoutSchema: SchemaType;
     TileSchema: SchemaType;
-    CollectionTileSchema: SchemaType;
+    LayoutTileSchema: SchemaType;
+    WhiteboardTileSchema: SchemaType;
   }>,
   Id: {
     makeId: () => string;
@@ -15,7 +16,7 @@ const buildMakeWhiteboardDB = (
       const data = whiteboardInput.toObject();
       try {
         // @ts-ignore
-        await DB.WhiteboardSchema.create({
+        return await DB.WhiteboardSchema.create({
           w_id: data.whiteboard_id,
           bn: data.boardName,
           ar: data.author,
@@ -34,7 +35,7 @@ const buildMakeWhiteboardDB = (
           }).then((newLayout) => {
             layout.forEach(async (tile) => {
               // @ts-ignore
-              await DB.CollectionTileSchema.create({
+              await DB.LayoutTileSchema.create({
                 c_id: Id.makeId(),
                 p_id: newLayout.getDataValue("l_id"),
                 t_id: tile.uid,
@@ -43,11 +44,29 @@ const buildMakeWhiteboardDB = (
               });
             });
           });
+
+          data.tiles.forEach(async (tile: any) => {
+            // @ts-ignore
+            await DB.WhiteboardTileSchema.create({
+              c_id: Id.makeId(),
+              p_id: newWhiteboard.getDataValue("w_id"),
+              t_id: tile.uid,
+              dx: Math.round(tile.delta.x),
+              dy: Math.round(tile.delta.y),
+            }).catch((err: any) => console.log(err));
+          });
+
+          return {
+            whiteboard_ID: newWhiteboard.get().w_id,
+            boardName: newWhiteboard.get().bn,
+            author: newWhiteboard.get().ar,
+            audience: newWhiteboard.get().au,
+          };
         });
       } catch (err) {
-        console.log("Something went wrong");
+        console.log("Something went wrong: ", err);
+        // TODO: I need to delete the inserted documents if an error is thrown here
       }
-      return "Success";
     },
     remove: async (whiteboardID: string) => {
       // @ts-ignore
@@ -57,9 +76,30 @@ const buildMakeWhiteboardDB = (
         .then((whiteboard) => {
           whiteboard ? whiteboard.destroy() : "Whiteboard was not found";
         })
-        .catch((err) => {
-          console.log("Got error while trying to find whiteboard: ", err);
-        });
+        .catch((err) => "Failed to remove whiteboard");
+    },
+    update: async (updateInfo: any) => {
+      // @ts-ignore
+      await DB.WhiteboardSchema.findOne({
+        where: { w_id: updateInfo.whiteboard },
+        include: [
+          DB.LayoutSchema,
+          {
+            model: DB.LayoutSchema,
+            include: [
+              {
+                model: DB.LayoutTileSchema,
+                include: [DB.TileSchema],
+              },
+            ],
+          },
+          DB.WhiteboardTileSchema,
+        ],
+      })
+        .then((whiteboard) => {
+          console.log(whiteboard);
+        })
+        .catch((err) => console.log("Failed to update whiteboard: ", err));
     },
     findOneById: async (whiteboardID: string) => {
       // @ts-ignore
@@ -71,20 +111,42 @@ const buildMakeWhiteboardDB = (
             model: DB.LayoutSchema,
             include: [
               {
-                model: DB.CollectionTileSchema,
+                model: DB.LayoutTileSchema,
                 include: [DB.TileSchema],
               },
             ],
           },
-          DB.CollectionTileSchema,
+          DB.WhiteboardTileSchema,
         ],
       })
         .then((whiteboard: any) =>
           whiteboard ? whiteboard : "Whiteboard not found"
         )
-        .catch((err) =>
-          console.log("Got error while trying to find whiteboard: ", err)
-        );
+        .catch((err) => "Got error while trying to find whiteboard");
+    },
+    findByAuthor: async (authorID: string) => {
+      console.log(authorID);
+      // @ts-ignore
+      return await DB.WhiteboardSchema.findAll({
+        where: { ar: authorID },
+      })
+        .then(
+          (whiteboards) =>
+            whiteboards.length > 0 && whiteboards.map((board) => board.get())
+        )
+        .catch((err) => "Failed to find you whiteboards");
+    },
+    findByAudience: async (authorID: string) => {
+      console.log(authorID);
+      // @ts-ignore
+      return await DB.WhiteboardSchema.findAll({
+        where: { au: authorID },
+      })
+        .then((whiteboards) => {
+          const boards = whiteboards.map((board) => board.get());
+          boards.length > 0 && boards;
+        })
+        .catch((err) => "Failed to find you whiteboards");
     },
   });
 export default buildMakeWhiteboardDB;

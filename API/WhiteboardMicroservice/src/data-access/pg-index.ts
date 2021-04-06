@@ -10,7 +10,7 @@ const buildMakeDB = () => {
   sequelize
     .authenticate()
     .then(() => {
-      console.log("Database connection has been established succesfully");
+      console.log("Database connection has been established successfully");
     })
     .catch((err) => console.log("Unable to connect to the database: ", err));
 

@@ -12,6 +12,7 @@ const buildMakeWhiteboard = (
     boardName,
     author, // the userID of the user who created the board
     audience, // (optional) a userID for a user who was a part of the lesson
+    tiles,
     layout,
     createdOn = Date.now(),
     modifiedOn = Date.now(),
@@ -43,6 +44,8 @@ const buildMakeWhiteboard = (
       getName: () => boardName || "My board",
       getAuthor: () => author,
       getAudience: () => audience || "none",
+      getTiles: () => tiles,
+      getLayout: () => layout,
       getCreatedOn: () => createdOn,
       getModifiedOn: () => modifiedOn,
       toObject: () => {
@@ -51,6 +54,7 @@ const buildMakeWhiteboard = (
           boardName,
           author,
           audience,
+          tiles,
           layout,
           createdOn,
           modifiedOn,

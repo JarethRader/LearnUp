@@ -1,4 +1,5 @@
-const buildListOwn: BuildListWhiteboards = (whiteboardDB) => {
+// @ts-ignore
+const buildListOwn = (whiteboardDB) => {
   const getOwn = async (id: string) => {
     const whiteboardInstance = await whiteboardDB();
 

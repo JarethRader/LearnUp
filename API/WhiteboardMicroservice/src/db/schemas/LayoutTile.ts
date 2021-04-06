@@ -1,6 +1,6 @@
-const buildCollectionTileSchema: TBuildSchema = (sequelize, DataTypes) => {
-  const CollectionTiles = <CollectionTileStatic>sequelize.define(
-    "Collection_Tile",
+const buildLayoutTileSchema: TBuildSchema = (sequelize, DataTypes) => {
+  const LayoutTiles = <CollectionTileStatic>sequelize.define(
+    "Layout_Tile",
     {
       // attributes
       // collectionID
@@ -36,7 +36,7 @@ const buildCollectionTileSchema: TBuildSchema = (sequelize, DataTypes) => {
     }
   );
 
-  return CollectionTiles;
+  return LayoutTiles;
 };
 
-export default buildCollectionTileSchema;
+export default buildLayoutTileSchema;

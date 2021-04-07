@@ -39,7 +39,9 @@
         "letters": "d"
       },
       "uid": "dc3357c3-04a7-4f3a-a2ef-f36aa648e8ae"
-    },
+    }
+  ],
+  "oldTiles": [
     {
       "delta": {
         "x": 244,

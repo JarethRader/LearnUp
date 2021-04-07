@@ -8,9 +8,8 @@ import buildFindOne from "./find-one";
 import makeDb from "../data-access";
 import buildMakeDB from "../data-access/pg-index";
 
-// @ts-ignore
 const addWhiteboard = buildAddWhiteboard(buildMakeDB);
-const editWhiteboard = buildEditWhiteboard(makeDb);
+const editWhiteboard = buildEditWhiteboard(buildMakeDB);
 const removeWhiteboard = buildRemoveWhiteboard(buildMakeDB);
 const getOwnWhiteboards = buildGetOwn(buildMakeDB);
 const getSharedWhiteboards = buildGetShared(makeDb);

@@ -78,28 +78,49 @@ const buildMakeWhiteboardDB = (
         })
         .catch((err) => "Failed to remove whiteboard");
     },
-    update: async (updateInfo: any) => {
-      // @ts-ignore
-      await DB.WhiteboardSchema.findOne({
-        where: { w_id: updateInfo.whiteboard },
-        include: [
-          DB.LayoutSchema,
-          {
-            model: DB.LayoutSchema,
-            include: [
-              {
-                model: DB.LayoutTileSchema,
-                include: [DB.TileSchema],
-              },
-            ],
-          },
-          DB.WhiteboardTileSchema,
-        ],
-      })
-        .then((whiteboard) => {
-          console.log(whiteboard);
+    update: async (whiteboardID: string, updateInfo: any) => {
+      try {
+        // @ts-ignore
+        await DB.WhiteboardSchema.findOne({
+          where: { w_id: whiteboardID },
         })
-        .catch((err) => console.log("Failed to update whiteboard: ", err));
+          .then(async (whiteboard) => {
+            whiteboard.update({
+              w_id: updateInfo.boardName,
+              ar: updateInfo.author,
+              au: updateInfo.audience,
+            });
+            // @ts-ignore
+            await DB.LayoutSchema.findOne({
+              where: { w_id: whiteboardID },
+            })
+              .then((layout) => {
+                layout.update({
+                  bx: updateInfo.layout.boundingRect.x,
+                  by: updateInfo.layout.boundingRect.y,
+                  bw: updateInfo.layout.boundingRect.width,
+                  bh: updateInfo.layout.boundingRect.height,
+                });
+                whiteboard.save();
+                layout.save();
+
+                return {
+                  whiteboard_ID: whiteboard.get().w_id,
+                  boardName: whiteboard.get().bn,
+                  author: whiteboard.get().ar,
+                  audience: whiteboard.get().au,
+                };
+              })
+              .catch((err) => {
+                throw err;
+              });
+          })
+          .catch((err) => {
+            throw err;
+          });
+      } catch (err) {
+        console.log(err);
+      }
     },
     findOneById: async (whiteboardID: string) => {
       // @ts-ignore
@@ -116,7 +137,10 @@ const buildMakeWhiteboardDB = (
               },
             ],
           },
-          DB.WhiteboardTileSchema,
+          {
+            model: DB.WhiteboardTileSchema,
+            include: DB.TileSchema,
+          },
         ],
       })
         .then((whiteboard: any) =>
@@ -125,7 +149,6 @@ const buildMakeWhiteboardDB = (
         .catch((err) => "Got error while trying to find whiteboard");
     },
     findByAuthor: async (authorID: string) => {
-      console.log(authorID);
       // @ts-ignore
       return await DB.WhiteboardSchema.findAll({
         where: { ar: authorID },
@@ -137,7 +160,6 @@ const buildMakeWhiteboardDB = (
         .catch((err) => "Failed to find you whiteboards");
     },
     findByAudience: async (authorID: string) => {
-      console.log(authorID);
       // @ts-ignore
       return await DB.WhiteboardSchema.findAll({
         where: { au: authorID },

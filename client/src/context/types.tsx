@@ -8,6 +8,7 @@ declare global {
 
   interface ITileList {
     uid: string;
+    tile_id: string;
     tile: TileType;
     delta: {
       x: number;

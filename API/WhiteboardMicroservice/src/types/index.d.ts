@@ -42,6 +42,7 @@ declare global {
 
   interface ITileList {
     uid: string;
+    tile_id: string;
     tile: ITile;
     delta: {
       x: number;

@@ -13,7 +13,10 @@ const buildAddWhiteboard = (whiteboardDB) => {
     // TODO: I should add some validation in here for the board name
     // TODO: I should add the feature to select different layouts and tie it into this point.
 
-    return await whiteboardInstance.insert(whiteboard, frontTiles.tiles);
+    return await whiteboardInstance.insert(
+      whiteboard.toObject(),
+      frontTiles.tiles
+    );
   };
 
   return addWhiteboard;

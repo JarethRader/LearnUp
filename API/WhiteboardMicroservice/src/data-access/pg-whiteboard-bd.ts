@@ -12,8 +12,8 @@ const buildMakeWhiteboardDB = (
   }
 ) =>
   Object.freeze({
-    insert: async (whiteboardInput: IWhiteboardObject, layout: ITileList[]) => {
-      const data = whiteboardInput.toObject();
+    insert: async (whiteboardInput: IMakeWhiteboard, layout: ITileList[]) => {
+      const data = whiteboardInput;
       try {
         // @ts-ignore
         return await DB.WhiteboardSchema.create({
@@ -38,23 +38,24 @@ const buildMakeWhiteboardDB = (
               await DB.LayoutTileSchema.create({
                 c_id: Id.makeId(),
                 p_id: newLayout.getDataValue("l_id"),
-                t_id: tile.uid,
+                t_id: tile.tile_id,
                 dx: tile.delta.x,
                 dy: tile.delta.y,
               });
             });
           });
 
-          data.tiles.forEach(async (tile: any) => {
-            // @ts-ignore
-            await DB.WhiteboardTileSchema.create({
-              c_id: Id.makeId(),
-              p_id: newWhiteboard.getDataValue("w_id"),
-              t_id: tile.uid,
-              dx: Math.round(tile.delta.x),
-              dy: Math.round(tile.delta.y),
-            }).catch((err: any) => console.log(err));
-          });
+          data.tiles &&
+            data.tiles.forEach(async (tile: any) => {
+              // @ts-ignore
+              await DB.WhiteboardTileSchema.create({
+                c_id: Id.makeId(),
+                p_id: newWhiteboard.getDataValue("w_id"),
+                t_id: tile.tile_id,
+                dx: Math.round(tile.delta.x),
+                dy: Math.round(tile.delta.y),
+              }).catch((err: any) => console.log(err));
+            });
 
           return {
             whiteboard_ID: newWhiteboard.get().w_id,
@@ -65,7 +66,14 @@ const buildMakeWhiteboardDB = (
         });
       } catch (err) {
         console.log("Something went wrong: ", err);
+
         // TODO: I need to delete the inserted documents if an error is thrown here
+        // @ts-ignore
+        DB.WhiteboardSchema.findOne({
+          where: { w_id: data.whiteboard_id },
+        }).then((whiteboard) => {
+          whiteboard.destroy();
+        });
       }
     },
     remove: async (whiteboardID: string) => {
@@ -101,6 +109,7 @@ const buildMakeWhiteboardDB = (
                   bw: updateInfo.layout.boundingRect.width,
                   bh: updateInfo.layout.boundingRect.height,
                 });
+
                 whiteboard.save();
                 layout.save();
 

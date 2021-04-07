@@ -6,7 +6,10 @@ import buildMakeWhiteboardDB from "./pg-whiteboard-bd";
 import Id from "../Id";
 
 const buildMakeDB = () => {
-  const sequelize = new Sequelize(envConfig["POSTGRES_URI"]);
+  const sequelize = new Sequelize(envConfig["POSTGRES_URI"], {
+    dialect: "postgres",
+    logging: false,
+  });
   sequelize
     .authenticate()
     .then(() => {

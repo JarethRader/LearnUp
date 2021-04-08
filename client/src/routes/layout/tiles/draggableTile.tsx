@@ -28,6 +28,7 @@ const DraggableTile = (props: any) => {
       type: "ADD_TILE",
       payload: {
         uid: uuidv4(),
+        tile_id: props.tile_id,
         tile: props.tile,
         delta: {
           x:

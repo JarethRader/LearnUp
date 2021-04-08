@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["npm", "run", "docker"]
+CMD ["npm", "run", "start"]

@@ -34,6 +34,7 @@ const WhiteboardDraggableTile = (props: Props) => {
     dispatch({
       type: "ADD_WHITEBOARD_TILE",
       payload: {
+        tile_id: state.selectedTile!.tile_id,
         uid: state.selectedTile!.uid,
         tile: state.selectedTile!.tile,
         delta: {

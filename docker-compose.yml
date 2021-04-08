@@ -38,27 +38,27 @@ services:
     volumes:
       - ./API/WhiteboardMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
-  audio:
-    container_name: learnup_audio
-    image: learnup_audio:dev
-    restart: always
-    build:
-      context: ./API/AudioMicroservice
-      dockerfile: ./Dockerfile
-    ports:
-      - "5002:5002"
-    volumes:
-      - ./API/AudioMicroservice:/usr/src/app
-      - /usr/src/app/node_modules/
-  signalling:
-    container_name: learnup_webrtc_signalling
-    image: learnup_webrtc_signalling:dev
-    restart: always
-    build:
-      context: ./API/signallingServer
-      dockerfile: ./Dockerfile
-    ports:
-      - "8081:8081"
-    volumes:
-      - ./API/signallingServer:/user/src/app
-      - /usr/src/app/node_modules/
+  # audio:
+  #   container_name: learnup_audio
+  #   image: learnup_audio:dev
+  #   restart: always
+  #   build:
+  #     context: ./API/AudioMicroservice
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - "5002:5002"
+  #   volumes:
+  #     - ./API/AudioMicroservice:/usr/src/app
+  #     - /usr/src/app/node_modules/
+  # signalling:
+  #   container_name: learnup_webrtc_signalling
+  #   image: learnup_webrtc_signalling:dev
+  #   restart: always
+  #   build:
+  #     context: ./API/signallingServer
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - "8081:8081"
+  #   volumes:
+  #     - ./API/signallingServer:/user/src/app
+  #     - /usr/src/app/node_modules/

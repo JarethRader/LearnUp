@@ -123,6 +123,17 @@ const buildMakeWhiteboardDB = (
               .catch((err) => {
                 throw err;
               });
+            updateInfo.tiles &&
+              updateInfo.tiles.forEach(async (tile: any) => {
+                // @ts-ignore
+                await DB.WhiteboardTileSchema.create({
+                  c_id: Id.makeId(),
+                  p_id: whiteboard.getDataValue("w_id"),
+                  t_id: tile.tile_id,
+                  dx: Math.round(tile.delta.x),
+                  dy: Math.round(tile.delta.y),
+                }).catch((err: any) => console.log(err));
+              });
           })
           .catch((err) => {
             throw err;

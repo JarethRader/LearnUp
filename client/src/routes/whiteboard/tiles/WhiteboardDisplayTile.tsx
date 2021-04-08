@@ -21,6 +21,7 @@ const WhiteboardDisplayTile = (props: Props) => {
       dispatch({
         type: "SET_SELECTED_TILE",
         payload: {
+          tile_id: props.tile.tile_id,
           uid: props.tile.uid,
           tile: props.tile.tile,
           delta: {

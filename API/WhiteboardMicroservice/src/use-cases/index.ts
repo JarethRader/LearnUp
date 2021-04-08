@@ -10,11 +10,12 @@ import buildMakeDB from "../data-access/pg-index";
 
 import formatUtils from "./format-whiteboard";
 
+// TODO: I need to rewrite the type definitions for all these functions, right now I'm just ignoring the errors typescript is throwing
 const addWhiteboard = buildAddWhiteboard(buildMakeDB);
 const editWhiteboard = buildEditWhiteboard(buildMakeDB, formatUtils);
 const removeWhiteboard = buildRemoveWhiteboard(buildMakeDB);
 const getOwnWhiteboards = buildGetOwn(buildMakeDB);
-const getSharedWhiteboards = buildGetShared(makeDb);
+const getSharedWhiteboards = buildGetShared(buildMakeDB);
 const findOneWhiteboard = buildFindOne(buildMakeDB);
 
 const userServices = Object.freeze({

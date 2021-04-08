@@ -127,7 +127,7 @@ const buildMakeWhiteboardDB = (
               updateInfo.tiles.forEach(async (tile: any) => {
                 // @ts-ignore
                 await DB.WhiteboardTileSchema.create({
-                  c_id: Id.makeId(),
+                  c_id: tile.uid,
                   p_id: whiteboard.getDataValue("w_id"),
                   t_id: tile.tile_id,
                   dx: Math.round(tile.delta.x),
@@ -168,10 +168,10 @@ const buildMakeWhiteboardDB = (
         )
         .catch((err) => "Got error while trying to find whiteboard");
     },
-    findByAuthor: async (authorID: string) => {
+    findByAuthor: async (userID: string) => {
       // @ts-ignore
       return await DB.WhiteboardSchema.findAll({
-        where: { ar: authorID },
+        where: { ar: userID },
       })
         .then(
           (whiteboards) =>
@@ -179,15 +179,15 @@ const buildMakeWhiteboardDB = (
         )
         .catch((err) => "Failed to find you whiteboards");
     },
-    findByAudience: async (authorID: string) => {
+    findByAudience: async (userID: string) => {
       // @ts-ignore
       return await DB.WhiteboardSchema.findAll({
-        where: { au: authorID },
+        where: { au: userID },
       })
-        .then((whiteboards) => {
-          const boards = whiteboards.map((board) => board.get());
-          boards.length > 0 && boards;
-        })
+        .then(
+          (whiteboards) =>
+            whiteboards.length > 0 && whiteboards.map((board) => board.get())
+        )
         .catch((err) => "Failed to find you whiteboards");
     },
   });

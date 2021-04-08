@@ -1,13 +1,15 @@
 // @ts-ignore
 const buildGetAllWhiteboards = (
-  getOwnWhiteboards: any
-  // getSharedWhiteboards,
+  getOwnWhiteboards: any,
+  getSharedWhiteboards: any
 ) => {
   // @ts-ignore
   const getAllWhiteboards = async (request) => {
     try {
       const ownWhiteboards = await getOwnWhiteboards(request.params.userid);
-      // const sharedWhiteboards = await getSharedWhiteboards(request.params.id);
+      const sharedWhiteboards = await getSharedWhiteboards(
+        request.params.userid
+      );
 
       return {
         headers: {
@@ -16,7 +18,7 @@ const buildGetAllWhiteboards = (
         statusCode: 200,
         body: {
           ownWhiteboards,
-          // sharedWhiteboards,
+          sharedWhiteboards,
         },
       };
     } catch (err) {

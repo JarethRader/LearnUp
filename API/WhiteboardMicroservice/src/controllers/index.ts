@@ -16,7 +16,10 @@ const postWhiteboard = buildPostWhiteboard(addWhiteboard);
 const patchWhiteboard = buildPatchWhiteboard(editWhiteboard);
 const deleteWhiteboard = buildDeleteWhiteboard(removeWhiteboard);
 const getWhiteboards = buildGetWhiteboards(findOneWhiteboard);
-const getAllWhiteboards = buildGetAllWhiteboards(getOwnWhiteboards);
+const getAllWhiteboards = buildGetAllWhiteboards(
+  getOwnWhiteboards,
+  getSharedWhiteboards
+);
 
 const whiteboardController = {
   postWhiteboard,

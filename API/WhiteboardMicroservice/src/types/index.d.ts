@@ -78,10 +78,10 @@ declare global {
   type DT = typeof DataTypes;
 
   interface Whiteboard extends Model {
-    readonly whiteboardID: string;
-    readonly boardName: string;
-    readonly author: string;
-    readonly audience: string;
+    readonly w_id: string;
+    readonly bn: string;
+    readonly ar: string;
+    readonly au: string;
     readonly layoutID: string;
 
     readonly createdAt: Date;
@@ -92,12 +92,12 @@ declare global {
   };
 
   interface layout extends Model {
-    readonly layoutID: string;
-    readonly boundingX: number;
-    readonly boundingY: number;
-    readonly boundingWidth: number;
-    readonly boundingHeight: number;
-    readonly whiteboardID: number;
+    readonly l_id: string;
+    readonly bx: number;
+    readonly by: number;
+    readonly bw: number;
+    readonly bh: number;
+    readonly w_id: number;
 
     readonly createdAt: Date;
     readonly updatedAt: Date;
@@ -107,9 +107,9 @@ declare global {
   };
 
   interface Tile extends Model {
-    readonly tilesID: string;
-    readonly letters: string;
-    readonly color: string;
+    readonly t_id: string;
+    readonly l: string;
+    readonly c: string;
 
     readonly createdAt: Date;
     readonly updatedAt: Date;
@@ -119,11 +119,11 @@ declare global {
   };
 
   interface CollectionTile extends Model {
-    readonly collectionID: string;
-    readonly parentID: string;
-    readonly tileID: string;
-    readonly deltaX: number;
-    readonly deltaY: number;
+    readonly c_id: string;
+    readonly p_id: string;
+    readonly t_id: string;
+    readonly dx: number;
+    readonly dy: number;
 
     readonly createdAt: Date;
     readonly updatedAt: Date;

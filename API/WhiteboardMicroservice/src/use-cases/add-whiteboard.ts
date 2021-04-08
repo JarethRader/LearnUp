@@ -2,6 +2,7 @@
 
 import makeWhiteboard from "../whiteboard";
 const frontTiles = require("../data-access/utils/front.json");
+const backTiles = require("../data-access/utils/back.json");
 
 // @ts-ignore
 const buildAddWhiteboard = (whiteboardDB) => {

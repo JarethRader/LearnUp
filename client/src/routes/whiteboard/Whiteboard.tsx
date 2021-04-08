@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { SelectableGroup, DeselectAll } from "react-selectable-fast";
-import { Trash } from "@styled-icons/entypo";
+import { Trash, Sound } from "@styled-icons/entypo";
 
 import WhiteboardDraggableTile from "./tiles/WhiteboardDraggableTile";
 import WhiteboardDisplayTile from "./tiles/WhiteboardDisplayTile";
@@ -173,12 +173,12 @@ const Whiteboard = (props: Props) => {
           </div>
           <div className="flex flex-row justify-center py-2">
             <div className="flex flex-row">
-              <button
+              {/* <button
                 onClick={(e) => flipBoard(e)}
                 className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-700 focus:outline-none text-white font-semibold stroke"
               >
                 Flip Board
-              </button>
+              </button> */}
               <Link to="/dashboard">
                 <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-700 focus:outline-none text-white font-semibold stroke">
                   Dashboard
@@ -193,14 +193,13 @@ const Whiteboard = (props: Props) => {
               <div className="border-4 border-black rounded-md py-1 px-12 bg-white">
                 <Trash size="24" />
               </div>
-              {state.selectedList.length > 0 && (
-                <button
-                  onClick={(e) => handlePlayAudio(e)}
-                  className="px-4 py-2 mx-1 rounded bg-red-500 hover:bg-red-700 focus:outline-none text-white font-semibold stroke"
-                >
-                  Play
-                </button>
-              )}
+              <button
+                onClick={(e) => handlePlayAudio(e)}
+                className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-700 focus:outline-none text-white font-semibold stroke flex items-center items-row"
+              >
+                <h1 className="pr-1">Play</h1>
+                <Sound size="20" className="text-black" />
+              </button>
             </div>
           </div>
         </div>

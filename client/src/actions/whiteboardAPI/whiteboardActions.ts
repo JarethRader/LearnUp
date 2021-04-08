@@ -40,10 +40,11 @@ export const uploadBoard = (
 
 export const updateBoard = (
   whiteboardID: string,
-  body: IWhiteboardInfoObj
+  body: IWhiteboardEditObj
 ): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
+  console.log("Updating board");
   dispatch({ type: "BOARD_STATE_LOADING" });
   try {
     await updateHelper(whiteboardID, body, WHITEBOARD_API, CSRFConfig)

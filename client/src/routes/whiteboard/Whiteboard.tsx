@@ -14,8 +14,18 @@ import {
   getBoard,
 } from "../../actions/whiteboardAPI/whiteboardActions";
 
-const frontTileSet = require("../../components/tiles/defaultTileSets/front.json");
-const backTileSet = require("../../components/tiles/defaultTileSets/back.json");
+const debounce = (
+  update: (whiteboardID: string, body: IWhiteboardEditObj) => void,
+  timeout = 3000
+) => {
+  let timer: NodeJS.Timeout;
+  return (...args: any) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      update.apply(this, args);
+    }, timeout);
+  };
+};
 
 interface props {
   Navbar: (props: any) => JSX.Element;
@@ -85,11 +95,28 @@ const Whiteboard = (props: Props) => {
     dispatch({
       type: "CLEAR_WHITEBOARD",
     });
-
     dispatch({
       type: "CLEAR_SELECTED",
     });
   };
+
+  const autosave = React.useCallback(
+    debounce(
+      (newWhiteboard) =>
+        // @ts-ignore
+        props.updateBoard(props.currentBoard.whiteboard_id, newWhiteboard),
+      60000
+    ),
+    []
+  );
+
+  React.useEffect(() => {
+    const newWhiteboard = {
+      tiles: state.whiteboardList,
+    };
+
+    autosave(newWhiteboard);
+  }, [state.whiteboardList]);
 
   return (
     <div>

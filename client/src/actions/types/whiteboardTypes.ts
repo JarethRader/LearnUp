@@ -53,6 +53,16 @@ declare global {
     name?: string;
     author?: string;
     audience?: string;
+    tiles?: ITileList[];
+    layout?: {
+      boundingRect?: {
+        x?: number;
+        y?: number;
+        width?: number;
+        height?: number;
+      };
+      tiles?: ITileList[];
+    };
   }
 
   interface WhiteboardResponse {

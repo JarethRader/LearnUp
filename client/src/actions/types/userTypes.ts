@@ -14,11 +14,11 @@ import {
   DELETE_USER_FAILED,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
-} from './types';
+} from "./types";
 
 declare global {
   interface IUserModel {
-    id?: string;
+    id: string;
     username?: string;
     email?: string;
   }

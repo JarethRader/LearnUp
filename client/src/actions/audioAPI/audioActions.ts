@@ -21,34 +21,37 @@ interface audioBody {
   };
 }
 
-// export const playAudio = (wordList: IWordList[]): AudioThunk => async (
-//   dispatch: ThunkDispatch<RootState, void, Action>
-// ) => {
-//   dispatch({ type: "AUDIO_LOADING" });
+export const playAudio = (tileList: ITileList[]): AudioThunk => async (
+  dispatch: ThunkDispatch<RootState, void, Action>
+) => {
+  dispatch({ type: "AUDIO_LOADING" });
 
-//   try {
-//     let filteredList: audioBody[] = [];
-//     wordList.map((word: IWordList) => {
-//       filteredList = [
-//         ...filteredList,
-//         { index: word.index, tile: { letters: word.tile.letters } },
-//       ];
-//     });
-//     await generateAudioHelper({ tiles: filteredList }, AUDIO_API, CSRFConfig)
-//       .then((response) => {
-//         dispatch({
-//           type: "GENERATE_AUDIO_SUCCESS",
-//           payload: response,
-//         });
-//       })
-//       .catch((err) => {
-//         throw new Error(err.message);
-//       });
-//   } catch (err) {
-//     // console.log(err);
-//     dispatch({ type: "GENERATE_AUDIO_FAILURE" });
-//   }
-// };
+  const tiles = { tiles: tileList };
+  console.log(tiles);
+
+  try {
+    // let filteredList: audioBody[] = [];
+    // wordList.map((word: IWordList) => {
+    //   filteredList = [
+    //     ...filteredList,
+    //     { index: word.index, tile: { letters: word.tile.letters } },
+    //   ];
+    // });
+    await generateAudioHelper({ tiles: [...tileList] }, AUDIO_API, CSRFConfig)
+      .then((response) => {
+        dispatch({
+          type: "GENERATE_AUDIO_SUCCESS",
+          payload: response,
+        });
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  } catch (err) {
+    // console.log(err);
+    dispatch({ type: "GENERATE_AUDIO_FAILURE" });
+  }
+};
 
 export function setAudioLoading(): AudioActionTypes {
   return {

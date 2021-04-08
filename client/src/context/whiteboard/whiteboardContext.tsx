@@ -86,8 +86,8 @@ const intialState: WhiteboardState = {
   selectedTile: undefined,
   tileSetName: "",
   tileSetRect: {
-    top: 1,
-    left: 1,
+    x: 1,
+    y: 1,
     width: 1,
     height: 1,
   },

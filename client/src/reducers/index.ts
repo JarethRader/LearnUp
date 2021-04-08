@@ -5,7 +5,7 @@ import audioReducer from "./audioReducer";
 import errorReducer from "./errorReducer";
 
 // Add all reducers to this function below
-const rootReducer: any = combineReducers({
+const rootReducer = combineReducers({
   user: userReducer,
   whiteboard: whiteboardReducer,
   audio: audioReducer,

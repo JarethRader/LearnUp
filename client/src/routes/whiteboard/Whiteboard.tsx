@@ -14,6 +14,8 @@ import {
   getBoard,
 } from "../../actions/whiteboardAPI/whiteboardActions";
 
+import { playAudio } from "../../actions/audioAPI/audioActions";
+
 const debounce = (
   update: (whiteboardID: string, body: IWhiteboardEditObj) => void,
   timeout = 3000
@@ -21,6 +23,7 @@ const debounce = (
   let timer: NodeJS.Timeout;
   return (...args: any) => {
     clearTimeout(timer);
+    // @ts-ignore
     timer = setTimeout(() => {
       update.apply(this, args);
     }, timeout);
@@ -39,11 +42,13 @@ const mapStateToProps = (state: RootState) => ({
   isAuthenticated: state.user.isAuthenticated,
   currentBoard: state.whiteboard.currentBoard,
   whiteboardLoading: state.whiteboard.whiteboardLoading,
+  audio: state.audio.audio,
 });
 
 const mapDispatchToProps = {
   updateBoard,
   getBoard,
+  playAudio,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -56,13 +61,24 @@ const Whiteboard = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
 
   React.useEffect(() => {
-    console.log(props.currentBoard.layout.tiles);
     dispatch({
       type: "SET_TILELIST",
       payload: {
         tileSetRect: props.currentBoard.layout.boundingRect,
         tiles: props.currentBoard.layout.tiles,
       },
+    });
+
+    props.currentBoard.tiles.forEach((tile) => {
+      dispatch({
+        type: "ADD_WHITEBOARD_TILE",
+        payload: {
+          tile_id: tile.tile_id,
+          uid: tile.uid,
+          tile: tile.tile,
+          delta: tile.delta,
+        },
+      });
     });
   }, []);
 
@@ -118,6 +134,24 @@ const Whiteboard = (props: Props) => {
     autosave(newWhiteboard);
   }, [state.whiteboardList]);
 
+  const handlePlayAudio = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    props.playAudio(state.selectedList);
+  };
+
+  React.useEffect(() => {
+    if (props.audio) {
+      // @ts-ignore
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const src = audioCtx.createBufferSource();
+      audioCtx.decodeAudioData(props.audio, (decoded) => {
+        src.buffer = decoded;
+        src.connect(audioCtx.destination);
+        src.start();
+      });
+    }
+  }, [props.audio]);
+
   return (
     <div>
       <div className="absolute z-20">
@@ -128,7 +162,7 @@ const Whiteboard = (props: Props) => {
           <div className="grid grid-cols-3">
             <div className="flex self-center">
               <p className="text-xl font-semibold flex justify-center">
-                Board Name
+                {props.currentBoard.boardName}
               </p>
             </div>
             <div className="text-center">
@@ -159,6 +193,14 @@ const Whiteboard = (props: Props) => {
               <div className="border-4 border-black rounded-md py-1 px-12 bg-white">
                 <Trash size="24" />
               </div>
+              {state.selectedList.length > 0 && (
+                <button
+                  onClick={(e) => handlePlayAudio(e)}
+                  className="px-4 py-2 mx-1 rounded bg-red-500 hover:bg-red-700 focus:outline-none text-white font-semibold stroke"
+                >
+                  Play
+                </button>
+              )}
             </div>
           </div>
         </div>

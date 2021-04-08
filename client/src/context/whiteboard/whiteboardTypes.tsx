@@ -12,8 +12,8 @@ declare global {
     offsetBounds: IWhiteboardOffest;
     selectedTile: ITileList | undefined;
     tileSetRect: {
-      top: number;
-      left: number;
+      x: number;
+      y: number;
       width: number;
       height: number;
     };
@@ -28,8 +28,8 @@ declare global {
     payload: {
       // name: string;
       tileSetRect: {
-        top: number;
-        left: number;
+        x: number;
+        y: number;
         width: number;
         height: number;
       };

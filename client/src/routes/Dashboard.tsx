@@ -37,7 +37,7 @@ type Props = PropsFromRedux & props;
 
 const Dashboard = (props: Props) => {
   React.useEffect(() => {
-    props.getUserBoards(props.userInfo.id);
+    props.getUserBoards(props.userInfo!.id);
   }, []);
 
   const handleLoadBoard = (
@@ -66,7 +66,7 @@ const Dashboard = (props: Props) => {
         {showModal && (
           <CreateBoardModal
             toggleModal={toggleModal}
-            userID={props.userInfo.id}
+            userID={props.userInfo!.id}
           />
         )}
         <div>
@@ -74,7 +74,7 @@ const Dashboard = (props: Props) => {
           <div className="flex justify-left mt-20 mx-10">
             <div className="">
               <h1 className="font-bold text-2xl">
-                Hello {props.userInfo.username}!
+                Hello {props.userInfo!.username}!
               </h1>
               <h1 className="font-bold text-2xl text-blue-500">
                 Welcome to your LearnUp Dashboard

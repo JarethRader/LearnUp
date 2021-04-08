@@ -18,7 +18,7 @@ const reducer = (
     case "SET_TILELIST":
       return {
         ...state,
-        tileSetName: action.payload.name,
+        // tileSetName: action.payload.name,
         tileList: action.payload.tiles,
         tileSetRect: action.payload.tileSetRect,
       };

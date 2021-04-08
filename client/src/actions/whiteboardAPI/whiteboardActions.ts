@@ -111,7 +111,6 @@ export const getBoard = (whiteboardID: string): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
   dispatch({ type: "BOARD_STATE_LOADING" });
-  console.log(whiteboardID);
   try {
     await getWhiteboardHelper(whiteboardID, WHITEBOARD_API, CSRFConfig)
       .then((response) => {

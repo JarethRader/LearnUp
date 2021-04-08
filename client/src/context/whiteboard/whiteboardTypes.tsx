@@ -26,7 +26,7 @@ declare global {
   interface SetTilelist {
     type: "SET_TILELIST";
     payload: {
-      name: string;
+      // name: string;
       tileSetRect: {
         top: number;
         left: number;

@@ -49,7 +49,10 @@ const Whiteboard = (props: Props) => {
     console.log(props.currentBoard.layout.tiles);
     dispatch({
       type: "SET_TILELIST",
-      payload: props.currentBoard.layout.tiles,
+      payload: {
+        tileSetRect: props.currentBoard.layout.boundingRect,
+        tiles: props.currentBoard.layout.tiles,
+      },
     });
   }, []);
 

@@ -2,8 +2,8 @@ import React from "react";
 import { Link, Redirect } from "react-router-dom";
 
 import {
-  getBoards,
-  setCurrentBoard,
+  getUserBoards,
+  getBoard,
 } from "../actions/whiteboardAPI/whiteboardActions";
 
 import CreateBoardModal from "./createBoard/createBoardModal";
@@ -25,8 +25,8 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = {
-  getBoards,
-  setCurrentBoard,
+  getUserBoards,
+  getBoard,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -37,7 +37,7 @@ type Props = PropsFromRedux & props;
 
 const Dashboard = (props: Props) => {
   React.useEffect(() => {
-    // props.getBoards(props.userInfo.id);
+    props.getUserBoards(props.userInfo.id);
   }, []);
 
   const handleLoadBoard = (
@@ -45,7 +45,7 @@ const Dashboard = (props: Props) => {
     board: IWhiteboardModel
   ) => {
     event.preventDefault();
-    props.setCurrentBoard(board);
+    props.getBoard(board.whiteboard_id);
   };
 
   const [showModal, setShowModal] = React.useState(false);
@@ -103,7 +103,7 @@ const Dashboard = (props: Props) => {
                             className="px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none"
                           >
                             <Link to="/whiteboard">
-                              <p>{board.name}</p>
+                              <p>{board.boardName}</p>
                             </Link>
                           </button>
                         </div>
@@ -122,19 +122,21 @@ const Dashboard = (props: Props) => {
                   <p>No boards are currently shared with you</p>
                 ) : (
                   <div>
-                    {props.sharedBoards.map((board: any, index: number) => (
-                      <button
-                        onClick={(e) => {
-                          handleLoadBoard(e, board);
-                        }}
-                        key={index}
-                        className="px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none"
-                      >
-                        <Link to="/whiteboard">
-                          <p>{board.name}</p>
-                        </Link>
-                      </button>
-                    ))}
+                    {props.sharedBoards.map(
+                      (board: IWhiteboardModel, index: number) => (
+                        <button
+                          onClick={(e) => {
+                            handleLoadBoard(e, board);
+                          }}
+                          key={index}
+                          className="px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none"
+                        >
+                          <Link to="/whiteboard">
+                            <p>{board.boardName}</p>
+                          </Link>
+                        </button>
+                      )
+                    )}
                   </div>
                 )}
               </div>

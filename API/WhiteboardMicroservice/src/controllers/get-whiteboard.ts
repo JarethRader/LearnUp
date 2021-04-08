@@ -4,7 +4,7 @@ const buildGetWhiteboards = (findOneByID: any) => {
     request: ExpressHttpRequest
   ): Promise<IController> => {
     try {
-      const whiteboards = await findOneByID(request.params.id);
+      const whiteboard = await findOneByID(request.params.id);
 
       return {
         headers: {
@@ -13,7 +13,7 @@ const buildGetWhiteboards = (findOneByID: any) => {
         statusCode: 200,
         body: {
           // @ts-ignore
-          whiteboards,
+          whiteboard,
         },
       };
     } catch (err) {

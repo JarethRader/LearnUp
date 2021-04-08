@@ -7,6 +7,7 @@ import {
   updateHelper,
   deleteHelper,
   getHelper,
+  getWhiteboardHelper,
 } from "./functions";
 
 import { WHITEBOARD_BASE, API_SUFFIX, CSRFConfig } from "../utils/config";
@@ -84,12 +85,35 @@ export const deleteBoard = (whiteboardID: string): WhiteboardThunk => async (
   }
 };
 
-export const getBoards = (userID: string): WhiteboardThunk => async (
+export const getUserBoards = (userID: string): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
   dispatch({ type: "BOARD_STATE_LOADING" });
   try {
     await getHelper(userID, WHITEBOARD_API, CSRFConfig)
+      .then((response) => {
+        dispatch({
+          type: "GET_USER_BOARD_SUCCESS",
+          payload: response,
+        });
+      })
+      .catch((err: Error) => {
+        throw err;
+      });
+  } catch (err) {
+    dispatch({
+      type: "GET_USER_BOARD_FAILURE",
+    });
+  }
+};
+
+export const getBoard = (whiteboardID: string): WhiteboardThunk => async (
+  dispatch: ThunkDispatch<RootState, void, Action>
+) => {
+  dispatch({ type: "BOARD_STATE_LOADING" });
+  console.log(whiteboardID);
+  try {
+    await getWhiteboardHelper(whiteboardID, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
         dispatch({
           type: "GET_BOARD_SUCCESS",
@@ -101,18 +125,7 @@ export const getBoards = (userID: string): WhiteboardThunk => async (
       });
   } catch (err) {
     dispatch({
-      type: "GET_BOARD_SUCCESS",
+      type: "GET_BOARD_FAILURE",
     });
   }
-};
-
-export const setCurrentBoard = (
-  board: IWhiteboardModel
-): WhiteboardThunk => async (
-  dispatch: ThunkDispatch<RootState, void, Action>
-) => {
-  dispatch({
-    type: "SET_CURRENT_BOARD",
-    payload: board,
-  });
 };

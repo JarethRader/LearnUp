@@ -3,6 +3,8 @@ import {
   UPLOAD_BOARD_FAILURE,
   UPDATE_BOARD_SUCCESS,
   UPDATE_BOARD_FAILURE,
+  GET_USER_BOARD_SUCCESS,
+  GET_USER_BOARD_FAILURE,
   GET_BOARD_SUCCESS,
   GET_BOARD_FAILURE,
   DELETE_BOARD_SUCCESS,
@@ -14,14 +16,28 @@ import {
 
 declare global {
   interface IWhiteboardModel {
-    _id?: string;
-    name?: string;
-    author?: string;
-    audience?: string;
+    whiteboard_id: string;
+    boardName: string;
+    author: string;
+    audience: string;
+  }
+
+  interface IFullBoard extends IWhiteboardModel {
+    tiles: ITileList[];
+    layout: {
+      layout_id: string;
+      boundingRect: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      };
+      tiles: ITileList[];
+    };
   }
 
   interface IWhiteboardState {
-    currentBoard: IWhiteboardModel;
+    currentBoard: IFullBoard;
     ownBoards: IWhiteboardModel[];
     sharedBoards: IWhiteboardModel[];
     whiteboardLoading: boolean;
@@ -40,12 +56,46 @@ declare global {
   }
 
   interface WhiteboardResponse {
-    whiteboard: IWhiteboardModel;
+    w_id: string;
+    bn: string;
+    ar: string;
+    au: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+
+  interface TileResponse {
+    c_id: string;
+    p_id: string;
+    t_id: string;
+    dx: number;
+    dy: number;
+    createdAt: string;
+    updatedAt: string;
+    Tile: {
+      t_id: string;
+      l: string;
+      c: string;
+    };
+  }
+
+  interface FullboardResponse extends WhiteboardResponse {
+    Layout: {
+      l_id: string;
+      bx: number;
+      by: number;
+      bw: number;
+      bh: number;
+      createdAt: string;
+      updatedAt: string;
+      Layout_Tiles: TileResponse[];
+    };
+    Whiteboard_Tiles: TileResponse[];
   }
 
   interface GetWhiteboardResponse {
-    ownWhiteboards: IWhiteboardModel[];
-    sharedWhiteboards: IWhiteboardModel[];
+    ownWhiteboards: WhiteboardResponse[];
+    sharedWhiteboards: WhiteboardResponse[];
   }
 
   interface WhiteboardLoadingAction {
@@ -69,7 +119,7 @@ declare global {
   // Upload new board state interface
   interface UploadBoardSuccess {
     type: typeof UPLOAD_BOARD_SUCCESS;
-    payload: WhiteboardResponse;
+    payload: null;
   }
 
   interface UploadBoardFailure {
@@ -80,9 +130,22 @@ declare global {
   type UploadBoardActionTypes = UploadBoardSuccess | UploadBoardFailure;
 
   // get board states interface
+  interface GetUserBoardSuccess {
+    type: typeof GET_USER_BOARD_SUCCESS;
+    payload: GetWhiteboardResponse;
+  }
+
+  interface GetUserBoardFailure {
+    type: typeof GET_USER_BOARD_FAILURE;
+    payload?: null;
+  }
+
+  type GetUserBoardActionTypes = GetUserBoardSuccess | GetUserBoardFailure;
+
+  // get board states interface
   interface GetBoardSuccess {
     type: typeof GET_BOARD_SUCCESS;
-    payload: GetWhiteboardResponse;
+    payload: { whiteboard: FullboardResponse };
   }
 
   interface GetBoardFailure {
@@ -121,6 +184,7 @@ declare global {
     | WhiteboardLoadingAction
     | UpdateBoardActionTypes
     | UploadBoardActionTypes
+    | GetUserBoardActionTypes
     | GetBoardActionTypes
     | HandleCurrentBoardActions
     | DeleteBoardActionTypes;

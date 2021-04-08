@@ -9,18 +9,47 @@ import WhiteboardSelectableTile from "./tiles/WhiteboardSelectableTile";
 
 import { useWhiteboard } from "../../context/whiteboard/whiteboardContext";
 
-interface Props {}
+import {
+  updateBoard,
+  getBoard,
+} from "../../actions/whiteboardAPI/whiteboardActions";
 
 const frontTileSet = require("../../components/tiles/defaultTileSets/front.json");
 const backTileSet = require("../../components/tiles/defaultTileSets/back.json");
+
+interface props {
+  Navbar: (props: any) => JSX.Element;
+  whiteboard_id: string;
+}
+
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "../../reducers/index";
+
+const mapStateToProps = (state: RootState) => ({
+  isAuthenticated: state.user.isAuthenticated,
+  currentBoard: state.whiteboard.currentBoard,
+  whiteboardLoading: state.whiteboard.whiteboardLoading,
+});
+
+const mapDispatchToProps = {
+  updateBoard,
+  getBoard,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type Props = PropsFromRedux & props;
 
 const Whiteboard = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
 
   React.useEffect(() => {
+    console.log(props.currentBoard.layout.tiles);
     dispatch({
       type: "SET_TILELIST",
-      payload: frontTileSet,
+      payload: props.currentBoard.layout.tiles,
     });
   }, []);
 
@@ -138,4 +167,4 @@ const Whiteboard = (props: Props) => {
   );
 };
 
-export default Whiteboard;
+export default connector(Whiteboard);

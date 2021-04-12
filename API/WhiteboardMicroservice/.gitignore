@@ -2,5 +2,6 @@
 package-lock.json
 
 **/*/.env.development
+**/*/.env.docker
 **/*/.env.production
 **/*/.env.test

@@ -22,6 +22,7 @@ const setupDB = () => {
     dialect: "postgres",
     logging: false,
   });
+
   sequelize
     .authenticate()
     .then(async () => {
@@ -30,8 +31,6 @@ const setupDB = () => {
 
       await DBSchemas.WhiteboardSchema.sync({ force: true });
       await DBSchemas.LayoutSchema.sync({ force: true });
-      await DBSchemas.LayoutTileSchema.sync({ force: true });
-      await DBSchemas.WhiteboardTileSchema.sync({ force: true });
       await DBSchemas.TileSchema.sync({ force: true }).then((success) => {
         tileSet.tiles.forEach((tile: TTile) => {
           // @ts-ignore
@@ -44,6 +43,8 @@ const setupDB = () => {
           });
         });
       });
+      await DBSchemas.LayoutTileSchema.sync({ force: true });
+      await DBSchemas.WhiteboardTileSchema.sync({ force: true });
       console.log("Tiles Database populated with all possible tiles");
     })
     .catch((err) => console.log("Unable to connect to the database: ", err));

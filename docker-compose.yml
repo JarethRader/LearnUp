@@ -26,6 +26,17 @@ services:
     volumes:
       - ./API/UserMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
+  postgres:
+    container_name: learnup_postgres
+    image: "postgres"
+    environment:
+      POSTGRES_USER: learnup_user
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: Learnup
+    ports:
+      - "5432:5432"
+    volumes:
+      - database-data:/var/lib/postgresql/data/
   whiteboard:
     container_name: learnup_whiteboard
     image: learnup_whiteboard:dev
@@ -33,32 +44,38 @@ services:
     build:
       context: ./API/WhiteboardMicroservice
       dockerfile: ./Dockerfile
+    depends_on:
+      - postgres
     ports:
       - "5001:5001"
     volumes:
       - ./API/WhiteboardMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
-  # audio:
-  #   container_name: learnup_audio
-  #   image: learnup_audio:dev
-  #   restart: always
-  #   build:
-  #     context: ./API/AudioMicroservice
-  #     dockerfile: ./Dockerfile
-  #   ports:
-  #     - "5002:5002"
-  #   volumes:
-  #     - ./API/AudioMicroservice:/usr/src/app
-  #     - /usr/src/app/node_modules/
-  # signalling:
-  #   container_name: learnup_webrtc_signalling
-  #   image: learnup_webrtc_signalling:dev
-  #   restart: always
-  #   build:
-  #     context: ./API/signallingServer
-  #     dockerfile: ./Dockerfile
-  #   ports:
-  #     - "8081:8081"
-  #   volumes:
-  #     - ./API/signallingServer:/user/src/app
-  #     - /usr/src/app/node_modules/
+  audio:
+    container_name: learnup_audio
+    image: learnup_audio:dev
+    restart: always
+    build:
+      context: ./API/AudioMicroservice
+      dockerfile: ./Dockerfile
+    ports:
+      - "5002:5002"
+    volumes:
+      - ./API/AudioMicroservice:/usr/src/app
+      - /usr/src/app/node_modules/
+
+    # signalling:
+    #   container_name: learnup_webrtc_signalling
+    #   image: learnup_webrtc_signalling:dev
+    #   restart: always
+    #   build:
+    #     context: ./API/signallingServer
+    #     dockerfile: ./Dockerfile
+    #   ports:
+    #     - "8081:8081"
+    #   volumes:
+    #     - ./API/signallingServer:/user/src/app
+    #     - /usr/src/app/node_modules/
+
+volumes:
+  database-data:

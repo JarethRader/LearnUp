@@ -38,9 +38,22 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type Props = PropsFromRedux & createBoardProps;
 
+enum BoardTypeEnum {
+  Default = "default",
+  Beginner = "beginner",
+}
+
 const CreateBoardModal = (props: Props) => {
   const [boardName, setBoardName] = React.useState("");
-  const [shareEmail, setShareEmail] = React.useState("");
+  // const [shareEmail, setShareEmail] = React.useState("");
+  const [board, setBoardType] = React.useState<string>(BoardTypeEnum.Default);
+
+  const handleBoardTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    event.preventDefault();
+    setBoardType(event.target.value);
+  };
 
   const handleSubmit = (
     event:
@@ -49,32 +62,49 @@ const CreateBoardModal = (props: Props) => {
   ) => {
     event.preventDefault();
 
-    findUserByEmail(shareEmail)
-      .then((response) => {
-        if (response && Object.keys(response).length !== 0) {
-          let body: { [key: string]: any } = {
-            name: boardName,
-            author: props.userID,
-            // audience: response.user._id,
-            boardState: [],
-          };
-          shareEmail !== "" ? (body["audience"] = response.user._id) : null;
+    // This is for sharing boards, Its unnecessary right now, but we might implement it in the future
+    // findUserByEmail(shareEmail)
+    //   .then((response) => {
+    //     if (response && Object.keys(response).length !== 0) {
+    //       let body: { [key: string]: any } = {
+    //         name: boardName,
+    //         author: props.userID,
+    //         // audience: response.user._id,
+    //         boardState: [],
+    //       };
+    //       shareEmail !== "" ? (body["audience"] = response.user._id) : null;
 
-          props.uploadBoard(body as IWhiteboardInfoObj);
-        } else {
-          throw new Error(`Unable to share with ${shareEmail}`);
-        }
-      })
-      .catch((err) => {
-        const body = {
-          name: boardName,
-          author: props.userID,
-          boardState: [],
-        };
-        props.uploadBoard(body);
-      });
+    //       props.uploadBoard(body as IWhiteboardInfoObj);
+    //     } else {
+    //       throw new Error(`Unable to share with ${shareEmail}`);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     const body = {
+    //       name: boardName,
+    //       author: props.userID,
+    //       boardState: [],
+    //     };
+    //     props.uploadBoard(body);
+    //   });
+
+    const body = {
+      author: props.userID,
+      boardName,
+      layout: {
+        // these numbers come from how I originally made the whiteboard and layout pages. The whiteboard will automatically resize everything appropriately wuth these numbers used as the base bounding rect
+        boundingRect: {
+          x: 121,
+          y: 80,
+          width: 1760,
+          height: 816,
+        },
+      },
+    };
+    props.uploadBoard(body);
+
     setBoardName("");
-    setShareEmail("");
+    // setShareEmail("");
     props.toggleModal(event as any);
   };
 
@@ -108,7 +138,18 @@ const CreateBoardModal = (props: Props) => {
                 className="my-2 mx-8 py-1 px-2 border-2 border-gray-200 shadow-md rounded"
               />
             </label>
-            <label>
+            <br />
+            <div className="flex flex-col">
+              <label htmlFor="board">Choose a board</label>
+              <select
+                className="p-1 rounded-md"
+                onChange={(e) => handleBoardTypeChange(e)}
+              >
+                <option value={BoardTypeEnum.Default}>default</option>
+                <option value={BoardTypeEnum.Beginner}>beginner</option>
+              </select>
+            </div>
+            {/* <label>
               <p>Share this board:</p>
               <input
                 type="text"
@@ -117,7 +158,7 @@ const CreateBoardModal = (props: Props) => {
                 onChange={(e) => setShareEmail(e.target.value)}
                 className="my-2 mx-8 py-1 px-2 border-2 border-gray-200 shadow-md rounded"
               />
-            </label>
+            </label> */}
             <hr className="my-2" />
             <div className="py-4">
               <button

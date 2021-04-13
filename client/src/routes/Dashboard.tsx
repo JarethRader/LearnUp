@@ -40,12 +40,18 @@ const Dashboard = (props: Props) => {
     props.getUserBoards(props.userInfo!.id);
   }, []);
 
+  const handleRefreshBoards = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    props.getUserBoards(props.userInfo!.id);
+  };
+
   const handleLoadBoard = (
     event: React.MouseEvent<HTMLButtonElement>,
     board: IWhiteboardModel
   ) => {
     event.preventDefault();
-    props.getBoard(board.whiteboard_id);
+    // props.getBoard(board.whiteboard_id);
+    return <Redirect to={`/whiteboard/${board.whiteboard_id}`} />;
   };
 
   const [showModal, setShowModal] = React.useState(false);
@@ -76,12 +82,18 @@ const Dashboard = (props: Props) => {
               <h1 className="font-bold text-2xl">
                 Hello {props.userInfo!.username}!
               </h1>
-              <h1 className="font-bold text-2xl text-blue-500">
+              <h2 className="font-bold text-2xl text-blue-500">
                 Welcome to your LearnUp Dashboard
-              </h1>
+              </h2>
+              <button
+                onClick={(e) => handleRefreshBoards(e)}
+                className="px-4 py-2 my-2 bg-blue-500 hover:bg-blue-700 rounded-md shadow-lg text-white text-lg font-semibold stroke focus:outline-none"
+              >
+                Refresh
+              </button>
             </div>
           </div>
-          <div className="bg-gray-300 mx-20 my-8 py-8 px-10 rounded-xl border-2 border-black shadow-2xl">
+          <div className="bg-gray-300 mx-20 my-2 py-8 px-10 rounded-xl border-2 border-black shadow-2xl">
             <div>
               <h1 className="font-bold text-xl underline">
                 Your whiteboards. No one else can see this whiteboard, only you
@@ -96,13 +108,13 @@ const Dashboard = (props: Props) => {
                       (board: IWhiteboardModel, index: number) => (
                         <div key={index} className="my-2">
                           <button
-                            onClick={(e) => {
-                              handleLoadBoard(e, board);
-                            }}
+                            // onClick={(e) => {
+                            //   handleLoadBoard(e, board);
+                            // }}
                             key={index}
                             className="px-4 py-2 bg-orange-400 hover:bg-orange-500 rounded text-white text-lg font-semibold stroke shadow-xl focus:outline-none"
                           >
-                            <Link to="/whiteboard">
+                            <Link to={`/whiteboard?id=${board.whiteboard_id}`}>
                               <p>{board.boardName}</p>
                             </Link>
                           </button>

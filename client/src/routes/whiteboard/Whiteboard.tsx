@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { SelectableGroup, DeselectAll } from "react-selectable-fast";
 import { Trash, Sound } from "@styled-icons/entypo";
 
@@ -15,6 +15,10 @@ import {
 } from "../../actions/whiteboardAPI/whiteboardActions";
 
 import { playAudio } from "../../actions/audioAPI/audioActions";
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 const debounce = (
   update: (whiteboardID: string, body: IWhiteboardEditObj) => void,
@@ -59,6 +63,11 @@ type Props = PropsFromRedux & props;
 
 const Whiteboard = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
+  const whiteboardID = useQuery().get("id");
+
+  React.useEffect(() => {
+    whiteboardID && props.getBoard(whiteboardID);
+  }, []);
 
   React.useEffect(() => {
     dispatch({
@@ -80,7 +89,7 @@ const Whiteboard = (props: Props) => {
         },
       });
     });
-  }, []);
+  }, [props.currentBoard.whiteboard_id]);
 
   const flipBoard = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

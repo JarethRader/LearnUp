@@ -93,15 +93,40 @@ export const getUserBoards = (userID: string): WhiteboardThunk => async (
   try {
     await getHelper(userID, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
+        const ownWhiteboards =
+          response.ownWhiteboards.length > 0
+            ? response.ownWhiteboards.map((whiteboard) => ({
+                whiteboard_id: whiteboard.w_id,
+                boardName: whiteboard.bn,
+                author: whiteboard.ar,
+                audience: whiteboard.au,
+              }))
+            : [];
+
+        const sharedWhiteboards =
+          response.sharedWhiteboards.length > 0
+            ? response.sharedWhiteboards.map((whiteboard) => ({
+                whiteboard_id: whiteboard.w_id,
+                boardName: whiteboard.bn,
+                author: whiteboard.ar,
+                audience: whiteboard.au,
+              }))
+            : [];
+        const payload = {
+          ownWhiteboards,
+          sharedWhiteboards,
+        };
+
         dispatch({
           type: "GET_USER_BOARD_SUCCESS",
-          payload: response,
+          payload,
         });
       })
       .catch((err: Error) => {
         throw err;
       });
   } catch (err) {
+    console.log(err);
     dispatch({
       type: "GET_USER_BOARD_FAILURE",
     });

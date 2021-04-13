@@ -25,7 +25,7 @@ module.exports = merge(common, {
   },
   output: {
     path: path.resolve(__dirname, "dist/"),
-    publicPath: `./`,
+    publicPath: `/`,
     pathinfo: true,
     filename: "static/js/[name].js",
     chunkFilename: "static/js/[name].chunk.js",

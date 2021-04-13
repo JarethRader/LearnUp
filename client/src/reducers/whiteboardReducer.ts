@@ -81,18 +81,10 @@ export default function (
     case "GET_USER_BOARD_SUCCESS":
       return {
         ...state,
-        ownBoards: action.payload.ownWhiteboards.map((whiteboard) => ({
-          whiteboard_id: whiteboard.w_id,
-          boardName: whiteboard.bn,
-          author: whiteboard.ar,
-          audience: whiteboard.au,
-        })),
-        sharedBoards: action.payload.sharedWhiteboards.map((whiteboard) => ({
-          whiteboard_id: whiteboard.w_id,
-          boardName: whiteboard.bn,
-          author: whiteboard.ar,
-          audience: whiteboard.au,
-        })),
+        // @ts-ignore
+        ownBoards: action.payload.ownWhiteboards,
+        // @ts-ignore
+        sharedBoards: action.payload.sharedWhiteboards,
         whiteboardLoading: false,
       };
     case "DELETE_BOARD_SUCCESS":

@@ -44,6 +44,7 @@ declare global {
   }
 
   interface IWhiteboardInfoObj {
+    whiteboard_id?: string;
     name?: string;
     author?: string;
     audience?: string;

@@ -10,7 +10,7 @@ const generateAudioHelper = (body: any, API: string, CSRFConfig: any) => {
         if (response.status === 400) {
           throw new Error("Failed to generate audio");
         }
-        return response.arrayBuffer();
+        return await response.arrayBuffer();
       })
       .then((buffer) => {
         resolve(buffer);

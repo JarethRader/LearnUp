@@ -140,7 +140,8 @@ const Whiteboard = (props: Props) => {
       tiles: state.whiteboardList,
     };
 
-    autosave(newWhiteboard);
+    // this will add multiple copies of the same tile whenever it runs, I need to fix it on the backend
+    // autosave(newWhiteboard);
   }, [state.whiteboardList]);
 
   const handlePlayAudio = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -148,18 +149,20 @@ const Whiteboard = (props: Props) => {
     props.playAudio(state.selectedList);
   };
 
-  React.useEffect(() => {
+  const play = React.useCallback(async () => {
     if (props.audio) {
-      // @ts-ignore
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const src = audioCtx.createBufferSource();
-      audioCtx.decodeAudioData(props.audio, (decoded) => {
-        src.buffer = decoded;
-        src.connect(audioCtx.destination);
-        src.start();
+      const audioBlob = new Blob([props.audio as BlobPart], {
+        type: "audio/mpeg",
       });
+      const audioURL = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioURL);
+      audio.play();
     }
   }, [props.audio]);
+
+  React.useEffect(() => {
+    play();
+  }, [play]);
 
   return (
     <div>
@@ -188,6 +191,7 @@ const Whiteboard = (props: Props) => {
               >
                 Flip Board
               </button> */}
+              {/* TODO: The currentBoard variable in the whiteboard redux store needs to be clears when we navigate back to the dashboard. RN it doesn't load up new boards when we change a different board from the dashboard */}
               <Link to="/dashboard">
                 <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-700 focus:outline-none text-white font-semibold stroke">
                   Dashboard

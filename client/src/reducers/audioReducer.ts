@@ -1,5 +1,5 @@
 const initialState: IAudioState = {
-  audio: null,
+  audio: undefined,
   audioLoading: false,
 };
 
@@ -17,7 +17,7 @@ export default function (
     case "GENERATE_AUDIO_FAILURE":
       return {
         ...state,
-        audio: null,
+        audio: undefined,
         audioLoading: false,
       };
     case "AUDIO_LOADING":

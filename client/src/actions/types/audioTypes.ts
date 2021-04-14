@@ -6,7 +6,7 @@ import {
 
 declare global {
   interface IAudioState {
-    audio: any;
+    audio: ArrayBuffer | undefined;
     audioLoading: boolean;
   }
 

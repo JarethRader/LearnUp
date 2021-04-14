@@ -26,9 +26,6 @@ export const playAudio = (tileList: ITileList[]): AudioThunk => async (
 ) => {
   dispatch({ type: "AUDIO_LOADING" });
 
-  const tiles = { tiles: tileList };
-  console.log(tiles);
-
   try {
     // let filteredList: audioBody[] = [];
     // wordList.map((word: IWordList) => {

@@ -78,6 +78,13 @@ const Whiteboard = (props: Props) => {
       },
     });
 
+    // NOTE
+    // for some reason the "ADD_WHITEBOARD_TILES" will add duplicates of the tiles from the redux store to the page
+    // for now my solution is to just the context before adding the tiles from the redux store
+    // This useEffect block should only be running whenever the whiteboard_id changes, which is intial load and should only happen once, but that doesn't seem to be the case
+    dispatch({
+      type: "CLEAR_WHITEBOARD",
+    });
     props.currentBoard.tiles.forEach((tile) => {
       dispatch({
         type: "ADD_WHITEBOARD_TILE",
@@ -101,7 +108,6 @@ const Whiteboard = (props: Props) => {
   };
 
   const WhiteboardRef = React.useRef<HTMLDivElement>(null);
-
   React.useEffect(() => {
     dispatch({
       type: "SET_OFFSET",
@@ -130,7 +136,7 @@ const Whiteboard = (props: Props) => {
       (newWhiteboard) =>
         // @ts-ignore
         props.updateBoard(props.currentBoard.whiteboard_id, newWhiteboard),
-      60000
+      300000
     ),
     []
   );
@@ -140,8 +146,8 @@ const Whiteboard = (props: Props) => {
       tiles: state.whiteboardList,
     };
 
-    // this will add multiple copies of the same tile whenever it runs, I need to fix it on the backend
-    // autosave(newWhiteboard);
+    // TODO: the whiteboard readding multiple instances of the same tile seems to be coming from the frontend, the whiteboardList in the context API has the same tiles added periodically
+    autosave(newWhiteboard);
   }, [state.whiteboardList]);
 
   const handlePlayAudio = (event: React.MouseEvent<HTMLButtonElement>) => {

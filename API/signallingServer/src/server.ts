@@ -25,7 +25,7 @@ wss.on("connection", (ws) => {
 
   ws.on("message", (message) => {
     const data = JSON.parse(message.toString());
-
+    console.log(data);
     switch (data.type) {
       case "message": {
         messageUtils.messageResponse(ws, data);

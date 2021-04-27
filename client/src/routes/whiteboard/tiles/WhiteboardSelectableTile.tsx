@@ -29,35 +29,28 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
         y: deltaPosition.y + ui.deltaY,
       });
       props.updateMessage({
+        type: "UPDATE",
         tile: props.tile.uid,
         delta: deltaPosition,
       });
     };
 
     React.useEffect(() => {
-      if (
-        props.response.delta &&
-        props.response.tile === props.tile.uid &&
-        deltaPosition !== props.response.delta &&
-        !isMouseClicked
-      ) {
-        const newDelta = {
-          x:
-            (props.response.delta.x * state.offsetBounds.width) /
-            state.tileSetRect.width,
-          y:
-            (props.response.delta.y * state.offsetBounds.height) /
-            state.tileSetRect.height,
-        };
-        console.log(newDelta, deltaPosition);
-        setDelta({
-          x:
-            (props.response.delta.x * state.offsetBounds.width) /
-            state.tileSetRect.width,
-          y:
-            (props.response.delta.y * state.offsetBounds.height) /
-            state.tileSetRect.height,
-        });
+      if (props.response.type === "UPDATE") {
+        if (
+          props.response.delta &&
+          props.response.tile === props.tile.uid &&
+          deltaPosition !== props.response.delta
+        ) {
+          setDelta({
+            x:
+              (props.response.delta.x * state.offsetBounds.width) /
+              state.tileSetRect.width,
+            y:
+              (props.response.delta.y * state.offsetBounds.height) /
+              state.tileSetRect.height,
+          });
+        }
       }
     }, [props.response]);
 

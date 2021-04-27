@@ -1,16 +1,17 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const configuration = {
-  iceServers: [
-    { urls: "stun:stun.l.google.com:19302" },
-    { urls: "stun:stun.services.mozilla.com" },
-    { urls: "stun:stun.stunprotocol.org:3478" },
-  ],
-};
-
-// use for local connections
-// const configuration = null;
+// use null for local connections, e.g. in development
+const configuration =
+  process.env.NODE_ENV === "development"
+    ? null
+    : {
+        iceServers: [
+          { urls: "stun:stun.l.google.com:19302" },
+          { urls: "stun:stun.services.mozilla.com" },
+          { urls: "stun:stun.stunprotocol.org:3478" },
+        ],
+      };
 
 // TODO: add types for these contexts
 const MessageContext = React.createContext<{
@@ -274,12 +275,14 @@ const RTCProvider: React.FC = ({ children }: any) => {
   // send message
   React.useEffect(() => {
     if (channel && channel.readyState === "open") {
-      console.log("Sending", message);
       channel.send(JSON.stringify(message));
     }
   }, [message]);
 
-  React.useEffect(() => {}, [channel, connection]);
+  React.useEffect(() => {
+    console.log("Channel", channel?.readyState);
+    console.log("Connection", connection?.connectionState);
+  }, [channel, connection]);
 
   return (
     <MessageContext.Provider value={{ message, updateMessage }}>

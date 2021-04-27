@@ -3,7 +3,10 @@ import TileComponent from "../../../components/tiles/tileComponent";
 import Draggable, { DraggableEvent } from "react-draggable";
 import { useWhiteboard } from "../../../context/whiteboard/whiteboardContext";
 
-interface Props {}
+interface Props {
+  updateMessage: (msg: any) => void;
+  response: any;
+}
 
 const WhiteboardDraggableTile = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
@@ -45,6 +48,19 @@ const WhiteboardDraggableTile = (props: Props) => {
     });
     dispatch({
       type: "CLEAR_SELECTED_TILE",
+    });
+
+    props.updateMessage({
+      type: "ADD",
+      data: {
+        tile_id: state.selectedTile!.tile_id,
+        uid: state.selectedTile!.uid,
+        tile: state.selectedTile!.tile,
+        delta: {
+          x: deltaPosition.x - state.offsetBounds.x,
+          y: deltaPosition.y - state.offsetBounds.y,
+        },
+      },
     });
   };
 

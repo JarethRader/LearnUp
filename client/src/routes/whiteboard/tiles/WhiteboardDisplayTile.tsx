@@ -5,6 +5,8 @@ import { useWhiteboard } from "../../../context/whiteboard/whiteboardContext";
 
 interface Props {
   tile: ITileList;
+  updateMessage: (msg: any) => void;
+  response: any;
 }
 
 const WhiteboardDisplayTile = (props: Props) => {
@@ -30,9 +32,38 @@ const WhiteboardDisplayTile = (props: Props) => {
           },
         },
       });
+      // props.updateMessage({
+      //   type: "ADD",
+      //   data: {
+      //     tile_id: props.tile.tile_id,
+      //     uid: props.tile.uid,
+      //     tile: props.tile.tile,
+      //     delta: {
+      //       x: bounds.x,
+      //       y: bounds.y,
+      //     },
+      //   },
+      // });
     }, 50);
     return () => clearTimeout(timer);
   };
+
+  // React.useEffect(() => {
+  //   if (props.response.type === "ADD") {
+  //     dispatch({
+  //       type: "SET_SELECTED_TILE",
+  //       payload: {
+  //         tile_id: props.response.data.tile_id,
+  //         uid: props.response.data.uid,
+  //         tile: props.response.data.tile,
+  //         delta: {
+  //           x: props.response.data.delta.x,
+  //           y: props.response.data.delta.y,
+  //         },
+  //       },
+  //     });
+  //   }
+  // }, [props.response]);
 
   const [ref, bounds] = useMeasure({});
 

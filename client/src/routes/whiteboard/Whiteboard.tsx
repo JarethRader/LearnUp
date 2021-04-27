@@ -69,6 +69,16 @@ const Whiteboard = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
   const whiteboardID = useQuery().get("id");
 
+  const [localResponse, setLocalResponse] = React.useState<any>({});
+  React.useEffect(() => {
+    if (localResponse.type === "ADD") {
+      dispatch({
+        type: "ADD_WHITEBOARD_TILE",
+        payload: localResponse.data,
+      });
+    }
+  }, [localResponse]);
+
   React.useEffect(() => {
     whiteboardID && props.getBoard(whiteboardID);
   }, []);
@@ -176,96 +186,110 @@ const Whiteboard = (props: Props) => {
 
   return (
     <div>
-      <div className="absolute z-20">
-        {state.selectedTile && <WhiteboardDraggableTile />}
-      </div>
       <MessageConsumer>
         {({ message, updateMessage }) => (
           <ResponseConsumer>
-            {({ response, updateResponse }) => (
-              <div className="w-full min-h-screen flex items-center flex-col bg-gray-300 py-4">
-                <div className="w-7/12 flex flex-col">
-                  <div className="grid grid-cols-3">
-                    <div className="flex self-center">
-                      <p className="text-xl font-semibold flex justify-center">
-                        {props.currentBoard.boardName}
-                      </p>
-                    </div>
-                    <div className="text-center">
-                      <h1 className="text-yellow-500 font-bold text-2xl">
-                        Learning Board
-                      </h1>
-                    </div>
+            {({ response, updateResponse }) => {
+              setLocalResponse(response);
+              return (
+                <div>
+                  <div className="absolute z-20">
+                    {state.selectedTile && (
+                      <WhiteboardDraggableTile
+                        updateMessage={updateMessage}
+                        response={response}
+                      />
+                    )}
                   </div>
-                  <div className="flex flex-row justify-center py-2">
-                    <div className="flex flex-row">
-                      {/* <button
+                  <div className="w-full min-h-screen flex items-center flex-col bg-gray-300 py-4">
+                    <div className="w-7/12 flex flex-col">
+                      <div className="grid grid-cols-3">
+                        <div className="flex self-center">
+                          <p className="text-xl font-semibold flex justify-center">
+                            {props.currentBoard.boardName}
+                          </p>
+                        </div>
+                        <div className="text-center">
+                          <h1 className="text-yellow-500 font-bold text-2xl">
+                            Learning Board
+                          </h1>
+                        </div>
+                      </div>
+                      <div className="flex flex-row justify-center py-2">
+                        <div className="flex flex-row">
+                          {/* <button
                   onClick={(e) => flipBoard(e)}
                   className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-700 focus:outline-none text-white font-semibold stroke"
                 >
                   Flip Board
                 </button> */}
-                      {/* TODO: The currentBoard variable in the whiteboard redux store needs to be clears when we navigate back to the dashboard. RN it doesn't load up new boards when we change a different board from the dashboard */}
-                      <Link to="/dashboard">
-                        <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-700 focus:outline-none text-white font-semibold stroke">
-                          Dashboard
-                        </button>
-                      </Link>
-                      <button
-                        onClick={(e) => handleClearBoard(e)}
-                        className="px-4 py-2 mx-1 rounded bg-red-500 hover:bg-red-700 focus:outline-none text-white font-semibold stroke"
-                      >
-                        Clear Board
-                      </button>
-                      <div className="border-4 border-black rounded-md py-1 px-12 bg-white">
-                        <Trash size="24" />
+                          {/* TODO: The currentBoard variable in the whiteboard redux store needs to be clears when we navigate back to the dashboard. RN it doesn't load up new boards when we change a different board from the dashboard */}
+                          <Link to="/dashboard">
+                            <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-700 focus:outline-none text-white font-semibold stroke">
+                              Dashboard
+                            </button>
+                          </Link>
+                          <button
+                            onClick={(e) => handleClearBoard(e)}
+                            className="px-4 py-2 mx-1 rounded bg-red-500 hover:bg-red-700 focus:outline-none text-white font-semibold stroke"
+                          >
+                            Clear Board
+                          </button>
+                          <div className="border-4 border-black rounded-md py-1 px-12 bg-white">
+                            <Trash size="24" />
+                          </div>
+                          <button
+                            onClick={(e) => handlePlayAudio(e)}
+                            className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-700 focus:outline-none text-white font-semibold stroke flex items-center items-row"
+                          >
+                            <h1 className="pr-1">Play</h1>
+                            <Sound size="20" className="text-black" />
+                          </button>
+                        </div>
                       </div>
-                      <button
-                        onClick={(e) => handlePlayAudio(e)}
-                        className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-700 focus:outline-none text-white font-semibold stroke flex items-center items-row"
+                    </div>
+                    <hr className="" />
+                    <div className="flex flex-1 w-11/12 my-4">
+                      <div
+                        ref={WhiteboardRef}
+                        className="flex flex-1 bg-white rounded-xl shadow-xl  border-black border-4 z-10"
                       >
-                        <h1 className="pr-1">Play</h1>
-                        <Sound size="20" className="text-black" />
-                      </button>
+                        {state.tileList &&
+                          state.tileList.map((tile: any) => (
+                            <div className="relative flex h-0 w-0 z-10">
+                              <WhiteboardDisplayTile
+                                tile={tile}
+                                updateMessage={updateMessage}
+                                response={response}
+                              />
+                            </div>
+                          ))}
+                        <SelectableGroup
+                          className="main w-full h-full relative z-0"
+                          enableDeselect={true}
+                          tolerance={0}
+                          deselectOnEsc={true}
+                          allowClickWithoutSelected={false}
+                          selectOnClick={false}
+                          allowCtrlClick={true}
+                          resetOnStart={true}
+                        >
+                          {state.whiteboardList.map((tile: any) => (
+                            <div className="relative flex h-0 w-0">
+                              <WhiteboardSelectableTile
+                                tile={tile}
+                                updateMessage={updateMessage}
+                                response={response}
+                              />
+                            </div>
+                          ))}
+                        </SelectableGroup>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <hr className="" />
-                <div className="flex flex-1 w-11/12 my-4">
-                  <div
-                    ref={WhiteboardRef}
-                    className="flex flex-1 bg-white rounded-xl shadow-xl  border-black border-4 z-10"
-                  >
-                    {state.tileList &&
-                      state.tileList.map((tile: any) => (
-                        <div className="relative flex h-0 w-0 z-10">
-                          <WhiteboardDisplayTile tile={tile} />
-                        </div>
-                      ))}
-                    <SelectableGroup
-                      className="main w-full h-full relative z-0"
-                      enableDeselect={true}
-                      tolerance={0}
-                      deselectOnEsc={true}
-                      allowClickWithoutSelected={false}
-                      selectOnClick={false}
-                      allowCtrlClick={true}
-                      resetOnStart={true}
-                    >
-                      {state.whiteboardList.map((tile: any) => (
-                        <div className="relative flex h-0 w-0">
-                          <WhiteboardSelectableTile
-                            tile={tile}
-                            updateMessage={updateMessage}
-                            response={response}
-                          />
-                        </div>
-                      ))}
-                    </SelectableGroup>
-                  </div>
-                </div>
-              </div>
-            )}
+              );
+            }}
           </ResponseConsumer>
         )}
       </MessageConsumer>

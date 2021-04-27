@@ -145,12 +145,13 @@ const Whiteboard = (props: Props) => {
     });
   };
 
+  // I need to look into how this autosave works and make sure its working how I expect it to be
   const autosave = React.useCallback(
     debounce(
       (newWhiteboard) =>
         // @ts-ignore
         props.updateBoard(props.currentBoard.whiteboard_id, newWhiteboard),
-      300000
+      60000
     ),
     []
   );
@@ -161,7 +162,7 @@ const Whiteboard = (props: Props) => {
     };
 
     // TODO: the whiteboard readding multiple instances of the same tile seems to be coming from the frontend, the whiteboardList in the context API has the same tiles added periodically
-    autosave(newWhiteboard);
+    props.isAuthenticated && autosave(newWhiteboard);
   }, [state.whiteboardList]);
 
   const handlePlayAudio = (event: React.MouseEvent<HTMLButtonElement>) => {

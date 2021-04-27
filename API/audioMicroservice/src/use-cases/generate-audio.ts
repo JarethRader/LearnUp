@@ -3,10 +3,13 @@ import fs from "fs";
 const buildGenerateAudio: BuildGenerateAudio = (
   extractLetters,
   generateTempFile,
-  appendAudioFiles
+  appendAudioFiles,
+  sorted
 ) => {
-  const generateAudio = async (tileList: ITile[]) => {
-    const letters = extractLetters(tileList);
+  const generateAudio = async (tileList: IRequestTile[]) => {
+    const sortTiles = sorted(tileList);
+
+    const letters = extractLetters(sortTiles);
 
     const uniqueFileName = generateTempFile();
     // start write fileStream

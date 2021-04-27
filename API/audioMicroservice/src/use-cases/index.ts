@@ -6,9 +6,9 @@ import { v1 as uuidv1 } from "uuid";
 
 import buildGenerateAudio from "./generate-audio";
 
-const extractLetters = (tileList: ITile[]) => {
+const extractLetters = (tileList: IRequestTile[]) => {
   let letterList: string[] = [];
-  tileList.map((element: ITile) => {
+  tileList.map((element: IRequestTile) => {
     letterList = [...letterList, element.tile.letters];
   });
   return letterList;
@@ -28,10 +28,17 @@ const appendAudioFiles = (letters: string[], fileStream: fs.WriteStream) => {
   });
 };
 
+const sortTiles = (tileList: IRequestTile[]) =>
+  tileList.sort(
+    (a, b) =>
+      Math.hypot(a.delta.x, a.delta.y) - Math.hypot(b.delta.x, b.delta.y)
+  );
+
 const generateAudio = buildGenerateAudio(
   extractLetters,
   generateTempFile,
-  appendAudioFiles
+  appendAudioFiles,
+  sortTiles
 );
 
 const audioServices = Object.freeze({

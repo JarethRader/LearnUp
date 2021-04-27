@@ -18,14 +18,17 @@ app.use(morgan("common"));
 app.use(helmet());
 
 // keep track of all users that have connected (I want to store these in redis eventually)
-let users: any = {};
+// let users: any = {};
+import users from "./users";
 
 wss.on("connection", (ws) => {
   broadcast.sendTo(ws, { type: "connection", message: "Socket connected" });
 
+  // TODO: Need to add channels for each whiteboard. Should be able to just the whiteboard ID
+  // Might also need to implement redis or memcache for keep track of all connected users? for the meantime, sessions shouldn't be long enough that should be a problem; if it ever does becomes a problem
   ws.on("message", (message) => {
     const data = JSON.parse(message.toString());
-    console.log(data);
+    console.log("Data recieved: ", data);
     switch (data.type) {
       case "message": {
         messageUtils.messageResponse(ws, data);

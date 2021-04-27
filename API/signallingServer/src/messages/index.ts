@@ -7,7 +7,8 @@ import buildOfferResponse from "./offer";
 import buildAnswerResponse from "./answer";
 import buildCandidateResponse from "./candidate";
 
-let users: any = {};
+// let users: any = {};
+import users from "../users";
 
 const messageResponse = buildMessageResponse(broadcast.sendTo);
 const connectResponse = buildConnectResponse(

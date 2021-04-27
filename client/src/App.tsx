@@ -29,7 +29,7 @@ const routes = [
 
 import { LayoutProvider } from "./context/layout/layoutContext";
 import { WhiteboardProvider } from "./context/whiteboard/whiteboardContext";
-import { ConnectionProvider } from "./context/connection/connectionContext";
+import { RTCProvider } from "./context/connection/connectionContext";
 
 const App = () => {
   return (
@@ -53,9 +53,9 @@ const App = () => {
                   <Route key={path} path={path}>
                     <div>
                       <WhiteboardProvider>
-                        <ConnectionProvider>
+                        <RTCProvider>
                           <Component Navbar={Navbar} />
-                        </ConnectionProvider>
+                        </RTCProvider>
                       </WhiteboardProvider>
                     </div>
                   </Route>

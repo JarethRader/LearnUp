@@ -6,6 +6,8 @@ import { useWhiteboard } from "../../../context/whiteboard/whiteboardContext";
 
 type TSelectableTileProps = {
   tile: ITileList;
+  updateMessage: (msg: any) => void;
+  response: any;
 };
 
 const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
@@ -13,8 +15,12 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
     const { state, dispatch } = useWhiteboard();
 
     const [deltaPosition, setDelta] = React.useState({
-      x: props.tile.delta.x,
-      y: props.tile.delta.y,
+      x:
+        (props.tile.delta.x * state.offsetBounds.width) /
+        state.tileSetRect.width,
+      y:
+        (props.tile.delta.y * state.offsetBounds.height) /
+        state.tileSetRect.height,
     });
 
     const handleDrag = (e: DraggableEvent, ui: any) => {
@@ -22,7 +28,37 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
         x: deltaPosition.x + ui.deltaX,
         y: deltaPosition.y + ui.deltaY,
       });
+      props.updateMessage({
+        tile: props.tile.uid,
+        delta: deltaPosition,
+      });
     };
+
+    React.useEffect(() => {
+      if (
+        props.response.delta &&
+        props.response.tile === props.tile.uid &&
+        deltaPosition !== props.response.delta
+      ) {
+        const newDelta = {
+          x:
+            (props.response.delta.x * state.offsetBounds.width) /
+            state.tileSetRect.width,
+          y:
+            (props.response.delta.y * state.offsetBounds.height) /
+            state.tileSetRect.height,
+        };
+        console.log(newDelta, deltaPosition);
+        setDelta({
+          x:
+            (props.response.delta.x * state.offsetBounds.width) /
+            state.tileSetRect.width,
+          y:
+            (props.response.delta.y * state.offsetBounds.height) /
+            state.tileSetRect.height,
+        });
+      }
+    }, [props.response]);
 
     React.useEffect(() => {
       props.isSelected
@@ -40,18 +76,20 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
     const toggleClicked = () => setClicked(!isMouseClicked);
 
     React.useEffect(() => {
-      deltaPosition.y < 0 && !isMouseClicked
-        ? dispatch({
-            type: "REMOVE_WHITEBOARD_TILE",
-            payload: props.tile.uid,
-          })
-        : dispatch({
-            type: "UPDATE_WHITEBOARD_TILE",
-            payload: {
-              ...props.tile,
-              delta: deltaPosition,
-            },
-          });
+      if (deltaPosition.y < 0 && !isMouseClicked) {
+        dispatch({
+          type: "REMOVE_WHITEBOARD_TILE",
+          payload: props.tile.uid,
+        });
+      } else {
+        dispatch({
+          type: "UPDATE_WHITEBOARD_TILE",
+          payload: {
+            ...props.tile,
+            delta: deltaPosition,
+          },
+        });
+      }
     }, [deltaPosition, isMouseClicked]);
 
     return (

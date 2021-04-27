@@ -26,13 +26,11 @@ declare global {
   interface IOfferData {
     type: string;
     name: string;
-    offerTo: string;
     offer: string;
   }
   /**
    * @type message type
    * @name name of sender
-   * @offerTo user to send offer to
    * @offer message of offer
    */
   type OfferData = IOfferData;
@@ -40,13 +38,11 @@ declare global {
   interface IAnswerData {
     type: string;
     name: string;
-    answerTo: string;
     answer: string;
   }
   /**
    * @type message type
    * @name name of sender
-   * @answerTo user to send answer to (the one who sent the offer originally)
    * @answer message of answer
    */
   type AnswerData = IAnswerData;
@@ -54,13 +50,11 @@ declare global {
   interface ICandidateData {
     type: string;
     name: string;
-    candidateTo: string;
     candidate: string;
   }
   /**
    * @type message type
    * @name name of sender
-   * @CandidateTo IDk what this does tbh
    * @candidate user to send ICEcandidates to
    */
   type CandidateData = ICandidateData;

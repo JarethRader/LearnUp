@@ -2,77 +2,60 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const configuration = {
-  iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+  iceServers: [
+    { urls: "stun:stun.l.google.com:19302" },
+    { urls: "stun:stun.services.mozilla.com" },
+    { urls: "stun:stun.stunprotocol.org:3478" },
+  ],
 };
 
 // use for local connections
 // const configuration = null;
 
-const reducer = (
-  state: ConnectionState,
-  action: ConnectionAction
-): ConnectionState => {
-  switch (action.type) {
-    case "SET_CONNECTION":
-      return {
-        ...state,
-        connection: action.payload,
-      };
-    case "SET_CHANNEL":
-      return {
-        ...state,
-        channel: action.payload,
-      };
-    case "CLEAR_CONNECTION":
-      return {
-        ...state,
-        connection: null,
-      };
-    case "CLEAR_CHANNEL":
-      return {
-        ...state,
-        channel: null,
-      };
-    default:
-      return state;
-  }
-};
+// TODO: add types for these contexts
+const MessageContext = React.createContext<{
+  message: any;
+  updateMessage: (msg: any) => void;
+}>({
+  message: null,
+  updateMessage: () => {},
+});
 
-const initialState: ConnectionState = {
-  uid: uuidv4(),
-  connection: null,
-  channel: null,
-};
+const ResponseContext = React.createContext<{
+  response: any;
+  updateResponse: (rsp: any) => void;
+}>({
+  response: null,
+  updateResponse: () => {},
+});
 
-const ConnectionContext = React.createContext<
-  { state: ConnectionState; dispatch: ConnectionDispatch } | undefined
->(undefined);
+const RTCProvider: React.FC = ({ children }: any) => {
+  const uid = uuidv4();
+  // const peerConnection = new RTCPeerConnection(configuration);
 
-type TServerMessage = {
-  type: string;
-  msg: string;
-};
+  const [connection, setConnection] = React.useState<RTCPeerConnection | null>(
+    null
+  );
+  const [channel, setChannel] = React.useState<RTCDataChannel | null>(null);
+  const [message, setMessage] = React.useState<any>({});
+  const updateMessage = (msg: string) => {
+    setMessage(msg);
+  };
+  const [response, setResponse] = React.useState<any>({});
+  const updateResponse = (rsp: string) => {
+    setResponse(rsp);
+  };
+  const connectedRef = React.useRef();
+  const [users, setUsers] = React.useState<{ id: string; name: string }[]>([]);
 
-const ConnectionProvider: React.FC = ({ children }: any) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
-
-  // const webSocket = new WebSocket("ws://localhost:8081");
+  // connect to webSocket
   const webSocket = React.useRef<WebSocket | null>(null);
-  const [socketOpen, setSocketOpen] = React.useState(false);
+  const [connected, setConnected] = React.useState(false);
   const [socketMessages, setSocketMessages] = React.useState<TServerMessage[]>(
     []
   );
-
-  // function to send request to signalling server
-  const send = (data: any) => {
-    console.log("sending message");
-    // @ts-ignore
-    webSocket.current.send(JSON.stringify(data));
-  };
-
   const connectWebSocket = async () => {
     return new Promise<boolean>(async (resolve, reject) => {
-      console.log("Connection to websocket");
       try {
         webSocket.current = await new WebSocket("ws://127.0.0.1:8081/");
         // TODO: I'll need to change this ws URL eventually for production
@@ -86,7 +69,6 @@ const ConnectionProvider: React.FC = ({ children }: any) => {
         };
 
         webSocket.current.onopen = () => {
-          console.log(webSocket.current?.readyState);
           resolve(true);
         };
       } catch (err) {
@@ -94,43 +76,79 @@ const ConnectionProvider: React.FC = ({ children }: any) => {
       }
     });
   };
+  // Method to send message to socket server
+  const send = (data: any) => {
+    // @ts-ignore
+    webSocket.current.send(JSON.stringify(data));
+  };
 
   React.useEffect(() => {
     connectWebSocket()
       .then((success) => {
-        handleConnect();
+        console.log("Successfully connected to websocket");
+        // handleConnect();
       })
       .catch((err) => {
-        console.log(err);
-        console.log("websocket failed to connect");
+        console.log("websocket failed to connect: ", err);
       });
 
-    // @ts-ignore
-    return () => webSocket.current.close();
+    // TODO: I need to make sure the cleanup works consistently and as expected
+    const cleanup = () => {
+      // @ts-ignore
+      webSocket.current.close();
+      send({
+        type: "leave",
+        // name: state.uid,
+      });
+    };
+
+    window.addEventListener("beforeunload", cleanup);
+
+    return () => window.addEventListener("beforeunload", cleanup);
   }, []);
 
-  // handle messages we get from the signalling server
+  const handleDataChannleMessage = (data: any) => {
+    // console.log("Data channel message", data.data);
+    updateResponse(JSON.parse(data.data));
+  };
+
+  // Handle socket message
   React.useEffect(() => {
-    let data = socketMessages.pop();
+    const data = socketMessages.pop();
+    console.log("Data recieved:", data);
     if (data) {
       switch (data.type) {
+        case "connection":
+          setConnected(true);
+          send({
+            type: "connect",
+            name: uid,
+          });
+          break;
         case "connect":
-          onConnect(data);
-          break;
-        case "offer":
-          // onOffer(data)
-          break;
-        case "answer":
-          // onAnswer(data)
-          break;
-        case "candidate":
-          // onCandidate(data)
+          onConnect(data as IConnectMessage);
           break;
         case "updateUsers":
-          // updateUsersList(data)
+          updateUsers(data as IUpdateUsersMessage);
           break;
         case "removeUser":
-          // removeUser(data)
+          removeUser(data as ILeaveMessage);
+          break;
+        case "offer":
+          onOffer(data as IOfferMessage);
+          break;
+        case "answer":
+          onAnswer(data as IAnswerMessage);
+          break;
+        case "candidate":
+          onCandidate(data as ICandidateMessage);
+          break;
+        case "leave":
+          setConnected(false);
+          removeUser(data as ILeaveMessage);
+          break;
+        case "error":
+          console.log("error");
           break;
         default:
           break;
@@ -138,31 +156,140 @@ const ConnectionProvider: React.FC = ({ children }: any) => {
     }
   }, [socketMessages]);
 
-  const onConnect = (data: any) => {
-    console.log(data);
+  const updateUsers = (data: IUpdateUsersMessage) => {
+    setUsers((prev) => [...prev, data.user]);
   };
 
-  const handleConnect = () => {
-    send({
-      type: "connect",
-      name: state.uid,
+  const removeUser = (data: ILeaveMessage) => {
+    setUsers((prev) => prev.filter((user) => user.name !== data.user.name));
+    setConnection(null);
+    setChannel(null);
+  };
+
+  const onConnect = (data: IConnectMessage) => {
+    if (data.success) {
+      setUsers(data.users);
+      // @ts-ignore
+      const localConnection = new RTCPeerConnection(configuration);
+      localConnection.onicecandidate = (event) => {
+        const connectedTo = connectedRef.current;
+        if (event.candidate && connectedTo) {
+          send({
+            type: "candidate",
+            name: connectedTo,
+            candidate: event.candidate,
+          });
+        }
+      };
+      localConnection.ondatachannel = (event) => {
+        console.log("Data Channel is created");
+        const recieveChannel = event.channel;
+        recieveChannel.onopen = () => {
+          console.log("Data channel is open and ready to use");
+        };
+        recieveChannel.onmessage = (msg) => handleDataChannleMessage(msg);
+        setChannel(recieveChannel);
+      };
+      setConnection(localConnection);
+    } else {
+      console.log("user is already connected");
+    }
+  };
+
+  React.useEffect(() => {
+    users.forEach((user) => {
+      connection && toggleConnection(user.name);
     });
+  }, [users]);
+
+  const onOffer = (data: IOfferMessage) => {
+    // @ts-ignore
+    connectedRef.current = data.name;
+
+    connection &&
+      connection
+        .setRemoteDescription(new RTCSessionDescription(data.offer))
+        .then(() => connection.createAnswer())
+        .then((answer) => connection.setLocalDescription(answer))
+        .then(() =>
+          send({
+            type: "answer",
+            name: data.name,
+            answer: connection.localDescription,
+          })
+        )
+        .catch((err) => console.log("Failed to send answer", err));
   };
 
-  const value = { state, dispatch };
+  const onAnswer = (data: IAnswerMessage) => {
+    connection &&
+      connection
+        .setRemoteDescription(new RTCSessionDescription(data.answer))
+        .catch((err) => console.log("Error onAnswer", err));
+  };
+
+  const onCandidate = (data: ICandidateMessage) => {
+    connection &&
+      connection
+        .addIceCandidate(new RTCIceCandidate(data.candidate))
+        .catch((err) => console.log("Error onCandidate", err));
+    // console.log("Successfully added ICE candidate");
+  };
+
+  const handleConnection = (name: string) => {
+    if (connection) {
+      const dataChannel = connection.createDataChannel("messenger");
+      dataChannel.onerror = (err) => {
+        console.log("Data Channel Error: ", err);
+      };
+
+      dataChannel.onmessage = (msg) => handleDataChannleMessage(msg);
+      setChannel(dataChannel);
+
+      connection
+        .createOffer()
+        .then((offer) => connection.setLocalDescription(offer))
+        .then(() =>
+          send({
+            type: "offer",
+            offer: connection.localDescription,
+            name,
+          })
+        )
+        .catch((err) => console.log("Error sending offer"));
+    }
+  };
+
+  const toggleConnection = (name: string) => {
+    if (connectedRef.current === name) {
+      // @ts-ignore
+      connectedRef.current = "";
+    } else {
+      // @ts-ignore
+      connectedRef.current = name;
+      handleConnection(name);
+    }
+  };
+
+  // send message
+  React.useEffect(() => {
+    if (channel && channel.readyState === "open") {
+      console.log("Sending", message);
+      channel.send(JSON.stringify(message));
+    }
+  }, [message]);
+
+  React.useEffect(() => {}, [channel, connection]);
+
   return (
-    <ConnectionContext.Provider value={value}>
-      {children}
-    </ConnectionContext.Provider>
+    <MessageContext.Provider value={{ message, updateMessage }}>
+      <ResponseContext.Provider value={{ response, updateResponse }}>
+        {children}
+      </ResponseContext.Provider>
+    </MessageContext.Provider>
   );
 };
 
-function useConnection() {
-  const context = React.useContext(ConnectionContext);
-  if (context === undefined) {
-    throw new Error("useConnection must be used within a Layout Provider");
-  }
-  return context;
-}
-
-export { ConnectionProvider, useConnection };
+const MessageConsumer = MessageContext.Consumer;
+const ResponseConsumer = ResponseContext.Consumer;
+export { RTCProvider, MessageConsumer, ResponseConsumer };

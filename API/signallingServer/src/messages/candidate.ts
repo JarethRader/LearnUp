@@ -3,7 +3,7 @@ const buildCandidateResponse = (
   sendTo: (connection: wsType, message: object) => void
 ) => {
   const candidateResponse = (ws: wsType, data: CandidateData) => {
-    const candidateRecipient = users[data.candidateTo];
+    const candidateRecipient = users[data.name];
     if (!!candidateRecipient) {
       sendTo(candidateRecipient, {
         type: "candidate",
@@ -12,7 +12,7 @@ const buildCandidateResponse = (
     } else {
       sendTo(ws, {
         type: "error",
-        message: `User ${data.candidateTo} does not exist`,
+        message: `User ${data.name} does not exist`,
       });
     }
   };

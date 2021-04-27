@@ -2,6 +2,7 @@ import WebSocket from "ws";
 
 const broadcast = Object.freeze({
   sendTo: (connection: WebSocket, message: object) => {
+    console.log(message);
     connection.send(JSON.stringify(message));
   },
   sendToAll: (wss: WebSocket.Server, websocket: WebSocket, message: object) => {

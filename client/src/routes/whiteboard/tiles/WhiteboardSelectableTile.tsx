@@ -38,7 +38,8 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
       if (
         props.response.delta &&
         props.response.tile === props.tile.uid &&
-        deltaPosition !== props.response.delta
+        deltaPosition !== props.response.delta &&
+        !isMouseClicked
       ) {
         const newDelta = {
           x:
@@ -99,7 +100,7 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
         // @ts-ignore
         onStop={toggleClicked}
         onDrag={handleDrag}
-        defaultPosition={{
+        position={{
           x: deltaPosition.x,
           y: deltaPosition.y,
         }}

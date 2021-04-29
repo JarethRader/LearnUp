@@ -11,6 +11,7 @@ export const LoginHelper = (
       body: JSON.stringify(userInfo),
     })
       .then(async (response: any) => {
+        console.log(response);
         response.status === 201 && resolve(response.json());
         if (response.status === 400) {
           reject(await response.json());

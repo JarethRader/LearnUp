@@ -159,49 +159,63 @@ const RTCProvider: React.FC = ({ children }: any) => {
 
   const updateUsers = (data: IUpdateUsersMessage) => {
     setUsers((prev) => [...prev, data.user]);
+    toggleConnection(data.user.name);
   };
 
   const removeUser = (data: ILeaveMessage) => {
     setUsers((prev) => prev.filter((user) => user.name !== data.user.name));
-    setConnection(null);
-    setChannel(null);
+    toggleConnection(data.user.name);
+    createPeerConnection().catch((err) => console.log(err));
+    // setConnection(null);
+    // setChannel(null);
   };
 
   const onConnect = (data: IConnectMessage) => {
     if (data.success) {
       setUsers(data.users);
-      // @ts-ignore
-      const localConnection = new RTCPeerConnection(configuration);
-      localConnection.onicecandidate = (event) => {
-        const connectedTo = connectedRef.current;
-        if (event.candidate && connectedTo) {
-          send({
-            type: "candidate",
-            name: connectedTo,
-            candidate: event.candidate,
-          });
-        }
-      };
-      localConnection.ondatachannel = (event) => {
-        console.log("Data Channel is created");
-        const recieveChannel = event.channel;
-        recieveChannel.onopen = () => {
-          console.log("Data channel is open and ready to use");
-        };
-        recieveChannel.onmessage = (msg) => handleDataChannleMessage(msg);
-        setChannel(recieveChannel);
-      };
-      setConnection(localConnection);
+      createPeerConnection().catch((err) => console.log(err));
     } else {
       console.log("user is already connected");
     }
   };
 
-  React.useEffect(() => {
-    users.forEach((user) => {
-      connection && toggleConnection(user.name);
+  const createPeerConnection = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        // @ts-ignore
+        const localConnection = new RTCPeerConnection(configuration);
+        localConnection.onicecandidate = (event) => {
+          const connectedTo = connectedRef.current;
+          if (event.candidate && connectedTo) {
+            send({
+              type: "candidate",
+              name: connectedTo,
+              candidate: event.candidate,
+            });
+          }
+        };
+        localConnection.ondatachannel = (event) => {
+          console.log("Data Channel is created");
+          const recieveChannel = event.channel;
+          recieveChannel.onopen = () => {
+            console.log("Data channel is open and ready to use");
+          };
+          recieveChannel.onmessage = (msg) => handleDataChannleMessage(msg);
+          setChannel(recieveChannel);
+        };
+        setConnection(localConnection);
+        connection && channel && resolve(true);
+      } catch (err) {
+        reject(err);
+      }
     });
-  }, [users]);
+  };
+
+  // React.useEffect(() => {
+  //   users.forEach((user) => {
+  //     connection && toggleConnection(user.name);
+  //   });
+  // }, [users]);
 
   const onOffer = (data: IOfferMessage) => {
     // @ts-ignore

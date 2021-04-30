@@ -5,6 +5,7 @@ const buildGetWhiteboards = (findOneByID: any) => {
   ): Promise<IController> => {
     try {
       const whiteboard = await findOneByID(request.params.id);
+      if (!whiteboard) throw new Error("That whiteboard does not exist");
 
       return {
         headers: {

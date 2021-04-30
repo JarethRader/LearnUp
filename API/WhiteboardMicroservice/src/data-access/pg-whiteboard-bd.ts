@@ -240,9 +240,7 @@ const buildMakeWhiteboardDB = (
           },
         ],
       })
-        .then((whiteboard: any) =>
-          whiteboard ? whiteboard : "Whiteboard not found"
-        )
+        .then((whiteboard: any) => whiteboard)
         .catch((err) => "Got error while trying to find whiteboard");
     },
     findByAuthor: async (userID: string) => {

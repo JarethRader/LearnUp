@@ -144,6 +144,8 @@ declare global {
   interface IControllerError {
     headers: {
       "Content-Type": string;
+      "Access-Control-Allow-Origin"?: string | undefined;
+      "Access-Control-Allow-Credentials"?: string | undefined;
     };
     statusCode: number;
     body: {

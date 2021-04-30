@@ -1,10 +1,10 @@
-import { returnErrors } from "../errorActions/errorActions";
-
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
 import { RootState } from "../../reducers/index";
 
 import { USER_BASE, API_SUFFIX, CSRFConfig } from "../utils/config";
+
+import { returnErrors } from "../errorActions/errorActions";
 
 // import helper functions
 import {

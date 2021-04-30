@@ -7,6 +7,8 @@ import WhiteboardDraggableTile from "./tiles/WhiteboardDraggableTile";
 import WhiteboardDisplayTile from "./tiles/WhiteboardDisplayTile";
 import WhiteboardSelectableTile from "./tiles/WhiteboardSelectableTile";
 
+import ErrorModal from "./utils/errorModal";
+
 import { useWhiteboard } from "../../context/whiteboard/whiteboardContext";
 import {
   MessageConsumer,
@@ -17,6 +19,8 @@ import {
   updateBoard,
   getBoard,
 } from "../../actions/whiteboardAPI/whiteboardActions";
+
+import { clearErrors } from "../../actions/errorActions/errorActions";
 
 import { playAudio } from "../../actions/audioAPI/audioActions";
 
@@ -51,12 +55,14 @@ const mapStateToProps = (state: RootState) => ({
   currentBoard: state.whiteboard.currentBoard,
   whiteboardLoading: state.whiteboard.whiteboardLoading,
   audio: state.audio.audio,
+  error: state.error.errors,
 });
 
 const mapDispatchToProps = {
   updateBoard,
   getBoard,
   playAudio,
+  clearErrors,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -69,6 +75,13 @@ const Whiteboard = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
   const whiteboardID = useQuery().get("id");
 
+  // handle errors
+  const [showError, setError] = React.useState(false);
+  const toggleErrorModal = () => setError(!showError);
+  React.useEffect(() => {
+    props.error.type === "whiteboard" && toggleErrorModal();
+  }, [props.error]);
+
   const [localResponse, setLocalResponse] = React.useState<any>({});
   React.useEffect(() => {
     if (localResponse.type === "ADD") {
@@ -80,7 +93,11 @@ const Whiteboard = (props: Props) => {
   }, [localResponse]);
 
   React.useEffect(() => {
-    whiteboardID && props.getBoard(whiteboardID);
+    if (whiteboardID) {
+      props.getBoard(whiteboardID);
+    } else {
+      console.log("Whiteboard doesnt exist");
+    }
   }, []);
 
   React.useEffect(() => {
@@ -114,7 +131,6 @@ const Whiteboard = (props: Props) => {
 
   const flipBoard = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
     // dispatch({
     //   type: "SET_TILELIST",
     //   payload: backTileSet,
@@ -187,6 +203,14 @@ const Whiteboard = (props: Props) => {
 
   return (
     <div>
+      {showError && (
+        <div className="absolute w-full min-h-screen flex justify-center items-center z-20">
+          <div className="absolute w-full min-h-screen bg-gray-500 opacity-25"></div>
+          <div className="opacity z-30">
+            <ErrorModal error={props.error} clearErrors={clearErrors} />
+          </div>
+        </div>
+      )}
       <MessageConsumer>
         {({ message, updateMessage }) => (
           <ResponseConsumer>

@@ -5,16 +5,18 @@ const initialState: IWhiteboardState = {
     author: "",
     audience: "",
     tiles: [],
-    layout: {
-      layout_id: "",
-      boundingRect: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
+    layouts: [
+      {
+        layout_id: "",
+        boundingRect: {
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0,
+        },
+        tiles: [],
       },
-      tiles: [],
-    },
+    ],
   },
   ownBoards: [],
   sharedBoards: [],
@@ -53,29 +55,51 @@ export default function (
               y: tile.dy,
             },
           })),
-          layout: {
-            layout_id: action.payload.whiteboard.Layout.l_id,
+          layouts: action.payload.whiteboard.Layouts.map((layout) => ({
+            layout_id: layout.l_id,
             boundingRect: {
-              x: action.payload.whiteboard.Layout.bx,
-              y: action.payload.whiteboard.Layout.by,
-              width: action.payload.whiteboard.Layout.bw,
-              height: action.payload.whiteboard.Layout.bh,
+              x: layout.bx,
+              y: layout.by,
+              width: layout.bw,
+              height: layout.bh,
             },
-            tiles: action.payload.whiteboard.Layout.Layout_Tiles.map(
-              (tile) => ({
-                uid: tile.c_id,
-                tile_id: tile.t_id,
-                tile: {
-                  letters: tile.Tile.l,
-                  color: tile.Tile.c,
-                },
-                delta: {
-                  x: tile.dx,
-                  y: tile.dy,
-                },
-              })
-            ),
-          },
+            tiles: layout.Layout_Tiles.map((tile) => ({
+              uid: tile.c_id,
+              tile_id: tile.t_id,
+              tile: {
+                letters: tile.Tile.l,
+                color: tile.Tile.c,
+              },
+              delta: {
+                x: tile.dx,
+                y: tile.dy,
+              },
+            })),
+          })),
+
+          // {
+          //   layout_id: action.payload.whiteboard.Layout.l_id,
+          //   boundingRect: {
+          //     x: action.payload.whiteboard.Layout.bx,
+          //     y: action.payload.whiteboard.Layout.by,
+          //     width: action.payload.whiteboard.Layout.bw,
+          //     height: action.payload.whiteboard.Layout.bh,
+          //   },
+          //   tiles: action.payload.whiteboard.Layout.Layout_Tiles.map(
+          //     (tile) => ({
+          //       uid: tile.c_id,
+          //       tile_id: tile.t_id,
+          //       tile: {
+          //         letters: tile.Tile.l,
+          //         color: tile.Tile.c,
+          //       },
+          //       delta: {
+          //         x: tile.dx,
+          //         y: tile.dy,
+          //       },
+          //     })
+          //   ),
+          // },
         },
       };
     case "GET_USER_BOARD_SUCCESS":
@@ -96,16 +120,18 @@ export default function (
           author: "",
           audience: "",
           tiles: [],
-          layout: {
-            layout_id: "",
-            boundingRect: {
-              x: 0,
-              y: 0,
-              width: 0,
-              height: 0,
+          layouts: [
+            {
+              layout_id: "",
+              boundingRect: {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0,
+              },
+              tiles: [],
             },
-            tiles: [],
-          },
+          ],
         },
         whiteboardLoading: false,
       };

@@ -24,7 +24,7 @@ declare global {
 
   interface IFullBoard extends IWhiteboardModel {
     tiles: ITileList[];
-    layout: {
+    layouts: {
       layout_id: string;
       boundingRect: {
         x: number;
@@ -33,7 +33,7 @@ declare global {
         height: number;
       };
       tiles: ITileList[];
-    };
+    }[];
   }
 
   interface IWhiteboardState {
@@ -91,16 +91,18 @@ declare global {
   }
 
   interface FullboardResponse extends WhiteboardResponse {
-    Layout: {
-      l_id: string;
-      bx: number;
-      by: number;
-      bw: number;
-      bh: number;
-      createdAt: string;
-      updatedAt: string;
-      Layout_Tiles: TileResponse[];
-    };
+    Layouts: [
+      {
+        l_id: string;
+        bx: number;
+        by: number;
+        bw: number;
+        bh: number;
+        createdAt: string;
+        updatedAt: string;
+        Layout_Tiles: TileResponse[];
+      }
+    ];
     Whiteboard_Tiles: TileResponse[];
   }
 

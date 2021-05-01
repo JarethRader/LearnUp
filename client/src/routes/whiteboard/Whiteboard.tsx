@@ -100,12 +100,13 @@ const Whiteboard = (props: Props) => {
     }
   }, []);
 
+  const [boardSide, setBoardSide] = React.useState(false);
   React.useEffect(() => {
     dispatch({
       type: "SET_TILELIST",
       payload: {
-        tileSetRect: props.currentBoard.layout.boundingRect,
-        tiles: props.currentBoard.layout.tiles,
+        tileSetRect: props.currentBoard.layouts[0].boundingRect,
+        tiles: props.currentBoard.layouts[0].tiles,
       },
     });
 
@@ -131,10 +132,14 @@ const Whiteboard = (props: Props) => {
 
   const flipBoard = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    // dispatch({
-    //   type: "SET_TILELIST",
-    //   payload: backTileSet,
-    // });
+    setBoardSide(!boardSide);
+    dispatch({
+      type: "SET_TILELIST",
+      payload: {
+        tileSetRect: props.currentBoard.layouts[boardSide ? 0 : 1].boundingRect,
+        tiles: props.currentBoard.layouts[boardSide ? 0 : 1].tiles,
+      },
+    });
   };
 
   const WhiteboardRef = React.useRef<HTMLDivElement>(null);
@@ -242,12 +247,12 @@ const Whiteboard = (props: Props) => {
                       </div>
                       <div className="flex flex-row justify-center py-2">
                         <div className="flex flex-row">
-                          {/* <button
-                  onClick={(e) => flipBoard(e)}
-                  className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-700 focus:outline-none text-white font-semibold stroke"
-                >
-                  Flip Board
-                </button> */}
+                          <button
+                            onClick={(e) => flipBoard(e)}
+                            className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-700 focus:outline-none text-white font-semibold stroke"
+                          >
+                            Flip Board
+                          </button>
                           {/* TODO: The currentBoard variable in the whiteboard redux store needs to be clears when we navigate back to the dashboard. RN it doesn't load up new boards when we change a different board from the dashboard */}
                           <Link to="/dashboard">
                             <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-700 focus:outline-none text-white font-semibold stroke">

@@ -10,8 +10,8 @@ export const getWhiteboardHelper = (
       // headers: CSRFConfig() as any,
     })
       .then(async (response) => {
-        response.status === 200 && resolve(response.json());
         response.status === 400 && reject(await response.json());
+        resolve(response.json());
       })
       .catch((err) => {
         reject(new Error(err.message));

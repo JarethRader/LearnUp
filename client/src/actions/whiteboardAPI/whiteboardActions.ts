@@ -142,6 +142,7 @@ export const getBoard = (whiteboardID: string): WhiteboardThunk => async (
   try {
     await getWhiteboardHelper(whiteboardID, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
+        console.log(response);
         dispatch({
           type: "GET_BOARD_SUCCESS",
           payload: response,
@@ -151,6 +152,7 @@ export const getBoard = (whiteboardID: string): WhiteboardThunk => async (
         throw err;
       });
   } catch (err) {
+    console.log(err);
     dispatch(returnErrors("whiteboard", err.error, 400));
     dispatch({
       type: "GET_BOARD_FAILURE",

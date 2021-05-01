@@ -140,6 +140,9 @@ const Whiteboard = (props: Props) => {
   const flipBoard = () => {
     setBoardSide(!boardSide);
     dispatch({
+      type: "CLEAR_SELECTED_TILE",
+    });
+    dispatch({
       type: "SET_TILELIST",
       payload: {
         tileSetRect: props.currentBoard.layouts[boardSide ? 0 : 1].boundingRect,

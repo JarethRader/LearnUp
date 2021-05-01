@@ -84,11 +84,18 @@ const Whiteboard = (props: Props) => {
 
   const [localResponse, setLocalResponse] = React.useState<any>({});
   React.useEffect(() => {
-    if (localResponse.type === "ADD") {
-      dispatch({
-        type: "ADD_WHITEBOARD_TILE",
-        payload: localResponse.data,
-      });
+    switch (localResponse.type) {
+      case "ADD":
+        dispatch({
+          type: "ADD_WHITEBOARD_TILE",
+          payload: localResponse.data,
+        });
+        break;
+      case "FLIP":
+        flipBoard();
+        break;
+      default:
+        break;
     }
   }, [localResponse]);
 
@@ -130,8 +137,7 @@ const Whiteboard = (props: Props) => {
     });
   }, [props.currentBoard.whiteboard_id]);
 
-  const flipBoard = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const flipBoard = () => {
     setBoardSide(!boardSide);
     dispatch({
       type: "SET_TILELIST",
@@ -248,7 +254,12 @@ const Whiteboard = (props: Props) => {
                       <div className="flex flex-row justify-center py-2">
                         <div className="flex flex-row">
                           <button
-                            onClick={(e) => flipBoard(e)}
+                            onClick={() => {
+                              flipBoard();
+                              updateMessage({
+                                type: "FLIP",
+                              });
+                            }}
                             className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-700 focus:outline-none text-white font-semibold stroke"
                           >
                             Flip Board

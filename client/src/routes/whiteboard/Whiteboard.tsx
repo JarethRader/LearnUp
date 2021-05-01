@@ -250,9 +250,24 @@ const Whiteboard = (props: Props) => {
                             Learning Board
                           </h1>
                         </div>
+                        <div className="flex justify-center">
+                          {/* TODO: The currentBoard variable in the whiteboard redux store needs to be clears when we navigate back to the dashboard. RN it doesn't load up new boards when we change a different board from the dashboard */}
+                          <Link to="/dashboard">
+                            <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-700 focus:outline-none text-white font-semibold stroke">
+                              Return to Dashboard
+                            </button>
+                          </Link>
+                        </div>
                       </div>
                       <div className="flex flex-row justify-center py-2">
                         <div className="flex flex-row">
+                          <h1 className="flex text-center items-center px-2 font-semibold">
+                            {boardSide ? (
+                              <>Back of Board</>
+                            ) : (
+                              <>Front of Board</>
+                            )}
+                          </h1>
                           <button
                             onClick={() => {
                               flipBoard();
@@ -260,16 +275,10 @@ const Whiteboard = (props: Props) => {
                                 type: "FLIP",
                               });
                             }}
-                            className="px-4 py-2 mx-1 rounded bg-yellow-500 hover:bg-yellow-700 focus:outline-none text-white font-semibold stroke"
+                            className="px-4 py-2 mx-1 rounded bg-green-500 hover:bg-green-700 focus:outline-none text-white font-semibold stroke"
                           >
                             Flip Board
                           </button>
-                          {/* TODO: The currentBoard variable in the whiteboard redux store needs to be clears when we navigate back to the dashboard. RN it doesn't load up new boards when we change a different board from the dashboard */}
-                          <Link to="/dashboard">
-                            <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-700 focus:outline-none text-white font-semibold stroke">
-                              Dashboard
-                            </button>
-                          </Link>
                           <button
                             onClick={(e) => handleClearBoard(e)}
                             className="px-4 py-2 mx-1 rounded bg-red-500 hover:bg-red-700 focus:outline-none text-white font-semibold stroke"

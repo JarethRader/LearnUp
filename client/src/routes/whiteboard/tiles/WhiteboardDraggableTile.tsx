@@ -2,6 +2,7 @@ import React from "react";
 import TileComponent from "../../../components/tiles/tileComponent";
 import Draggable, { DraggableEvent } from "react-draggable";
 import { useWhiteboard } from "../../../context/whiteboard/whiteboardContext";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   updateMessage: (msg: any) => void;
@@ -38,7 +39,7 @@ const WhiteboardDraggableTile = (props: Props) => {
       type: "ADD_WHITEBOARD_TILE",
       payload: {
         tile_id: state.selectedTile!.tile_id,
-        uid: state.selectedTile!.uid,
+        uid: uuidv4(),
         tile: state.selectedTile!.tile,
         delta: {
           x: deltaPosition.x - state.offsetBounds.x,

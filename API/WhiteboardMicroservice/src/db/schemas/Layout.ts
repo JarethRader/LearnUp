@@ -33,7 +33,6 @@ const buildLayoutSchema: TBuildSchema = (sequelize, DataTypes) => {
       // whiteboardID
       w_id: {
         type: DataTypes.STRING(128),
-        unique: true,
         allowNull: false,
       },
       createdAt: {

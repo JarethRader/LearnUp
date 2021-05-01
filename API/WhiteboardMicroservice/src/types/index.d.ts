@@ -11,15 +11,18 @@ declare global {
     boardName: string;
     author: string;
     audience?: string;
-    layout: {
-      layout_id: string;
-      boundingRect: {
-        x: number;
-        y: number;
-        width: number;
-        height: number;
-      };
-    };
+    layouts: [
+      {
+        layout_id: string;
+        boundingRect: {
+          x: number;
+          y: number;
+          width: number;
+          height: number;
+        };
+      }
+    ];
+    boardType: "default" | "beginner";
     createdOn?: number;
     modifiedOn?: number;
   }

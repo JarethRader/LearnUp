@@ -91,15 +91,18 @@ const CreateBoardModal = (props: Props) => {
     const body = {
       author: props.userID,
       boardName,
-      layout: {
-        // these numbers come from how I originally made the whiteboard and layout pages. The whiteboard will automatically resize everything appropriately wuth these numbers used as the base bounding rect
-        boundingRect: {
-          x: 121,
-          y: 80,
-          width: 1760,
-          height: 816,
+      layouts: [
+        {
+          // these numbers come from how I originally made the whiteboard and layout pages. The whiteboard will automatically resize everything appropriately wuth these numbers used as the base bounding rect
+          boundingRect: {
+            x: 121,
+            y: 80,
+            width: 1760,
+            height: 816,
+          },
         },
-      },
+      ],
+      boardType: board,
     };
     props.uploadBoard(body);
 

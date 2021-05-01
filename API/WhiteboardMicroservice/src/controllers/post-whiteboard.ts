@@ -6,15 +6,16 @@ const buildPostWhiteboard: BuildPostWhiteboard = (addWhiteboard) => {
       const newWhiteboard = await addWhiteboard({ ...request.body });
       return {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         statusCode: 201,
         body: { whiteboard: newWhiteboard },
       };
     } catch (err) {
+      console.log(err);
       return {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         statusCode: 400,
         body: {

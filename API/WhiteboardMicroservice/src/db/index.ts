@@ -16,7 +16,7 @@ const buildSchemas = (sequelize: Sequelize) => {
   // define relationships between schemas
   // whiteboard:layout
   // @ts-ignore
-  WhiteboardSchema.hasOne(LayoutSchema, { foreignKey: "w_id" });
+  WhiteboardSchema.hasMany(LayoutSchema, { foreignKey: "w_id" });
   // @ts-ignore
   LayoutSchema.belongsTo(WhiteboardSchema, { foreignKey: "w_id" });
 

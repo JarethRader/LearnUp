@@ -23,7 +23,10 @@ const buildMakeWhiteboardDB = (
   }
 ) =>
   Object.freeze({
-    insert: async (whiteboardInput: IMakeWhiteboard, layout: ITileList[]) => {
+    insert: async (
+      whiteboardInput: IMakeWhiteboard,
+      layouts: ITileList[][]
+    ) => {
       const data = whiteboardInput;
       try {
         // @ts-ignore
@@ -35,27 +38,33 @@ const buildMakeWhiteboardDB = (
           createdAt: data.createdOn,
           updatedAt: data.modifiedOn,
         }).then((newWhiteboard) => {
-          // @ts-ignore
-          DB.LayoutSchema.create({
-            l_id: data.layout.layout_id,
-            w_id: data.whiteboard_id,
-            bx: data.layout.boundingRect.x,
-            by: data.layout.boundingRect.y,
-            bw: data.layout.boundingRect.width,
-            bh: data.layout.boundingRect.height,
-          }).then((newLayout) => {
-            layout.forEach(async (tile) => {
-              // @ts-ignore
-              await DB.LayoutTileSchema.create({
-                c_id: Id.makeId(),
-                p_id: newLayout.getDataValue("l_id"),
-                t_id: tile.tile_id,
-                dx: tile.delta.x,
-                dy: tile.delta.y,
+          data.layouts.forEach(async (layout, index) => {
+            // @ts-ignore
+            DB.LayoutSchema.create({
+              l_id: layout.layout_id,
+              w_id: newWhiteboard.getDataValue("w_id"),
+              bx: layout.boundingRect.x,
+              by: layout.boundingRect.y,
+              bw: layout.boundingRect.width,
+              bh: layout.boundingRect.height,
+            })
+              .then((newLayout) => {
+                layouts[index].forEach(async (tile) => {
+                  // @ts-ignore
+                  await DB.LayoutTileSchema.create({
+                    c_id: Id.makeId(),
+                    p_id: newLayout.getDataValue("l_id"),
+                    t_id: tile.tile_id,
+                    dx: tile.delta.x,
+                    dy: tile.delta.y,
+                  });
+                });
+              })
+              .catch((err) => {
+                console.log(err);
+                throw err;
               });
-            });
           });
-
           data.tiles &&
             data.tiles.forEach(async (tile: any) => {
               // @ts-ignore
@@ -67,7 +76,6 @@ const buildMakeWhiteboardDB = (
                 dy: Math.round(tile.delta.y),
               }).catch((err: any) => console.log(err));
             });
-
           return {
             whiteboard_ID: newWhiteboard.get().w_id,
             boardName: newWhiteboard.get().bn,

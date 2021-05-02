@@ -3,15 +3,19 @@ const buildPostUser: BuildPostUser = (addUser) => {
     request: ExpressHttpRequest
   ): Promise<IController> => {
     try {
-      const newUser = await addUser({ ...request.body });
+      const user = await addUser({ ...request.body })
+        .then((newUser) => newUser)
+        .catch((err) => {
+          throw err;
+        });
       return {
         headers: {
           "Content-Type": "application/json",
         },
         statusCode: 201,
-        body: { user: newUser },
+        body: { user },
         session: {
-          userID: newUser?._id,
+          userID: user?._id,
         },
       };
     } catch (err) {

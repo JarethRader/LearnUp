@@ -7,7 +7,7 @@
     "start": "env NODE_ENV=development nodemon --watch src src/server.ts",
     "docker": "env NODE_ENV=docker nodemon src/server.ts",
     "build": "tsc -p .",
-    "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand"
+    "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand --watch --verbose false"
   },
   "author": "Jareth Rader <jarethrdev@gmail.com>",
   "license": "ISC",

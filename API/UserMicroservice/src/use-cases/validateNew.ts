@@ -11,6 +11,7 @@ const makeValidate: MakeUserValidate = (userDb, toObjectId) => {
           }
         })
         .catch((err) => {
+          console.log(err);
           reject(err);
         });
 
@@ -19,6 +20,7 @@ const makeValidate: MakeUserValidate = (userDb, toObjectId) => {
         username: user.getUsername(),
         email: user.getEmail(),
         password: await user.getPassword(),
+        teacher: user.getIsTeacher(),
         verified: user.getVerified(),
         createdAt: user.getCreatedOn(),
         updatedAt: user.getModifiedOn(),

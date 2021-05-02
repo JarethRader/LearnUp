@@ -107,7 +107,7 @@ declare global {
   type BuildAddUser = (
     userDB: () => Promise<UserDB>,
     validate: (user: IUserObject) => Promise<IMakeUser>
-  ) => (userInfo: IMakeUser) => Promise<IUserModel | undefined>;
+  ) => (userInfo: IMakeUser) => Promise<IUserModel | string | undefined>;
 
   type BuildEditUser = (
     userDB: () => Promise<UserDB>,
@@ -130,6 +130,8 @@ declare global {
   interface IControllerResponse {
     headers: {
       "Content-Type": string;
+      "Access-Control-Allow-Origin"?: string | undefined;
+      "Access-Control-Allow-Credentials"?: string | undefined;
     };
     statusCode: number;
     body: {
@@ -144,8 +146,6 @@ declare global {
   interface IControllerError {
     headers: {
       "Content-Type": string;
-      "Access-Control-Allow-Origin"?: string | undefined;
-      "Access-Control-Allow-Credentials"?: string | undefined;
     };
     statusCode: number;
     body: {

@@ -1,5 +1,5 @@
-import faker from 'faker';
-import Id from '../src/Id';
+import faker from "faker";
+import Id from "../src/Id";
 
 const makeFakeUser = ({ ...overrides }) => {
   const password = faker.internet.password();
@@ -10,6 +10,7 @@ const makeFakeUser = ({ ...overrides }) => {
     email: faker.internet.email(),
     password,
     verified: false,
+    teacher: false,
     createdOn: Date.now(),
     modifiedOn: Date.now(),
   };

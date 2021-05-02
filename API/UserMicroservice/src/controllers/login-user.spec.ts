@@ -1,6 +1,6 @@
 // @ts-ignore
-import makeFakeUser from '../../__test__/user';
-import buildLoginUser from './login-user';
+import makeFakeUser from "../../__test__/user";
+import buildLoginUser from "./login-user";
 
 let globalUser: any = {};
 
@@ -12,27 +12,29 @@ const listUser: any = (id: string) => {
   return globalUser.id === id ? globalUser : undefined;
 };
 
-describe('Login User Controller', () => {
-  it('Sets session cookie and returns a user', async () => {
+describe("Login User Controller", () => {
+  it("Sets session cookie and returns a user", async () => {
     const user = makeFakeUser({
-      email: 'jarp@gmail.com',
-      password: 'password',
+      email: "jarp@gmail.com",
+      password: "password",
     });
     globalUser = user;
     const loginUser = buildLoginUser(authenticate, listUser);
 
     const request: ExpressHttpRequest = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       params: {
         id: user.id,
       },
-      body: { email: 'jarp@gmail.com', password: 'password' },
+      body: { email: "jarp@gmail.com", password: "password" },
     };
     const expected: IControllerResponse = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "https://phonetics-learnup.com",
       },
       statusCode: 201,
       body: { user: globalUser },

@@ -8,7 +8,7 @@ const buildAuthenticateCredentials = (
   }
 ) => {
   const authenticateCredentials = async (email: string, password: string) => {
-    return new Promise<string | undefined>(async (resolve, reject) => {
+    return new Promise<string>(async (resolve, reject) => {
       const db = await userDb();
       const user = await db.findOneByEmail(email);
       if (!user) {

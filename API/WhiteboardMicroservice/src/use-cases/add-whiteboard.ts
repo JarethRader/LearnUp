@@ -5,21 +5,26 @@ const frontTiles = require("../data-access/utils/front.json");
 const backTiles = require("../data-access/utils/back.json");
 
 // @ts-ignore
-const buildAddWhiteboard = (whiteboardDB) => {
+const buildAddWhiteboard: BuildAddWhiteboard = (whiteboardDB) => {
   const addWhiteboard = async (whiteboardInfo: IMakeWhiteboard) => {
-    const whiteboard = makeWhiteboard(whiteboardInfo);
+    return new Promise<Whiteboard>(async (resolve, reject) => {
+      const whiteboard = makeWhiteboard(whiteboardInfo);
 
-    const whiteboardInstance = await whiteboardDB();
+      const whiteboardInstance = await whiteboardDB();
 
-    // TODO: I should add some validation in here for the board name
-    // TODO: I should add the feature to select different layouts and tie it into this point.
+      // TODO: I should add some validation in here for the board name
+      // TODO: I should add the feature to select different layouts and tie it into this point.
 
-    const tileSet =
-      whiteboardInfo.boardType === "default"
-        ? [frontTiles.tiles, backTiles.tiles]
-        : [];
+      const tileSet =
+        whiteboardInfo.boardType === "default"
+          ? [frontTiles.tiles, backTiles.tiles]
+          : [];
 
-    return await whiteboardInstance.insert(whiteboard.toObject(), tileSet);
+      return await whiteboardInstance
+        .insert(whiteboard.toObject(), tileSet)
+        .then((whiteboard) => resolve(whiteboard))
+        .catch((err) => reject(err));
+    });
   };
 
   return addWhiteboard;

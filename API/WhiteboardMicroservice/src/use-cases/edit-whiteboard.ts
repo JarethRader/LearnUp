@@ -1,7 +1,10 @@
 import makeWhiteboard from "../whiteboard";
 
 // @ts-ignore
-const buildEditWhiteboard = (whiteboardDB: any, formatUtils: any) => {
+const buildEditWhiteboard: BuildEditWhiteboard = (
+  whiteboardDB: any,
+  formatUtils: any
+) => {
   const editWhiteboard = async (id: string, updatedInfo: IMakeWhiteboard) => {
     const whiteboardInstance = await whiteboardDB();
 

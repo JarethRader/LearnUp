@@ -107,7 +107,7 @@ declare global {
   type BuildAddUser = (
     userDB: () => Promise<UserDB>,
     validate: (user: IUserObject) => Promise<IMakeUser>
-  ) => (userInfo: IMakeUser) => Promise<IUserModel | string | undefined>;
+  ) => (userInfo: IMakeUser) => Promise<IUserModel | undefined>;
 
   type BuildEditUser = (
     userDB: () => Promise<UserDB>,

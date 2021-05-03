@@ -1,5 +1,5 @@
 // @ts-ignore
-const buildListShared = (whiteboardDB) => {
+const buildListShared: BuildListWhiteboards = (whiteboardDB) => {
   const getShared = async (id: string) => {
     const whiteboardInstance = await whiteboardDB();
 

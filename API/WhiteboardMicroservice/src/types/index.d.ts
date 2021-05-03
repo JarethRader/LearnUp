@@ -66,15 +66,40 @@ declare global {
   // type DBModel = Model<IMakeWhiteboard>;
 
   type WhiteboardDB = Readonly<{
-    insert: (whiteboardInfo: any) => Promise<IWhiteboardModel>;
-    remove: (id: string) => Promise<any>;
-    update: (id: String, updatedInfo: IMakeWhiteboard) => Promise<any>;
-    findOneById: (id: string) => Promise<any>;
-    findByAuthor: (id: string) => Promise<any>;
-    findByAudience: (userID: string) => Promise<any>;
+    insert: (
+      whiteboardInput: IMakeWhiteboard,
+      layouts: ITileList[][]
+    ) => Promise<Whiteboard>;
+    remove: (whiteboardID: string) => Promise<void>;
+    update: (whiteboardID: string, updateInfo: any) => Promise<void>;
+    findOneById: (whiteboardID: string) => Promise<Whiteboard>;
+    findByAuthor: (userID: string) => Promise<Whiteboard[]>;
+    findByAudience: (userID: string) => Promise<Whiteboard[]>;
   }>;
-  type MakeDB = (
-    WhiteboardSchema: Mongoose.Model<IWhiteboardModel>
+
+  type TMakeDB = (
+    DB: Readonly<{
+      WhiteboardSchema: SchemaType;
+      LayoutSchema: SchemaType;
+      TileSchema: SchemaType;
+      LayoutTileSchema: SchemaType;
+      WhiteboardTileSchema: SchemaType;
+    }>,
+    Id: {
+      makeId: () => string;
+      isValidId: (id: string) => boolean;
+    },
+    Operations: {
+      inBoth: (tileList1: ITileList[], tileList2: ITileList[]) => ITileList[];
+      inFirstOnly: (
+        tileList1: ITileList[],
+        tileList2: ITileList[]
+      ) => ITileList[];
+      inSecondOnly: (
+        tileList1: ITileList[],
+        tileList2: ITileList[]
+      ) => ITileList[];
+    }
   ) => WhiteboardDB;
 
   // postgres sequelize types
@@ -144,30 +169,50 @@ declare global {
 
   // controller types
   type BuildAddWhiteboard = (
-    whiteboardDB: () => Promise<WhiteboardDB>
-  ) => (
-    whiteboardInfo: IMakeWhiteboard
-  ) => Promise<IWhiteboardModel | undefined>;
+    whiteboardDB: () => WhiteboardDB
+  ) => (whiteboardInfo: IMakeWhiteboard) => Promise<IWhiteboardModel>;
 
   type BuildEditWhiteboard = (
-    whiteboardDB: () => Promise<WhiteboardDB>
-  ) => (
-    id: string,
-    updatedInfo: IMakeWhiteboard
-  ) => Promise<IWhiteboardModel | undefined>;
+    whiteboardDB: () => WhiteboardDB,
+    formatUtils: Readonly<{
+      format: (
+        data: any
+      ) => {
+        whiteboard_id: any;
+        author: any;
+        audience: any;
+        boardName: any;
+        tiles: any;
+        layout: {
+          layout_id: any;
+          boundingRect: {
+            x: any;
+            y: any;
+            width: any;
+            height: any;
+          };
+          tiles: any;
+        };
+      };
+    }>
+  ) => (id: string, updatedInfo: IMakeWhiteboard) => Promise<IWhiteboardModel>;
 
   type BuildRemoveWhiteboard = (
-    whiteboardDB: () => Promise<WhiteboardDB>
-  ) => (id: string) => Promise<IWhiteboardModel | undefined>;
+    whiteboardDB: () => WhiteboardDB
+  ) => (id: string) => Promise<IWhiteboardModel>;
 
   type BuildListWhiteboards = (
-    whiteboardDB: () => Promise<WhiteboardDB>
-  ) => (userID: string) => Promise<IWhiteboardModel[] | undefined>;
+    whiteboardDB: () => WhiteboardDB
+  ) => (userID: string) => Promise<IWhiteboardModel[]>;
+
+  type BuildListOneWhiteboard = (
+    whiteboardDB: () => WhiteboardDB
+  ) => (userID: string) => Promise<IWhiteboardMode>;
 
   // Controllers
   interface IWhiteboardList {
-    ownWhiteboards: IWhiteboardModel[] | undefined;
-    sharedWhiteboards: IWhiteboardModel[] | undefined;
+    ownWhiteboards: IWhiteboardModel[];
+    sharedWhiteboards: IWhiteboardModel[];
   }
 
   interface IControllerResponse {
@@ -177,7 +222,7 @@ declare global {
     statusCode: number;
     body:
       | {
-          whiteboard: IWhiteboardModel | undefined;
+          whiteboard: IWhiteboardModel;
         }
       | IWhiteboardList;
   }
@@ -197,27 +242,23 @@ declare global {
   type BuildPostWhiteboard = (
     addWhiteboard: (
       whiteboardInfo: IMakeWhiteboard
-    ) => Promise<IWhiteboardModel | undefined>
+    ) => Promise<IWhiteboardModel>
   ) => (request: ExpressHttpRequest) => Promise<IController>;
 
   type BuildGetWhiteboard = (
-    getOwnWhiteboards: (
-      userID: string
-    ) => Promise<IWhiteboardModel[] | undefined>,
-    getSharedWhiteboards: (
-      userID: string
-    ) => Promise<IWhiteboardModel[] | undefined>
+    getOwnWhiteboards: (userID: string) => Promise<IWhiteboardModel[]>,
+    getSharedWhiteboards: (userID: string) => Promise<IWhiteboardModel[]>
   ) => (request: ExpressHttpRequest) => Promise<IController>;
 
   type BuildPatchWhiteboard = (
     editWhiteboard: (
       id: string,
       updateInfo: IMakeWhiteboard
-    ) => Promise<IWhiteboardModel | undefined>
+    ) => Promise<IWhiteboardModel>
   ) => (request: ExpressHttpRequest) => Promise<IController>;
 
   type BuildDeleteWhiteboard = (
-    removeWhiteboard: (id: string) => Promise<IWhiteboardModel | undefined>
+    removeWhiteboard: (id: string) => Promise<IWhiteboardModel>
   ) => (request: ExpressHttpRequest) => Promise<IController>;
 
   // Express

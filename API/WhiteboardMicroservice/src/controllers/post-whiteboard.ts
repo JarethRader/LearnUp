@@ -3,7 +3,11 @@ const buildPostWhiteboard: BuildPostWhiteboard = (addWhiteboard) => {
     request: ExpressHttpRequest
   ): Promise<IController> => {
     try {
-      const newWhiteboard = await addWhiteboard({ ...request.body });
+      const newWhiteboard = await addWhiteboard({ ...request.body })
+        .then((whiteboard) => whiteboard)
+        .catch((err) => {
+          throw err;
+        });
       return {
         headers: {
           "Content-Type": "application/json",

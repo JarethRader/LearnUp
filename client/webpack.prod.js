@@ -2,7 +2,7 @@ const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+// const TerserPlugin = require("terser-webpack-plugin");
 const InlineChunkHtmlPlugin = require("react-dev-utils/InlineChunkHtmlPlugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
@@ -14,31 +14,44 @@ module.exports = merge(common, {
   optimization: {
     minimize: true,
     minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          parse: {
-            ecma: 8,
+      (compiler) => {
+        const TerserPlugin = require("terser-webpack-plugin");
+        new TerserPlugin({
+          terserOptions: {
+            parse: {
+              ecma: 8,
+            },
+            compress: {
+              ecma: 5,
+              warnings: false,
+              comparisons: false,
+              inline: 2,
+              dead_code: true,
+            },
+            mangle: {
+              safari10: true,
+            },
+            output: {
+              ecma: 5,
+              comments: "all",
+              ascii_only: true,
+            },
           },
-          compress: {
-            ecma: 5,
-            warnings: false,
-            comparisons: false,
-            inline: 2,
-            dead_code: true,
+          parallel: true,
+          minify: (file, sourceMap, minimizerOptions) => {
+            // The `minimizerOptions` option contains option from the `terserOptions` option
+            // You can use `minimizerOptions.myCustomOption`
+            const extractedComments = [];
+
+            const { map, code } = require("uglify-js") // Or require('./path/to/uglify-module')
+              .minify(file, {
+                /* Your options for minification */
+              });
+
+            return { map, code, extractedComments };
           },
-          mangle: {
-            safari10: true,
-          },
-          output: {
-            ecma: 5,
-            comments: "all",
-            ascii_only: true,
-          },
-        },
-        parallel: true,
-        cache: true,
-        sourceMap: false,
-      }),
+        }).apply(compiler);
+      },
       new CssMinimizerPlugin(),
     ],
     splitChunks: {

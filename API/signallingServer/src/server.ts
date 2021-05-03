@@ -75,6 +75,9 @@ wss.on("connection", (ws) => {
   });
 });
 
-server.listen(port, () =>
-  console.log(`Signalling server started on port ${port}`)
-);
+process.env.NODE_ENV !== "test" &&
+  server.listen(port, () =>
+    console.log(`Signalling server started on port ${port}`)
+  );
+
+export { server };

@@ -191,7 +191,8 @@ const Whiteboard = (props: Props) => {
       tiles: state.whiteboardList,
     };
 
-    // TODO: the whiteboard readding multiple instances of the same tile seems to be coming from the frontend, the whiteboardList in the context API has the same tiles added periodically
+    // TODO: the whiteboard reading multiple instances of the same tile seems to be coming from the frontend, the whiteboardList in the context API has the same tiles added periodically
+    // This problem seems to be solved now. But I'll keep this note here just incase I need to look into it some more
     props.isAuthenticated && autosave(newWhiteboard);
   }, [state.whiteboardList]);
 

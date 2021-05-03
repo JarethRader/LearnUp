@@ -71,7 +71,7 @@ declare global {
       layouts: ITileList[][]
     ) => Promise<Whiteboard>;
     remove: (whiteboardID: string) => Promise<void>;
-    update: (whiteboardID: string, updateInfo: any) => Promise<void>;
+    update: (whiteboardID: string, updateInfo: any) => Promise<Whiteboard>;
     findOneById: (whiteboardID: string) => Promise<Whiteboard>;
     findByAuthor: (userID: string) => Promise<Whiteboard[]>;
     findByAudience: (userID: string) => Promise<Whiteboard[]>;
@@ -175,25 +175,7 @@ declare global {
   type BuildEditWhiteboard = (
     whiteboardDB: () => WhiteboardDB,
     formatUtils: Readonly<{
-      format: (
-        data: any
-      ) => {
-        whiteboard_id: any;
-        author: any;
-        audience: any;
-        boardName: any;
-        tiles: any;
-        layout: {
-          layout_id: any;
-          boundingRect: {
-            x: any;
-            y: any;
-            width: any;
-            height: any;
-          };
-          tiles: any;
-        };
-      };
+      format: (data: any) => any;
     }>
   ) => (id: string, updatedInfo: IMakeWhiteboard) => Promise<IWhiteboardModel>;
 

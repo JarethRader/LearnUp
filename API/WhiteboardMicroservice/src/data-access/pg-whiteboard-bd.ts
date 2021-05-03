@@ -108,126 +108,132 @@ const buildMakeWhiteboardDB: TMakeDB = (
       });
     },
     update: async (whiteboardID: string, updateInfo: any) => {
-      try {
-        // @ts-ignore
-        await DB.WhiteboardSchema.findOne({
-          where: { w_id: whiteboardID },
-        })
-          .then(async (whiteboard) => {
-            whiteboard.update({
-              w_id: updateInfo.boardName,
-              ar: updateInfo.author,
-              au: updateInfo.audience,
-            });
-            // @ts-ignore
-            await DB.LayoutSchema.findOne({
-              where: { w_id: whiteboardID },
-            })
-              .then((layout) => {
-                layout.update({
-                  bx: updateInfo.layout.boundingRect.x,
-                  by: updateInfo.layout.boundingRect.y,
-                  bw: updateInfo.layout.boundingRect.width,
-                  bh: updateInfo.layout.boundingRect.height,
+      return new Promise<Whiteboard>(async (resolve, reject) => {
+        try {
+          // @ts-ignore
+          await DB.WhiteboardSchema.findOne({
+            where: { w_id: whiteboardID },
+          })
+            .then(async (whiteboard) => {
+              whiteboard.update({
+                w_id: updateInfo.boardName,
+                ar: updateInfo.author,
+                au: updateInfo.audience,
+              });
+
+              // @ts-ignore
+              // await DB.LayoutSchema.findAll({
+              //   where: { w_id: whiteboardID },
+              // })
+              //   .then((layouts) => {
+              //     layouts.forEach((layout) => {
+              //       console.log(layout);
+              //       layout.update({
+              //         bx: updateInfo.layout.boundingRect.x,
+              //         by: updateInfo.layout.boundingRect.y,
+              //         bw: updateInfo.layout.boundingRect.width,
+              //         bh: updateInfo.layout.boundingRect.height,
+              //       });
+              //       layout.save();
+              //     });
+
+              //   })
+              //   .catch((err) => {
+              //     throw err;
+              //   });
+
+              whiteboard.save();
+
+              // @ts-ignore
+              await DB.WhiteboardTileSchema.findAll({
+                where: { p_id: whiteboard.getDataValue("w_id") },
+                include: [DB.TileSchema],
+              }).then(async (whiteboardTiles) => {
+                const wb_tiles = whiteboardTiles.map((tile) => ({
+                  uid: tile.getDataValue("c_id"),
+                  tile_id: tile.getDataValue("t_id"),
+                  delta: {
+                    x: tile.getDataValue("dx"),
+                    y: tile.getDataValue("dy"),
+                  },
+                  tile: {
+                    // @ts-ignore
+                    letters: tile.Tile.getDataValue("l"),
+                    // @ts-ignore
+                    color: tile.Tile.getDataValue("c"),
+                  },
+                }));
+
+                // update or do nothing
+                const inBoth = Operations.inBoth(updateInfo.tiles, wb_tiles);
+                inBoth.forEach(async (bothTile) => {
+                  // @ts-ignore
+                  await DB.WhiteboardTileSchema.findOne({
+                    where: { c_id: bothTile.uid },
+                  })
+                    .then((updateTile) => {
+                      updateTile.getDataValue("dx") !== bothTile.delta.x &&
+                        updateTile.update({
+                          dx: Math.round(bothTile.delta.x),
+                        });
+                      updateTile.getDataValue("dy") !== bothTile.delta.y &&
+                        updateTile.update({
+                          dy: Math.round(bothTile.delta.y),
+                        });
+
+                      updateTile.save();
+                    })
+                    .catch((err) => {
+                      throw err;
+                    });
                 });
 
-                whiteboard.save();
-                layout.save();
+                // add
+                const inUpdate = Operations.inFirstOnly(
+                  updateInfo.tiles,
+                  wb_tiles
+                );
+                inUpdate.forEach(
+                  async (tile) =>
+                    // @ts-ignore
+                    await DB.WhiteboardTileSchema.create({
+                      c_id: Id.makeId(),
+                      p_id: whiteboard.getDataValue("w_id"),
+                      t_id: tile.tile_id,
+                      dx: Math.round(tile.delta.x),
+                      dy: Math.round(tile.delta.y),
+                    }).catch((err) => {
+                      throw err;
+                    })
+                );
 
-                return {
-                  whiteboard_ID: whiteboard.get().w_id,
-                  boardName: whiteboard.get().bn,
-                  author: whiteboard.get().ar,
-                  audience: whiteboard.get().au,
-                };
-              })
-              .catch((err) => {
-                throw err;
-              });
-
-            // @ts-ignore
-            await DB.WhiteboardTileSchema.findAll({
-              where: { p_id: whiteboard.getDataValue("w_id") },
-              include: [DB.TileSchema],
-            }).then(async (whiteboardTiles) => {
-              const wb_tiles = whiteboardTiles.map((tile) => ({
-                uid: tile.getDataValue("c_id"),
-                tile_id: tile.getDataValue("t_id"),
-                delta: {
-                  x: tile.getDataValue("dx"),
-                  y: tile.getDataValue("dy"),
-                },
-                tile: {
+                // delete
+                const inDB = Operations.inSecondOnly(
+                  updateInfo.tiles,
+                  wb_tiles
+                );
+                inDB.forEach(async (DBTile) => {
                   // @ts-ignore
-                  letters: tile.Tile.getDataValue("l"),
-                  // @ts-ignore
-                  color: tile.Tile.getDataValue("c"),
-                },
-              }));
-
-              // update or do nothing
-              const inBoth = Operations.inBoth(updateInfo.tiles, wb_tiles);
-              inBoth.forEach(async (bothTile) => {
-                // @ts-ignore
-                await DB.WhiteboardTileSchema.findOne({
-                  where: { c_id: bothTile.uid },
-                })
-                  .then((updateTile) => {
-                    updateTile.getDataValue("dx") !== bothTile.delta.x &&
-                      updateTile.update({
-                        dx: Math.round(bothTile.delta.x),
-                      });
-                    updateTile.getDataValue("dy") !== bothTile.delta.y &&
-                      updateTile.update({
-                        dy: Math.round(bothTile.delta.y),
-                      });
-
-                    updateTile.save();
+                  await DB.WhiteboardTileSchema.findOne({
+                    where: { c_id: DBTile.uid },
                   })
-                  .catch((err) => {
-                    throw err;
-                  });
+                    .then((destroyTile) => destroyTile.destroy())
+                    .catch((err) => {
+                      throw err;
+                    });
+                });
               });
 
-              // add
-              const inUpdate = Operations.inFirstOnly(
-                updateInfo.tiles,
-                wb_tiles
-              );
-              inUpdate.forEach(
-                async (tile) =>
-                  // @ts-ignore
-                  await DB.WhiteboardTileSchema.create({
-                    c_id: Id.makeId(),
-                    p_id: whiteboard.getDataValue("w_id"),
-                    t_id: tile.tile_id,
-                    dx: Math.round(tile.delta.x),
-                    dy: Math.round(tile.delta.y),
-                  }).catch((err) => {
-                    throw err;
-                  })
-              );
-
-              // delete
-              const inDB = Operations.inSecondOnly(updateInfo.tiles, wb_tiles);
-              inDB.forEach(async (DBTile) => {
-                // @ts-ignore
-                await DB.WhiteboardTileSchema.findOne({
-                  where: { c_id: DBTile.uid },
-                })
-                  .then((destroyTile) => destroyTile.destroy())
-                  .catch((err) => {
-                    throw err;
-                  });
-              });
+              resolve(whiteboard);
+            })
+            .catch((err) => {
+              throw err;
             });
-          })
-          .catch((err) => {
-            throw err;
-          });
-      } catch (err) {
-        console.log(err);
-      }
+        } catch (err) {
+          console.log(err);
+          reject("Failed to update board");
+        }
+      });
     },
     findOneById: async (whiteboardID: string) => {
       return new Promise<Whiteboard>(async (resolve, reject) => {

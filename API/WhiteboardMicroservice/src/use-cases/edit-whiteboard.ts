@@ -19,8 +19,9 @@ const buildEditWhiteboard: BuildEditWhiteboard = (
       },
     }).toObject();
 
-    const updatedWhiteboard =
-      whiteboardInstance && (await whiteboardInstance.update(id, changes));
+    const updatedWhiteboard = await whiteboardInstance.update(id, changes);
+
+    console.log(updatedWhiteboard);
 
     return updatedWhiteboard;
   };

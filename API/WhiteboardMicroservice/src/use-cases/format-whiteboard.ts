@@ -4,7 +4,10 @@ const formatUtils = Object.freeze({
   format: (data: any) => {
     try {
       const whiteboard = data.get();
-      const layout = whiteboard.Layout.get();
+      const layouts = data
+        .getDataValue("Layouts")
+        .map((layout: any) => layout.get());
+
       const formated = {
         whiteboard_id: whiteboard.w_id,
         author: whiteboard.ar,
@@ -22,7 +25,7 @@ const formatUtils = Object.freeze({
             y: tile.get().dy,
           },
         })),
-        layout: {
+        layouts: layouts.map((layout: any) => ({
           layout_id: layout.l_id,
           boundingRect: {
             x: layout.bx,
@@ -42,7 +45,7 @@ const formatUtils = Object.freeze({
               y: tile.get().dy,
             },
           })),
-        },
+        })),
       };
 
       return formated;

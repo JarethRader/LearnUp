@@ -21,7 +21,7 @@ const buildMakeWhiteboard = (
     if (!Id.isValidId(whiteboard_id))
       throw new Error("Must have a valid whiteboard ID");
 
-    if (boardType === "default") {
+    if (boardType && boardType === "default") {
       layouts.push({
         layout_id: Id.makeId(),
         boundingRect: layouts[0].boundingRect,

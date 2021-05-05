@@ -7,8 +7,6 @@ import { Sequelize } from "sequelize";
 import envConfig from "../../env";
 import buildSchemas from "../../db";
 const tileSet = require("./tileSet.json");
-const frontSet = require("./front.json");
-const backSet = require("./back.json");
 
 type TTile = {
   tileID: string;

@@ -24,6 +24,8 @@ const buildConnectResponse = (
           id: user.id,
           // @ts-ignore
           name: user.name,
+          // @ts-ignore
+          // room: user.room
         };
         loggedIn = [...loggedIn, exists];
       });
@@ -37,6 +39,7 @@ const buildConnectResponse = (
         success: true,
         users: loggedIn,
       });
+      // @ts-ignore
       sendToAll(wsServer, websocket, {
         type: "updateUsers",
         // @ts-ignore

@@ -23,7 +23,6 @@ const DraggableTile = (props: any) => {
   const draggableRef = React.useRef<HTMLDivElement>(null);
 
   const handleOnClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
     dispatch({
       type: "ADD_TILE",
       payload: {

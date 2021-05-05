@@ -13,8 +13,6 @@ const WhiteboardDisplayTile = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
 
   const handleOnHover = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-
     dispatch({
       type: "CLEAR_SELECTED_TILE",
     });

@@ -41,7 +41,6 @@ const Dashboard = (props: Props) => {
   }, []);
 
   const handleRefreshBoards = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
     props.getUserBoards(props.userInfo!.id);
   };
 
@@ -49,7 +48,6 @@ const Dashboard = (props: Props) => {
     event: React.MouseEvent<HTMLButtonElement>,
     board: IWhiteboardModel
   ) => {
-    event.preventDefault();
     // props.getBoard(board.whiteboard_id);
     return <Redirect to={`/whiteboard/${board.whiteboard_id}`} />;
   };
@@ -60,7 +58,6 @@ const Dashboard = (props: Props) => {
       | React.MouseEvent<HTMLButtonElement>
       | React.MouseEvent<HTMLDivElement>
   ) => {
-    event.preventDefault();
     setShowModal(!showModal);
   };
 

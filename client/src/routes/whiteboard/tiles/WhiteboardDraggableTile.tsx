@@ -9,6 +9,17 @@ interface Props {
   response: any;
 }
 
+const debounce = (clearSelected: () => void, timeout = 3000) => {
+  let timer: NodeJS.Timeout;
+  return (...args: any) => {
+    clearTimeout(timer);
+    // @ts-ignore
+    timer = setTimeout(() => {
+      clearSelected.apply(this, args);
+    }, timeout);
+  };
+};
+
 const WhiteboardDraggableTile = (props: Props) => {
   const { state, dispatch } = useWhiteboard();
 
@@ -24,22 +35,26 @@ const WhiteboardDraggableTile = (props: Props) => {
     });
   };
 
-  const handleOnMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-
+  const clearSelected = () => {
     dispatch({
       type: "CLEAR_SELECTED_TILE",
     });
   };
 
+  const handleOnMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+    debounce(() => {
+      clearSelected();
+    }, 5000);
+  };
+
   const handleOnClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
+    const uniqueID = uuidv4();
 
     dispatch({
       type: "ADD_WHITEBOARD_TILE",
       payload: {
         tile_id: state.selectedTile!.tile_id,
-        uid: uuidv4(),
+        uid: uniqueID,
         tile: state.selectedTile!.tile,
         delta: {
           x: deltaPosition.x - state.offsetBounds.x,
@@ -55,7 +70,7 @@ const WhiteboardDraggableTile = (props: Props) => {
       type: "ADD",
       data: {
         tile_id: state.selectedTile!.tile_id,
-        uid: state.selectedTile!.uid,
+        uid: uniqueID,
         tile: state.selectedTile!.tile,
         delta: {
           x: deltaPosition.x - state.offsetBounds.x,

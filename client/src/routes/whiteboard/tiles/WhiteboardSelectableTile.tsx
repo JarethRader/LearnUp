@@ -38,7 +38,6 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
     React.useEffect(() => {
       if (props.response.type === "UPDATE") {
         if (
-          props.response.delta &&
           props.response.tile === props.tile.uid &&
           deltaPosition !== props.response.delta
         ) {

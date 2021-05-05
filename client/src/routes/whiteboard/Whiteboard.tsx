@@ -165,8 +165,6 @@ const Whiteboard = (props: Props) => {
   }, []);
 
   const handleClearBoard = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
     dispatch({
       type: "CLEAR_WHITEBOARD",
     });
@@ -197,7 +195,6 @@ const Whiteboard = (props: Props) => {
   }, [state.whiteboardList]);
 
   const handlePlayAudio = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
     props.playAudio(state.selectedList);
   };
 

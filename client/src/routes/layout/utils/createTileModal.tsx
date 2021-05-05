@@ -30,8 +30,6 @@ const CreateTileModal = (props: ICreateTileModal) => {
   };
 
   const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
     props.toggleModal();
     dispatch({
       type: "CLEAR_TILE",

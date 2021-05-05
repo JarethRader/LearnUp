@@ -23,8 +23,8 @@ services:
       - MONGODB_INITDB_DATABASE=Users
     ports:
       - 27017:27017
-    # volumes:
-    #   - mongodb-data:/data/db
+    volumes:
+      - mongodb-data:/data/db
   redis:
     container_name: learnup_redis
     image: "redis:latest"
@@ -55,8 +55,8 @@ services:
       - POSTGRES_DB=Learnup
     ports:
       - "5432:5432"
-    # volumes:
-    #   - postgres-data:/var/lib/postgresql/data/
+    volumes:
+      - postgres-data:/var/lib/postgresql/data/
   whiteboard:
     container_name: learnup_whiteboard
     image: learnup_whiteboard:dev
@@ -95,6 +95,7 @@ services:
     volumes:
       - ./API/signallingServer:/user/src/app
       - /usr/src/app/node_modules/
-# volumes:
-#   postgres-data:
-#   mongodb-data:
+
+volumes:
+  postgres-data:
+  mongodb-data:

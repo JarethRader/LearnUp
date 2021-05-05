@@ -78,12 +78,12 @@ const LoginForm: React.FC<Props> = (props: Props) => {
             </button>
           </div>
           <div className="flex justify-around mt-8 py-4">
-            {/* <button
+            <button
               onClick={props.toggleLogginIn}
               className="text-blue-500 hover:text-blue-700 px-10 text-sm font-medium focus:outline-none"
             >
               Create Account
-            </button> */}
+            </button>
             <button
               onClick={(e) => handleSignIn(e)}
               className="bg-blue-500 hover:bg-blue-700 text-white font-semibold stroke px-4 py-2 rounded-lg shadow-lg focus:outline-none"

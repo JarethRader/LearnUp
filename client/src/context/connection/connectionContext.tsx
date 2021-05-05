@@ -86,7 +86,7 @@ const RTCProvider: React.FC = ({ children }: any) => {
   React.useEffect(() => {
     connectWebSocket()
       .then((success) => {
-        console.log("Successfully connected to websocket");
+        // console.log("Successfully connected to websocket");
         // handleConnect();
       })
       .catch((err) => {
@@ -116,7 +116,7 @@ const RTCProvider: React.FC = ({ children }: any) => {
   // Handle socket message
   React.useEffect(() => {
     const data = socketMessages.pop();
-    console.log("Data recieved:", data);
+    // console.log("Data recieved:", data);
     if (data) {
       switch (data.type) {
         case "connection":
@@ -175,7 +175,7 @@ const RTCProvider: React.FC = ({ children }: any) => {
       setUsers(data.users);
       createPeerConnection().catch((err) => console.log(err));
     } else {
-      console.log("user is already connected");
+      // console.log("user is already connected");
     }
   };
 
@@ -195,10 +195,10 @@ const RTCProvider: React.FC = ({ children }: any) => {
           }
         };
         localConnection.ondatachannel = (event) => {
-          console.log("Data Channel is created");
+          // console.log("Data Channel is created");
           const recieveChannel = event.channel;
           recieveChannel.onopen = () => {
-            console.log("Data channel is open and ready to use");
+            // console.log("Data channel is open and ready to use");
           };
           recieveChannel.onmessage = (msg) => handleDataChannleMessage(msg);
           setChannel(recieveChannel);
@@ -293,10 +293,10 @@ const RTCProvider: React.FC = ({ children }: any) => {
     }
   }, [message]);
 
-  React.useEffect(() => {
-    console.log("Channel", channel?.readyState);
-    console.log("Connection", connection?.connectionState);
-  }, [channel, connection]);
+  // React.useEffect(() => {
+  //   console.log("Channel", channel?.readyState);
+  //   console.log("Connection", connection?.connectionState);
+  // }, [channel, connection]);
 
   return (
     <MessageContext.Provider value={{ message, updateMessage }}>

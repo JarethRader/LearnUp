@@ -46,7 +46,6 @@ export const updateBoard = (
 ): WhiteboardThunk => async (
   dispatch: ThunkDispatch<RootState, void, Action>
 ) => {
-  console.log("Updating board");
   dispatch({ type: "BOARD_STATE_LOADING" });
   try {
     await updateHelper(whiteboardID, body, WHITEBOARD_API, CSRFConfig)
@@ -142,7 +141,6 @@ export const getBoard = (whiteboardID: string): WhiteboardThunk => async (
   try {
     await getWhiteboardHelper(whiteboardID, WHITEBOARD_API, CSRFConfig)
       .then((response) => {
-        console.log(response);
         dispatch({
           type: "GET_BOARD_SUCCESS",
           payload: response,

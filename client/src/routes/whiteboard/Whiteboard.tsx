@@ -86,10 +86,20 @@ const Whiteboard = (props: Props) => {
   React.useEffect(() => {
     switch (localResponse.type) {
       case "ADD":
+        console.log(localResponse.data);
         dispatch({
           type: "ADD_WHITEBOARD_TILE",
-          payload: localResponse.data,
+          payload: {
+            ...localResponse.data,
+            delta: {
+              x: localResponse.data.delta.x - state.offsetBounds.x,
+              y: localResponse.data.delta.y - state.offsetBounds.y,
+            },
+          },
         });
+        break;
+      case "CLEAR":
+        handleClearBoard();
         break;
       case "FLIP":
         flipBoard();
@@ -164,7 +174,7 @@ const Whiteboard = (props: Props) => {
     });
   }, []);
 
-  const handleClearBoard = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClearBoard = () => {
     dispatch({
       type: "CLEAR_WHITEBOARD",
     });
@@ -191,7 +201,7 @@ const Whiteboard = (props: Props) => {
 
     // TODO: the whiteboard reading multiple instances of the same tile seems to be coming from the frontend, the whiteboardList in the context API has the same tiles added periodically
     // This problem seems to be solved now. But I'll keep this note here just incase I need to look into it some more
-    props.isAuthenticated && autosave(newWhiteboard);
+    // props.isAuthenticated && autosave(newWhiteboard);
   }, [state.whiteboardList]);
 
   const handlePlayAudio = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -253,11 +263,13 @@ const Whiteboard = (props: Props) => {
                         </div>
                         <div className="flex justify-center">
                           {/* TODO: The currentBoard variable in the whiteboard redux store needs to be clears when we navigate back to the dashboard. RN it doesn't load up new boards when we change a different board from the dashboard */}
-                          <Link to="/dashboard">
-                            <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-700 focus:outline-none text-white font-semibold stroke">
-                              Return to Dashboard
-                            </button>
-                          </Link>
+                          {props.isAuthenticated && (
+                            <Link to="/dashboard">
+                              <button className="px-4 py-2 mx-1 rounded bg-blue-500 hover:bg-blue-700 focus:outline-none text-white font-semibold stroke">
+                                Return to Dashboard
+                              </button>
+                            </Link>
+                          )}
                         </div>
                       </div>
                       <div className="flex flex-row justify-center py-2">
@@ -281,7 +293,12 @@ const Whiteboard = (props: Props) => {
                             Flip Board
                           </button>
                           <button
-                            onClick={(e) => handleClearBoard(e)}
+                            onClick={() => {
+                              handleClearBoard();
+                              updateMessage({
+                                type: "CLEAR",
+                              });
+                            }}
                             className="px-4 py-2 mx-1 rounded bg-red-500 hover:bg-red-700 focus:outline-none text-white font-semibold stroke"
                           >
                             Clear Board

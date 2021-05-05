@@ -31,7 +31,16 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
       props.updateMessage({
         type: "UPDATE",
         tile: props.tile.uid,
-        delta: deltaPosition,
+        delta: {
+          x:
+            ((deltaPosition.x + state.offsetBounds.x) *
+              state.tileSetRect.width) /
+            state.offsetBounds.width,
+          y:
+            ((deltaPosition.y + state.offsetBounds.y) *
+              state.tileSetRect.height) /
+            state.offsetBounds.height,
+        },
       });
     };
 
@@ -42,12 +51,8 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
           deltaPosition !== props.response.delta
         ) {
           setDelta({
-            x:
-              (props.response.delta.x * state.offsetBounds.width) /
-              state.tileSetRect.width,
-            y:
-              (props.response.delta.y * state.offsetBounds.height) /
-              state.tileSetRect.height,
+            x: props.response.delta.x - state.offsetBounds.x,
+            y: props.response.delta.y - state.offsetBounds.y,
           });
         }
       }

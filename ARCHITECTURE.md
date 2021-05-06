@@ -95,7 +95,7 @@ Learnup
 |   |   |
 |   |   └── __test__ - contains Jest test related utility functions
 |   |   |
-|   |   └── **src** -- All the code related to the actualy API server
+|   |   └── **src** -- All the code related to the actual API server
 |   |   |   |
 |   |   |   └── server.ts - main entry point for the microserver
 |   |   |   |
@@ -127,5 +127,21 @@ Learnup
 |   |   |
 |   |   └── (Similar structure to the UserMicroservice seen above)
 |   |
-|   └── **AudioMicroservice** (This handles generating the audio that is played from the Learning Board input) - still a WIP
+|   └── **AudioMicroservice** (This handles generating the audio that is played from the Learning Board input)
+|   |   |
+|   |   └── (Similar structure to the UserMicroservice seen above)
+|   |
+|   └── **SignallingServer** (This is a websocker server that helps set up the WebRTC connection between browsers)
+|   |   |
+|   |   └── **src** - All the code related to server
+|   |   |   |
+|   |   |   └── server.ts - main entry point for the server
+|   |   |   |
+|   |   |   └── **broadcast** - defines broadcast functions for websocket, for sending messages to one user, and to all users
+|   |   |   |
+|   |   |   └── **messages** - defines all functions for handling different messages recieved by the socket server
+|   |   |   |
+|   |   |   └── **types** - defines all types for typescript
+|   |   |   |
+|   |   |   └── **users** - temporarily stores users that are connected, and will send their info to other connecting peers (This could potentially use redis or memcached, but I'm not sure how much more optimal that would be)
 ```

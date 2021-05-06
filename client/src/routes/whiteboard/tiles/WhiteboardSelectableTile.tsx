@@ -16,12 +16,14 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
     const { state, dispatch } = useWhiteboard();
 
     const [deltaPosition, setDelta] = React.useState({
-      x:
-        (props.tile.delta.x * state.offsetBounds.width) /
-        state.tileSetRect.width,
-      y:
-        (props.tile.delta.y * state.offsetBounds.height) /
-        state.tileSetRect.height,
+      // x:
+      //   (props.tile.delta.x * state.offsetBounds.width) /
+      //   state.tileSetRect.width,
+      // y:
+      //   (props.tile.delta.y * state.offsetBounds.height) /
+      //   state.tileSetRect.height,
+      x: props.tile.delta.x,
+      y: props.tile.delta.y,
     });
 
     const handleDrag = (e: DraggableEvent, ui: any) => {

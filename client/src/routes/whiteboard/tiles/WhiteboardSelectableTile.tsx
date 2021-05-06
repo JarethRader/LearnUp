@@ -2,6 +2,7 @@ import React from "react";
 import { createSelectable, TSelectableItemProps } from "react-selectable-fast";
 import TileComponent from "../../../components/tiles/tileComponent";
 import Draggable, { DraggableEvent } from "react-draggable";
+import useMeasure from "react-use-measure";
 import { useWhiteboard } from "../../../context/whiteboard/whiteboardContext";
 
 type TSelectableTileProps = {
@@ -32,14 +33,8 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
         type: "UPDATE",
         tile: props.tile.uid,
         delta: {
-          x:
-            ((deltaPosition.x + state.offsetBounds.x) *
-              state.tileSetRect.width) /
-            state.offsetBounds.width,
-          y:
-            ((deltaPosition.y + state.offsetBounds.y) *
-              state.tileSetRect.height) /
-            state.offsetBounds.height,
+          x: deltaPosition.x + state.offsetBounds.x,
+          y: deltaPosition.y + state.offsetBounds.y,
         },
       });
     };
@@ -51,8 +46,14 @@ const WhiteboardSelectableTile = createSelectable<TSelectableTileProps>(
           deltaPosition !== props.response.delta
         ) {
           setDelta({
-            x: props.response.delta.x - state.offsetBounds.x,
-            y: props.response.delta.y - state.offsetBounds.y,
+            x:
+              ((props.response.delta.x - state.offsetBounds.x) *
+                state.offsetBounds.width) /
+              state.tileSetRect.width,
+            y:
+              ((props.response.delta.y - state.offsetBounds.y) *
+                state.offsetBounds.height) /
+              state.tileSetRect.height,
           });
         }
       }

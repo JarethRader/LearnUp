@@ -92,8 +92,14 @@ const Whiteboard = (props: Props) => {
           payload: {
             ...localResponse.data,
             delta: {
-              x: localResponse.data.delta.x - state.offsetBounds.x,
-              y: localResponse.data.delta.y - state.offsetBounds.y,
+              x:
+                ((localResponse.data.delta.x - state.offsetBounds.x) *
+                  state.offsetBounds.width) /
+                state.tileSetRect.width,
+              y:
+                ((localResponse.data.delta.y - state.offsetBounds.y) *
+                  state.offsetBounds.height) /
+                state.tileSetRect.height,
             },
           },
         });

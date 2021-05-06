@@ -74,8 +74,8 @@ const WhiteboardDraggableTile = (props: Props) => {
         uid: uniqueID,
         tile: state.selectedTile!.tile,
         delta: {
-          x: deltaPosition.x - state.offsetBounds.x,
-          y: deltaPosition.y - state.offsetBounds.y,
+          x: deltaPosition.x,
+          y: deltaPosition.y,
         },
       },
     });

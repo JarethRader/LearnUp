@@ -3,3 +3,4 @@ build
 compile
 dist
 node_modules
+.package-lock.json

@@ -30,6 +30,14 @@ const ResponseContext = React.createContext<{
   updateResponse: () => {},
 });
 
+const RoomContext = React.createContext<{
+  room: string | null;
+  updateRoom: (room: string) => void;
+}>({
+  room: null,
+  updateRoom: () => {},
+});
+
 const RTCProvider: React.FC = ({ children }: any) => {
   const uid = uuidv4();
   // const peerConnection = new RTCPeerConnection(configuration);
@@ -46,6 +54,12 @@ const RTCProvider: React.FC = ({ children }: any) => {
   const updateResponse = (rsp: string) => {
     setResponse(rsp);
   };
+
+  const [room, setRoom] = React.useState<string | null>(null);
+  const updateRoom = (room: string) => {
+    setRoom(room);
+  };
+
   const connectedRef = React.useRef();
   const [users, setUsers] = React.useState<{ id: string; name: string }[]>([]);
 
@@ -95,12 +109,14 @@ const RTCProvider: React.FC = ({ children }: any) => {
 
     // TODO: I need to make sure the cleanup works consistently and as expected
     const cleanup = () => {
-      // @ts-ignore
-      webSocket.current.close();
       send({
         type: "leave",
-        // name: state.uid,
+        // name: uid,
+        // room,
       });
+      // @ts-ignore
+      webSocket.current.close();
+      setConnected(false);
     };
 
     window.addEventListener("beforeunload", cleanup);
@@ -113,6 +129,16 @@ const RTCProvider: React.FC = ({ children }: any) => {
     updateResponse(JSON.parse(data.data));
   };
 
+  React.useEffect(() => {
+    if (connected && room) {
+      send({
+        type: "connect",
+        name: uid,
+        room,
+      });
+    }
+  }, [connected, room]);
+
   // Handle socket message
   React.useEffect(() => {
     const data = socketMessages.pop();
@@ -121,10 +147,6 @@ const RTCProvider: React.FC = ({ children }: any) => {
       switch (data.type) {
         case "connection":
           setConnected(true);
-          send({
-            type: "connect",
-            name: uid,
-          });
           break;
         case "connect":
           onConnect(data as IConnectMessage);
@@ -145,7 +167,6 @@ const RTCProvider: React.FC = ({ children }: any) => {
           onCandidate(data as ICandidateMessage);
           break;
         case "leave":
-          setConnected(false);
           removeUser(data as ILeaveMessage);
           break;
         case "error":
@@ -163,8 +184,8 @@ const RTCProvider: React.FC = ({ children }: any) => {
   };
 
   const removeUser = (data: ILeaveMessage) => {
-    setUsers((prev) => prev.filter((user) => user.name !== data.user.name));
-    toggleConnection(data.user.name);
+    setUsers((prev) => prev.filter((user) => user.name !== data.name));
+    toggleConnection(data.name);
     createPeerConnection().catch((err) => console.log(err));
     // setConnection(null);
     // setChannel(null);
@@ -301,7 +322,9 @@ const RTCProvider: React.FC = ({ children }: any) => {
   return (
     <MessageContext.Provider value={{ message, updateMessage }}>
       <ResponseContext.Provider value={{ response, updateResponse }}>
-        {children}
+        <RoomContext.Provider value={{ room, updateRoom }}>
+          {children}
+        </RoomContext.Provider>
       </ResponseContext.Provider>
     </MessageContext.Provider>
   );
@@ -309,4 +332,5 @@ const RTCProvider: React.FC = ({ children }: any) => {
 
 const MessageConsumer = MessageContext.Consumer;
 const ResponseConsumer = ResponseContext.Consumer;
-export { RTCProvider, MessageConsumer, ResponseConsumer };
+const RoomConsumer = RoomContext.Consumer;
+export { RTCProvider, MessageConsumer, ResponseConsumer, RoomConsumer };

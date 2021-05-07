@@ -34,6 +34,7 @@ declare global {
 
   interface ILeaveMessage {
     type: string;
+    name: string;
     user: {
       id: string;
       name: string;

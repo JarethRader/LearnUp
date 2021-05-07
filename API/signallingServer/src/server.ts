@@ -28,6 +28,7 @@ wss.on("connection", (ws) => {
   // Might also need to implement redis or memcache for keep track of all connected users? for the meantime, sessions shouldn't be long enough that should be a problem; if it ever does becomes a problem
   ws.on("message", (message) => {
     const data = JSON.parse(message.toString());
+    console.log(data);
     switch (data.type) {
       case "message": {
         messageUtils.messageResponse(ws, data);
@@ -50,7 +51,8 @@ wss.on("connection", (ws) => {
         break;
       }
       case "leave": {
-        broadcast.sendToAll(wss, ws, { type: "leave" });
+        // @ts-ignore
+        broadcast.sendToAll(wss, ws, { type: "leave", name: ws.name });
         break;
       }
       default: {

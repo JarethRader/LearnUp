@@ -12,9 +12,16 @@ declare global {
   }
   type MessageData = IMessageData;
 
+  interface IUser {
+    id: string;
+    name: string;
+    room: string;
+  }
+
   interface IConnectData {
     type: string;
     name: string;
+    room: string;
     message: string;
   }
   /**

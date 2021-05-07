@@ -6,7 +6,13 @@ const broadcast = Object.freeze({
   },
   sendToAll: (wss: WebSocket.Server, websocket: WebSocket, message: object) => {
     wss.clients.forEach((client) => {
-      if (client !== websocket && client.readyState === WebSocket.OPEN) {
+      if (
+        client !== websocket &&
+        client.readyState === WebSocket.OPEN &&
+        // @ts-ignore
+        client.room === websocket.room
+      ) {
+        console.log(message);
         client.send(JSON.stringify(message));
       }
     });

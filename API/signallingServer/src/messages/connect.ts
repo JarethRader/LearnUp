@@ -17,23 +17,27 @@ const buildConnectResponse = (
       });
     } else {
       const id = `conn-${uuidv4()}`;
-      let loggedIn: { id: string; name: string }[] = [];
-      Object.values(users).map((user) => {
+      let loggedIn: IUser[] = [];
+      Object.values(users as IUser[]).map((user: IUser) => {
         const exists = {
           // @ts-ignore
           id: user.id,
           // @ts-ignore
           name: user.name,
           // @ts-ignore
-          // room: user.room
+          room: user.room,
         };
-        loggedIn = [...loggedIn, exists];
+        if (user.room === data.room) {
+          loggedIn = [...loggedIn, exists];
+        }
       });
       users[data.name] = websocket;
       // @ts-ignore
       websocket.name = data.name;
       // @ts-ignore
       websocket.id = id;
+      // @ts-ignore
+      websocket.room = data.room;
       sendTo(websocket, {
         type: "connect",
         success: true,

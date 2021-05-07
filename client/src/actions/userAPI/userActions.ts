@@ -147,7 +147,6 @@ export const getSession = (): UserThunk => async (
   try {
     await sessionHelper(USER_API, CSRFConfig)
       .then((response) => {
-        console.log(response);
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: response,

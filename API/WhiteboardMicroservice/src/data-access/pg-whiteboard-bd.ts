@@ -62,7 +62,7 @@ const buildMakeWhiteboardDB: TMakeDB = (
                   });
                 })
                 .catch((err) => {
-                  console.log(err);
+                  console.error(err);
                   throw err;
                 });
             });
@@ -75,12 +75,12 @@ const buildMakeWhiteboardDB: TMakeDB = (
                   t_id: tile.tile_id,
                   dx: Math.round(tile.delta.x),
                   dy: Math.round(tile.delta.y),
-                }).catch((err: any) => console.log(err));
+                }).catch((err: any) => console.error(err));
               });
             resolve(newWhiteboard);
           });
         } catch (err) {
-          console.log("Something went wrong: ", err);
+          // console.log("Something went wrong: ", err);
 
           // TODO: I need to delete the inserted documents if an error is thrown here
           // @ts-ignore
@@ -120,6 +120,8 @@ const buildMakeWhiteboardDB: TMakeDB = (
                 ar: updateInfo.author,
                 au: updateInfo.audience,
               });
+
+              // TODO: Implement the ability to update the layouts for a whiteboard
 
               // @ts-ignore
               // await DB.LayoutSchema.findAll({
@@ -230,7 +232,7 @@ const buildMakeWhiteboardDB: TMakeDB = (
               throw err;
             });
         } catch (err) {
-          console.log(err);
+          console.error(err);
           reject("Failed to update board");
         }
       });

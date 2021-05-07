@@ -98,21 +98,14 @@ const RTCProvider: React.FC = ({ children }: any) => {
   };
 
   React.useEffect(() => {
-    connectWebSocket()
-      .then((success) => {
-        // console.log("Successfully connected to websocket");
-        // handleConnect();
-      })
-      .catch((err) => {
-        console.log("websocket failed to connect: ", err);
-      });
+    connectWebSocket().catch((err) => {
+      // console.error("websocket failed to connect: ", err);
+    });
 
     // TODO: I need to make sure the cleanup works consistently and as expected
     const cleanup = () => {
       send({
         type: "leave",
-        // name: uid,
-        // room,
       });
       // @ts-ignore
       webSocket.current.close();
@@ -170,7 +163,7 @@ const RTCProvider: React.FC = ({ children }: any) => {
           removeUser(data as ILeaveMessage);
           break;
         case "error":
-          console.log("error");
+          console.error("error");
           break;
         default:
           break;
@@ -186,7 +179,7 @@ const RTCProvider: React.FC = ({ children }: any) => {
   const removeUser = (data: ILeaveMessage) => {
     setUsers((prev) => prev.filter((user) => user.name !== data.name));
     toggleConnection(data.name);
-    createPeerConnection().catch((err) => console.log(err));
+    createPeerConnection().catch((err) => console.error(err));
     // setConnection(null);
     // setChannel(null);
   };
@@ -194,7 +187,7 @@ const RTCProvider: React.FC = ({ children }: any) => {
   const onConnect = (data: IConnectMessage) => {
     if (data.success) {
       setUsers(data.users);
-      createPeerConnection().catch((err) => console.log(err));
+      createPeerConnection().catch((err) => console.error(err));
     } else {
       // console.log("user is already connected");
     }
@@ -254,21 +247,21 @@ const RTCProvider: React.FC = ({ children }: any) => {
             answer: connection.localDescription,
           })
         )
-        .catch((err) => console.log("Failed to send answer", err));
+        .catch((err) => console.error("Failed to send answer", err));
   };
 
   const onAnswer = (data: IAnswerMessage) => {
     connection &&
       connection
         .setRemoteDescription(new RTCSessionDescription(data.answer))
-        .catch((err) => console.log("Error onAnswer", err));
+        .catch((err) => console.error("Error onAnswer", err));
   };
 
   const onCandidate = (data: ICandidateMessage) => {
     connection &&
       connection
         .addIceCandidate(new RTCIceCandidate(data.candidate))
-        .catch((err) => console.log("Error onCandidate", err));
+        .catch((err) => console.error("Error onCandidate", err));
     // console.log("Successfully added ICE candidate");
   };
 
@@ -292,7 +285,7 @@ const RTCProvider: React.FC = ({ children }: any) => {
             name,
           })
         )
-        .catch((err) => console.log("Error sending offer"));
+        .catch((err) => console.error("Error sending offer"));
     }
   };
 

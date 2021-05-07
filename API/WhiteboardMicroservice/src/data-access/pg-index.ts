@@ -36,7 +36,7 @@ const buildMakeDB = () => {
     .then(() => {
       console.log("Database connection has been established successfully");
     })
-    .catch((err) => console.log("Unable to connect to the database: ", err));
+    .catch((err) => console.error("Unable to connect to the database: ", err));
 
   const DBSchemas = buildSchemas(sequelize);
 

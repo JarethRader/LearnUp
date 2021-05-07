@@ -11,7 +11,6 @@ const makeValidate: MakeUserValidate = (userDb, toObjectId) => {
           }
         })
         .catch((err) => {
-          console.log(err);
           reject(err);
         });
 

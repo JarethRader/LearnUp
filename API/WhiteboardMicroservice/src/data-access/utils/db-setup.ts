@@ -45,7 +45,7 @@ const setupDB = () => {
       await DBSchemas.WhiteboardTileSchema.sync({ force: true });
       console.log("Tiles Database populated with all possible tiles");
     })
-    .catch((err) => console.log("Unable to connect to the database: ", err));
+    .catch((err) => console.error("Unable to connect to the database: ", err));
 };
 
 export default setupDB;

@@ -16,7 +16,7 @@ const buildPostWhiteboard: BuildPostWhiteboard = (addWhiteboard) => {
         body: { whiteboard: newWhiteboard },
       };
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return {
         headers: {
           "Content-Type": "application/json",

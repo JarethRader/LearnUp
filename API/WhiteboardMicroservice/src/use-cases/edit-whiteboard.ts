@@ -21,8 +21,6 @@ const buildEditWhiteboard: BuildEditWhiteboard = (
 
     const updatedWhiteboard = await whiteboardInstance.update(id, changes);
 
-    console.log(updatedWhiteboard);
-
     return updatedWhiteboard;
   };
   return editWhiteboard;

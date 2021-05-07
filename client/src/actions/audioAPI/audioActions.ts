@@ -45,7 +45,7 @@ export const playAudio = (tileList: ITileList[]): AudioThunk => async (
         throw new Error(err.message);
       });
   } catch (err) {
-    // console.log(err);
+    // console.error(err);
     dispatch({ type: "GENERATE_AUDIO_FAILURE" });
   }
 };

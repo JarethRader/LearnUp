@@ -50,7 +50,7 @@ const formatUtils = Object.freeze({
 
       return formated;
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw new Error("Failed to update");
     }
   },

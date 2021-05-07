@@ -12,7 +12,6 @@ const broadcast = Object.freeze({
         // @ts-ignore
         client.room === websocket.room
       ) {
-        console.log(message);
         client.send(JSON.stringify(message));
       }
     });

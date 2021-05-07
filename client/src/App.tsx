@@ -51,7 +51,6 @@ type Props = PropsFromRedux;
 const App = (props: Props) => {
   React.useEffect(() => {
     setCSRF();
-    console.log("Checking if session exists");
     props.getSession();
   }, []);
 

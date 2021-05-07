@@ -16,7 +16,7 @@ const buildGetSession: BuildGetListUser = (listUser) => {
         },
       };
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return {
         headers: {
           "Content-Type": "application/json",

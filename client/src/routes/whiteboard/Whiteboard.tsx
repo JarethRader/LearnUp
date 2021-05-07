@@ -87,7 +87,6 @@ const Whiteboard = (props: Props) => {
   React.useEffect(() => {
     switch (localResponse.type) {
       case "ADD":
-        console.log(localResponse.data);
         dispatch({
           type: "ADD_WHITEBOARD_TILE",
           payload: {
@@ -119,8 +118,6 @@ const Whiteboard = (props: Props) => {
   React.useEffect(() => {
     if (whiteboardID) {
       props.getBoard(whiteboardID);
-    } else {
-      console.log("Whiteboard doesnt exist");
     }
   }, []);
 

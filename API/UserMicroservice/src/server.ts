@@ -4,6 +4,7 @@ import {
   postUser,
   patchUser,
   listSelf,
+  getSession,
   findOther,
   deleteUser,
   loginUser,
@@ -14,7 +15,6 @@ import makeCallback from "./express-callback";
 import buildAuthMiddleware from "./auth";
 import buildRedisStore from "./cache";
 import buildCookieConfig from "./cookie";
-// import buildLogout from './logout';
 
 import morgan from "morgan";
 import helmet from "helmet";
@@ -23,7 +23,7 @@ import session from "express-session";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import makeDb from "./data-access";
-// import csrf from 'csurf';
+import csrf from "csurf";
 // import rateLimit from 'express-rate-limit';
 
 const cookieConfig = buildCookieConfig(envConfig);
@@ -65,34 +65,42 @@ const corsOptions = cors({
 app.options(envConfig["PUBLIC_PATH"], corsOptions);
 app.use(corsOptions);
 
-// cookieConfig['key'] = '_csrf';
-// export const csrfProtection = csrf({
-//   cookie: cookieConfig,
-// });
+cookieConfig["key"] = "_csrf";
+export const csrfProtection = csrf({
+  cookie: cookieConfig,
+});
 app.use(cookieParser(envConfig["COOKIE_SECRET"]));
-// app.use(
-//   csrf({
-//     cookie: cookieConfig,
-//   })
-// );
+app.use(
+  csrf({
+    cookie: cookieConfig,
+  })
+);
 // send CSRF
-// const sendCSRF = (
-//   req: express.Request,
-//   res: express.Response,
-//   next: express.NextFunction
-// ) => {
-//   const token = req.csrfToken();
-//   res.cookie('CSRF-Token', token);
-//   res.locals.csrftoken = token;
-//   next();
-// }
-// app.get('/', sendCSRF, (req: Request, res: Response) => {
-//   if (req!.session!.userId) {
-//     return res.status(200).send({ success: true });
-//   } else {
-//     return res.status(401).send({ success: false });
-//   }
-// });
+const sendCSRF = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  const token = req.csrfToken();
+  res.cookie("CSRF-Token", token);
+  res.locals.csrftoken = token;
+  next();
+};
+
+app.get(`${envConfig["API_ROOT"]}/user/`, sendCSRF, (req, res) => {
+  // @ts-ignore
+  if (req!.session!.userId) {
+    return res.status(200).send({ success: true });
+  } else {
+    return res.status(401).send({ success: false });
+  }
+});
+
+app.get(
+  `${envConfig["API_ROOT"]}/session/`,
+  auth.checkSignIn,
+  makeCallback(getSession)
+);
 
 // User CRUD
 // login

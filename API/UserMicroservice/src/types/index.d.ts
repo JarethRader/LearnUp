@@ -1,8 +1,8 @@
 /// <reference types='node' />
 
-import { Model, Document, Request, Response, NextFunction } from "mongoose";
+import { Model, Document } from "mongoose";
 import session from "express-session";
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 
 declare global {
   // User types
@@ -190,6 +190,7 @@ declare global {
     ip?: string;
     method?: string;
     path?: string;
+    session?: Session & Partial<SessionData>;
     headers: {
       "Content-Type": string | undefined;
       Referer?: string;

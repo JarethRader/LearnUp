@@ -2,6 +2,8 @@ import { hot } from "react-hot-loader";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
+import { setCSRF } from "./actions/utils/config";
+import { getSession } from "./actions/userAPI/userActions";
 import retry from "./utils/retry";
 
 import Navbar from "./components/navbar";
@@ -31,7 +33,28 @@ import { LayoutProvider } from "./context/layout/layoutContext";
 import { WhiteboardProvider } from "./context/whiteboard/whiteboardContext";
 import { RTCProvider } from "./context/connection/connectionContext";
 
-const App = () => {
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "./reducers/index";
+
+const mapStateToProps = (state: RootState) => ({});
+
+const mapDispatchToProps = {
+  getSession,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type Props = PropsFromRedux;
+
+const App = (props: Props) => {
+  React.useEffect(() => {
+    setCSRF();
+    console.log("Checking if session exists");
+    props.getSession();
+  }, []);
+
   return (
     <div className="min-h-screen min-w-screen bg-gray-200 lexend-font">
       <React.Suspense fallback={<div></div>}>
@@ -76,4 +99,4 @@ const App = () => {
   );
 };
 
-export default hot(module)(App);
+export default hot(module)(connector(App));

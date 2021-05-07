@@ -24,21 +24,23 @@ export const API_SUFFIX = "/api/v1";
 
 export const setCSRF = async () => {
   return new Promise<boolean>(async (resolve, reject) => {
-    await fetch(USER_BASE + API_SUFFIX + "/user/", {
-      method: "GET",
-      headers: config,
-      credentials: "include",
-    })
-      .then(async (response) => {
-        const cookies = new Cookies();
-        if (cookies.getAll()["CSRF-Token"]) {
-          localStorage.setItem("csrfToken", cookies.getAll()["CSRF-Token"]);
-          resolve(true);
-        }
+    if (localStorage.getItem("csrfToken")) {
+      resolve(true);
+    } else {
+      await fetch(USER_BASE + API_SUFFIX + "/user/", {
+        method: "GET",
+        headers: config,
+        credentials: "include",
       })
-      .catch((err) => {
-        reject();
-      });
+        .then(async (response) => {
+          const cookies = new Cookies();
+          if (cookies.getAll()["CSRF-Token"]) {
+            localStorage.setItem("csrfToken", cookies.getAll()["CSRF-Token"]);
+            resolve(true);
+          }
+        })
+        .catch((err) => reject());
+    }
   });
 };
 

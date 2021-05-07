@@ -13,6 +13,7 @@ import {
   UpdateHelper,
   LogoutHelper,
   getUserHelper,
+  sessionHelper,
   findUserHelper,
   deleteHelper,
 } from "./functions";
@@ -135,6 +136,30 @@ export const getUser = (userID: string): UserThunk => async (
   } catch (err) {
     dispatch({
       type: "GET_SELF_FAILED",
+    });
+  }
+};
+
+export const getSession = (): UserThunk => async (
+  dispatch: ThunkDispatch<RootState, void, Action>
+) => {
+  dispatch({ type: "USER_LOADING" });
+  try {
+    await sessionHelper(USER_API, CSRFConfig)
+      .then((response) => {
+        console.log(response);
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: response,
+        });
+      })
+      .catch((err) => {
+        throw err.error;
+      });
+  } catch (err) {
+    dispatch(returnErrors("authentication", err, 400));
+    dispatch({
+      type: "LOGIN_FAILED",
     });
   }
 };

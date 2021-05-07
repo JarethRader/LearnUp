@@ -1,4 +1,4 @@
-import envConfig from '../env';
+import envConfig from "../env";
 
 const makeExpressCallback: MakeExpressCallback = (controller) => {
   return (req, res, next) => {
@@ -9,25 +9,28 @@ const makeExpressCallback: MakeExpressCallback = (controller) => {
       ip: req.ip,
       method: req.method,
       path: req.path,
+      session: req.session as any,
       headers: {
-        'Content-Type': req.get('Content-Type'),
-        Referer: req.get('referer'),
-        'User-Agent': req.get('User-Agent'),
+        "Content-Type": req.get("Content-Type"),
+        Referer: req.get("referer"),
+        "User-Agent": req.get("User-Agent"),
       },
     };
     controller(httpRequest)
       .then((httpResponse: IController) => {
         if (httpResponse.session?.userID) {
+          // @ts-ignore
           req!.session!.userID = httpResponse.session.userID;
         }
         if (httpResponse.session?.destroy) {
+          // @ts-ignore
           req!.session!.destroy();
-          res.clearCookie(envConfig['SESS_NAME'] as string);
+          res.clearCookie(envConfig["SESS_NAME"] as string);
         }
         if (httpResponse.headers) {
           res.set(httpResponse.headers);
         }
-        res.type('json');
+        res.type("json");
         res.status(httpResponse.statusCode).send(httpResponse.body);
       })
       .catch(

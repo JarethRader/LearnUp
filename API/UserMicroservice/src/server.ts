@@ -65,36 +65,36 @@ const corsOptions = cors({
 app.options(envConfig["PUBLIC_PATH"], corsOptions);
 app.use(corsOptions);
 
-cookieConfig["key"] = "_csrf";
-export const csrfProtection = csrf({
-  cookie: cookieConfig,
-});
+// cookieConfig["key"] = "_csrf";
+// export const csrfProtection = csrf({
+//   cookie: cookieConfig,
+// });
 app.use(cookieParser(envConfig["COOKIE_SECRET"]));
-app.use(
-  csrf({
-    cookie: cookieConfig,
-  })
-);
-// send CSRF
-const sendCSRF = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
-  const token = req.csrfToken();
-  res.cookie("CSRF-Token", token);
-  res.locals.csrftoken = token;
-  next();
-};
+// app.use(
+//   csrf({
+//     cookie: cookieConfig,
+//   })
+// );
+// // send CSRF
+// const sendCSRF = (
+//   req: express.Request,
+//   res: express.Response,
+//   next: express.NextFunction
+// ) => {
+//   const token = req.csrfToken();
+//   res.cookie("CSRF-Token", token);
+//   res.locals.csrftoken = token;
+//   next();
+// };
 
-app.get(`${envConfig["API_ROOT"]}/user/`, sendCSRF, (req, res) => {
-  // @ts-ignore
-  if (req!.session!.userId) {
-    return res.status(200).send({ success: true });
-  } else {
-    return res.status(401).send({ success: false });
-  }
-});
+// app.get(`${envConfig["API_ROOT"]}/user/`, sendCSRF, (req, res) => {
+//   // @ts-ignore
+//   if (req!.session!.userId) {
+//     return res.status(200).send({ success: true });
+//   } else {
+//     return res.status(401).send({ success: false });
+//   }
+// });
 
 app.get(
   `${envConfig["API_ROOT"]}/session/`,

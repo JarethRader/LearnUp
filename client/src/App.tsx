@@ -50,7 +50,7 @@ type Props = PropsFromRedux;
 
 const App = (props: Props) => {
   React.useEffect(() => {
-    setCSRF();
+    // setCSRF();
     props.getSession();
   }, []);
 

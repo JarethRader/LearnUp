@@ -193,7 +193,7 @@ const Whiteboard = (props: Props) => {
       (newWhiteboard) =>
         // @ts-ignore
         props.updateBoard(props.currentBoard.whiteboard_id, newWhiteboard),
-      60000
+      10000
     ),
     []
   );
@@ -205,7 +205,7 @@ const Whiteboard = (props: Props) => {
 
     // TODO: the whiteboard reading multiple instances of the same tile seems to be coming from the frontend, the whiteboardList in the context API has the same tiles added periodically
     // This problem seems to be solved now. But I'll keep this note here just incase I need to look into it some more
-    // props.isAuthenticated && autosave(newWhiteboard);
+    props.isAuthenticated && autosave(newWhiteboard);
   }, [state.whiteboardList]);
 
   const handlePlayAudio = (event: React.MouseEvent<HTMLButtonElement>) => {

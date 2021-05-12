@@ -93,7 +93,7 @@ module.exports = merge(common, {
       filename: path.join(__dirname, "build/index.html"),
       title: "LearnUp Phonetics Board",
       favicon: path.join(__dirname, "public/favicon.ico"),
-      url: "https://phonicsboard.learnupcenters.org/",
+      url: "https://beta.tileboard.sparkcode.io/",
       minify: {
         removeComments: true,
         collapseWhitespace: true,

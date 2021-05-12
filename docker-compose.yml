@@ -41,6 +41,8 @@ services:
     depends_on:
       - mongo
       - redis
+    environment:
+      - PUBLIC_PATH=https://beta.tileboard.sparkcode.io/
     ports:
       - "5000:5000"
     volumes:

@@ -20,7 +20,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=sSqZ9B3E8aL4
-      - MONGODB_INITDB_DATABASE=Users
+      # - MONGODB_INITDB_DATABASE=Users
     ports:
       - 27017:27017
     # volumes:
@@ -41,8 +41,8 @@ services:
     depends_on:
       - mongo
       - redis
-    environment:
-      - PUBLIC_PATH=https://beta.tileboard.sparkcode.io/
+    # environment:
+      # - PUBLIC_PATH=https://beta.tileboard.sparkcode.io/
     ports:
       - "5000:5000"
     volumes:

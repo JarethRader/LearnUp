@@ -2,38 +2,41 @@ version: "3.9"
 services:
   client:
     container_name: learnup_react
-    image: learnup_react:dev
+    image: learnup_react:${DEPLOY_ENV}
     restart: always
     build:
       context: ./client
       dockerfile: ./Dockerfile
     ports:
-      - "3000:3000"
+      - ${CLIENT_PORT}:${CLIENT_PORT}
     volumes:
       - ./client:/app
       - /app/node_modules/
     environment:
       - CHOKIDAR_USEPOLLING=true
+      # don't need to name it XXX_PORT
+      # because each container is individual
+      - PORT=${CLIENT_PORT}
   mongo:
     container_name: learnup_mongo
     image: "mongo:latest"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=sSqZ9B3E8aL4
-      # - MONGODB_INITDB_DATABASE=Users
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    command: mongod --port ${MONGO_PORT}
     ports:
-      - 27017:27017
+      - ${MONGO_PORT}:${MONGO_PORT}
     # volumes:
     #   - mongodb-data:/data/db
   redis:
     container_name: learnup_redis
     image: "redis:latest"
-    command: redis-server --requirepass t8Hpb5TzPv5Q
+    command: redis-server --requirepass ${REDIS_PASSWORD}
     ports:
-      - 6379:6379
+      - ${REDIS_PORT}:${REDIS_PORT}
   user:
     container_name: learnup_user
-    image: learnup_user:dev
+    image: learnup_user:${DEPLOY_ENV}
     restart: always
     build:
       context: ./API/UserMicroservice
@@ -41,10 +44,19 @@ services:
     depends_on:
       - mongo
       - redis
-    # environment:
-      # - PUBLIC_PATH=https://beta.tileboard.sparkcode.io/
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - PUBLIC_PATH=${PUBLIC_PATH}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - SESS_LIFETIME=${SESS_LIFETIME}
+      - SESS_SECRET=${SESS_SECRET}
+      - SESS_NAME=${SESS_NAME}
+      - COOKIE_SECRET=${COOKIE_SECRET}
+      - PORT=${USER_PORT}
     ports:
-      - "5000:5000"
+      - ${USER_PORT}:${USER_PORT}
     volumes:
       - ./API/UserMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
@@ -52,48 +64,57 @@ services:
     container_name: learnup_postgres
     image: "postgres"
     environment:
-      - POSTGRES_USER=learnup_user
-      - POSTGRES_PASSWORD=qdDv5RPyYSgS
-      - POSTGRES_DB=Learnup
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    command: -p ${POSTGRES_PORT}
     # volumes:
     #   - postgres-data:/var/lib/postgresql/data/
   whiteboard:
     container_name: learnup_whiteboard
-    image: learnup_whiteboard:dev
+    image: learnup_whiteboard:${DEPLOY_ENV}
     restart: always
     build:
       context: ./API/WhiteboardMicroservice
       dockerfile: ./Dockerfile
     depends_on:
       - postgres
+    environment:
+      - POSTGRES_URI=${POSTGRES_URI} 
+      - PUBLIC_PATH=${PUBLIC_PATH} 
+      - SESS_LIFETIME=${SESS_LIFETIME}
+      - SESS_SECRET=${SESS_SECRET}
+      - SESS_NAME=${SESS_NAME}
+      - COOKIE_SECRET=${COOKIE_SECRET}
+      - PORT=${WHITEBOARD_PORT}
     ports:
-      - "5001:5001"
+      - ${WHITEBOARD_PORT}:${WHITEBOARD_PORT}
     volumes:
       - ./API/WhiteboardMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
   audio:
     container_name: learnup_audio
-    image: learnup_audio:dev
+    image: learnup_audio:${DEPLOY_ENV}
     restart: always
     build:
       context: ./API/AudioMicroservice
       dockerfile: ./Dockerfile
     ports:
-      - "5002:5002"
+      - ${AUDIO_PORT}:${AUDIO_PORT}
     volumes:
       - ./API/AudioMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
   signalling:
     container_name: learnup_webrtc_signalling
-    image: learnup_webrtc_signalling:dev
+    image: learnup_webrtc_signalling:${DEPLOY_ENV}
     restart: always
     build:
       context: ./API/signallingServer
       dockerfile: ./Dockerfile
     ports:
-      - "8081:8081"
+      - ${SIGNAL_PORT}:${SIGNAL_PORT}
     volumes:
       - ./API/signallingServer:/user/src/app
       - /usr/src/app/node_modules/

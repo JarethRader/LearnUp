@@ -32,7 +32,7 @@ const auth = buildAuthMiddleware(makeDb);
 
 const app = express();
 
-const port = process.env.PORT || 5000;
+const port = envConfig.PORT;
 
 // http request logger
 app.use(

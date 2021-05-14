@@ -92,16 +92,16 @@ try {
   let envPath;
   switch (nodeEnv) {
     case 'test':
-      envPath = path.resolve(__dirname, './.env.test');
+      envPath = path.resolve(__dirname, '../../env/.env.test');
       break;
     case 'production':
-      envPath = path.resolve(__dirname, './.env.production');
+      envPath = path.resolve(__dirname, '../../env/.env.production');
       break;
     case 'development':
-      envPath = path.resolve(__dirname, './.env.development');
+      envPath = path.resolve(__dirname, '../../env/.env.development');
       break;
     case 'docker':
-      envPath = path.resolve(__dirname, './.env.docker');
+      envPath = path.resolve(__dirname, '../../env/.env.docker');
       break;
     default:
       throw new Error('Specify the NODE_ENV variable');

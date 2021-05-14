@@ -6,8 +6,10 @@
   "scripts": {
     "start": "env NODE_ENV=development nodemon --watch src src/server.ts",
     "docker": "env NODE_ENV=docker nodemon src/server.ts",
-    "build": "tsc -p .",
-    "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand --watch --verbose false"
+    "build": "tsc -p tsconfig-build.json",
+    "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand --watch --verbose false",
+    "deploy:dev": "sh deploy.dev.sh",
+    "deploy:prod": "sh deploy.prod.sh"
   },
   "author": "Jareth Rader <jarethrdev@gmail.com>",
   "license": "ISC",
@@ -24,7 +26,12 @@
     "express-session": "^1.17.1",
     "helmet": "^4.1.1",
     "morgan": "^1.10.0",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "cuid": "^2.1.8",
+    "dotenv": "^8.2.0",
+    "ts-node": "^9.1.1",
+    "mongoose": "^5.10.6",
+    "typescript": "^4.0.3"
   },
   "devDependencies": {
     "@types/connect-redis": "0.0.14",
@@ -43,15 +50,10 @@
     "@types/redis": "^2.8.27",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
-    "cuid": "^2.1.8",
-    "dotenv": "^8.2.0",
     "eslint": "^7.9.0",
     "faker": "^5.1.0",
     "jest": "^26.4.2",
-    "mongoose": "^5.10.6",
     "nodemon": "^2.0.4",
-    "ts-jest": "^26.4.0",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.0.3"
+    "ts-jest": "^26.4.0"
   }
 }

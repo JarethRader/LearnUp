@@ -9,7 +9,6 @@ interface IEnvironment {
   SESS_LIFETIME: string;
   SESS_SECRET: string;
   SESS_NAME: string;
-  COOKIE_SECRET: string;
   API_ROOT: string;
 }
 
@@ -32,7 +31,6 @@ const createConfig = (
   sessLifetime: string | undefined,
   sessSecret: string | undefined,
   sessName: string | undefined,
-  cookieSecret: string | undefined,
   apiRoot: string | undefined
 ): IEnvironment => {
   const PORT = unwrapValue(whiteboardPort, "PORT")
@@ -41,7 +39,6 @@ const createConfig = (
   const SESS_LIFETIME = unwrapValue(sessLifetime, "SESS_LIFETIME")
   const SESS_SECRET = unwrapValue(sessSecret, "SESS_SECRET")
   const SESS_NAME = unwrapValue(sessName, "SESS_NAME")
-  const COOKIE_SECRET = unwrapValue(cookieSecret, "COOKIE_SECRET")
   const API_ROOT = unwrapValue(apiRoot, "API_ROOT")
   
   return {
@@ -51,7 +48,6 @@ const createConfig = (
     SESS_LIFETIME,
     SESS_SECRET,
     SESS_NAME,
-    COOKIE_SECRET,
     API_ROOT
   }
 }
@@ -67,7 +63,6 @@ try {
     process.env.SESS_LIFETIME,
     process.env.SESS_SECRET,
     process.env.SESS_NAME,
-    process.env.COOKIE_SECRET,
     apiRoot
   )
   envConfig = parentEnv
@@ -76,16 +71,16 @@ try {
   let envPath;
   switch (nodeEnv) {
     case "test":
-      envPath = path.resolve(__dirname, "./.env.test");
+      envPath = path.resolve(__dirname, "../../env/.env.test");
       break;
     case "production":
-      envPath = path.resolve(__dirname, "./.env.production");
+      envPath = path.resolve(__dirname, "../../env/.env.production");
       break;
     case "development":
-      envPath = path.resolve(__dirname, "./.env.development");
+      envPath = path.resolve(__dirname, "../../env/.env.development");
       break;
     case "docker":
-      envPath = path.resolve(__dirname, "./.env.docker");
+      envPath = path.resolve(__dirname, "../../env/.env.docker");
       break;
     default:
       throw new Error("Specify the NODE_ENV variable");
@@ -98,7 +93,6 @@ try {
     envVals["SESS_LIFETIME"],
     envVals["SESS_SECRET"],
     envVals["SESS_NAME"],
-    envVals["COOKIE_SECRET"],
     apiRoot
   )
   envConfig = localConfig

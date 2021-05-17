@@ -44,7 +44,8 @@ const corsOptions = cors({
 app.options(envConfig["PUBLIC_PATH"], corsOptions);
 app.use(corsOptions);
 
-app.use(cookieParser(envConfig["COOKIE_SECRET"]));
+// TODO: remove this if not needed. The COOKIE_SECRET was not being set previously so unsure if it is needed.
+// app.use(cookieParser(envConfig["COOKIE_SECRET"]));
 
 // Whiteboard CRUD
 // post new state

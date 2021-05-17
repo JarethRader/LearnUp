@@ -8,7 +8,9 @@
     "dev": "env NODE_ENV=development webpack --mode development --config webpack.dev.js",
     "build": "env NODE_ENV=production webpack --mode production --config webpack.prod.js",
     "analyze": "env NODE_ENV=analyze webpack --mode development --config webpack.dev.js",
-    "css": "tailwind build tailwind/tailwind.css -o src/style.css"
+    "css": "tailwind build tailwind/tailwind.css -o src/style.css",
+    "deploy:dev": "sh deploy.dev.sh",
+    "deploy:prod": "sh deploy.prod.sh"
   },
   "author": "Jareth Rader",
   "license": "ISC",
@@ -56,6 +58,7 @@
     "react-dom": "^17.0.1",
     "react-draggable": "^4.4.3",
     "react-hot-loader": "^4.13.0",
+    "react-is": "^17.0.2",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-selectable-fast": "^3.4.0",
@@ -63,6 +66,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "resize-observer-polyfill": "^1.5.1",
+    "serve": "^11.3.2",
     "styled-components": "^5.2.1",
     "styled-icons": "^10.29.0",
     "tailwindcss": "^2.0.3",

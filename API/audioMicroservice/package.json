@@ -5,8 +5,10 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "env NODE_ENV=development nodemon --watch src src/server.ts",
-    "build": "tsc -p .",
-    "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand  --watch --verbose false"
+    "build": "tsc -p tsconfig-build.json",
+    "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand  --watch --verbose false",
+    "deploy:dev": "sh deploy.dev.sh",
+    "deploy:prod": "sh deploy.prod.sh"
   },
   "author": "Jareth Rader <jarethrdev@gmail.com>",
   "license": "ISC",

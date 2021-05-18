@@ -12,7 +12,7 @@ import MakeExpressCallback from "./expressCallback";
 
 const app = express();
 
-const port = process.env.PORT || 5002;
+const port = envConfig.PORT;
 
 // create tempAudio folder if it doenst exist
 if (!fs.existsSync("./src/tempAudio")) {

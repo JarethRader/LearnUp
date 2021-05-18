@@ -6,3 +6,6 @@ package-lock.json
 **/*/.env.development
 **/*/.env.production
 **/*/.env.test
+
+*.tsbuildinfo
+/dist

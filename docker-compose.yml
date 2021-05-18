@@ -6,7 +6,7 @@ services:
     restart: always
     build:
       context: ./client
-      dockerfile: ./Dockerfile
+      dockerfile: ${CLIENT_DOCKERFILE}
     ports:
       - ${CLIENT_PORT}:${CLIENT_PORT}
     volumes:
@@ -14,9 +14,10 @@ services:
       - /app/node_modules/
     environment:
       - CHOKIDAR_USEPOLLING=true
-      # don't need to name it XXX_PORT
-      # because each container is individual
       - PORT=${CLIENT_PORT}
+      - REACT_APP_USER_BASE_URL=${USER_BASE_URL}
+      - REACT_APP_WHITEBOARD_BASE_URL=${WHITEBOARD_BASE_URL}
+      - REACT_APP_AUDIO_BASE_URL=${AUDIO_BASE_URL}
   mongo:
     container_name: learnup_mongo
     image: "mongo:latest"
@@ -40,7 +41,7 @@ services:
     restart: always
     build:
       context: ./API/UserMicroservice
-      dockerfile: ./Dockerfile
+      dockerfile: ${USER_DOCKERFILE}
     depends_on:
       - mongo
       - redis
@@ -78,7 +79,7 @@ services:
     restart: always
     build:
       context: ./API/WhiteboardMicroservice
-      dockerfile: ./Dockerfile
+      dockerfile: ${WHITEBOARD_DOCKERFILE}
     depends_on:
       - postgres
     environment:
@@ -100,7 +101,11 @@ services:
     restart: always
     build:
       context: ./API/AudioMicroservice
-      dockerfile: ./Dockerfile
+      dockerfile: ${AUDIO_DOCKERFILE}
+    environment: 
+      - PORT=${AUDIO_PORT}
+      - SESS_LIFETIME=${SESS_LIFETIME}
+      - PUBLIC_PATH=${PUBLIC_PATH}
     ports:
       - ${AUDIO_PORT}:${AUDIO_PORT}
     volumes:
@@ -112,7 +117,9 @@ services:
     restart: always
     build:
       context: ./API/signallingServer
-      dockerfile: ./Dockerfile
+      dockerfile: ${SIGNAL_DOCKERFILE}
+    environment: 
+      - PORT=${SIGNAL_PORT}
     ports:
       - ${SIGNAL_PORT}:${SIGNAL_PORT}
     volumes:

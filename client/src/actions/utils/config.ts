@@ -5,20 +5,10 @@ export const config: any = {
   "Content-Type": "application/json",
 };
 
-export const USER_BASE =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5000"
-    : "https://phonetics-learnup.com";
-
-export const WHITEBOARD_BASE =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5001"
-    : "https://phonetics-learnup.com";
-
-export const AUDIO_BASE =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5002"
-    : "https://phonetics-learnup.com";
+// TODO: figure out how we want to handle fallback urls
+export const USER_BASE = process.env.REACT_APP_USER_BASE_URL ?? "http://localhost:5000"
+export const WHITEBOARD_BASE = process.env.REACT_APP_WHITEBOARD_BASE_URL ?? "http://localhost:5001"
+export const AUDIO_BASE = process.env.REACT_APP_AUDIO_BASE_URL ?? "http://localhost:5002"
 
 export const API_SUFFIX = "/api/v1";
 

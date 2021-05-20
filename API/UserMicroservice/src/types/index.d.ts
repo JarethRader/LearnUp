@@ -138,7 +138,9 @@ declare global {
       user: IUserModel | undefined;
     };
     session?: {
-      accessToken?: string;
+      accessToken?: {
+        user: string;
+      };
       destroy?: boolean;
     };
   }
@@ -152,7 +154,7 @@ declare global {
       error: string | undefined;
     };
     session?: {
-      accessToken?: string;
+      accessToken?: { user: string };
       destroy?: boolean;
     };
   }

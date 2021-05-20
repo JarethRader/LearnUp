@@ -13,15 +13,19 @@ const makeExpressCallback: MakeExpressCallback = (controller) => {
         "User-Agent": req.get("User-Agent"),
       },
     };
-    controller(httpRequest)
-      .then((httpResponse: IController) => {
-        if (httpResponse.headers) {
-          res.set(httpResponse.headers);
-        }
-        res.type("json");
-        res.status(httpResponse.statusCode).send(httpResponse.body);
-      })
-      .catch((err: IController) => next(err));
+    try {
+      controller(httpRequest)
+        .then((httpResponse: IController) => {
+          if (httpResponse.headers) {
+            res.set(httpResponse.headers);
+          }
+          res.type("json");
+          res.status(httpResponse.statusCode).send(httpResponse.body);
+        })
+        .catch((err: IController) => next(err));
+    } catch (err) {
+      next(err);
+    }
   };
 };
 

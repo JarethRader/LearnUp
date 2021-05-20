@@ -3,7 +3,7 @@ export const getHelper = (userID: string, API: string, CSRFConfig: any) => {
     await fetch(API + `/whiteboards/${userID}`, {
       method: "GET",
       credentials: "include",
-      // headers: CSRFConfig() as any,
+      headers: CSRFConfig() as any,
     })
       .then((response) => {
         response.status === 200 && resolve(response.json());

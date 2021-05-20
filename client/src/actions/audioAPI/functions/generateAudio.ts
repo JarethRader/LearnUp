@@ -2,7 +2,7 @@ const generateAudioHelper = (body: any, API: string, CSRFConfig: any) => {
   return new Promise<ArrayBuffer>(async (resolve, reject) => {
     await fetch(API + "/audio/generate", {
       method: "POST",
-      // credentials: "include",
+      credentials: "include",
       headers: CSRFConfig() as any,
       body: JSON.stringify(body),
     })

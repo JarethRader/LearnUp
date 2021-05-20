@@ -15,7 +15,7 @@ const buildPostUser: BuildPostUser = (addUser) => {
         statusCode: 201,
         body: { user },
         session: {
-          accessToken: user?._id,
+          accessToken: { user: user?._id },
         },
       };
     } catch (err) {

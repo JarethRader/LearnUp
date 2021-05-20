@@ -14,7 +14,7 @@ const app = express();
 
 const port = process.env.PORT || 5002;
 
-// create tempAudio folder if it doenst exist
+// create tempAudio folder if it doens't exist
 if (!fs.existsSync("./src/tempAudio")) {
   fs.mkdirSync("./src/tempAudio");
 }

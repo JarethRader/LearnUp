@@ -7,7 +7,7 @@ export const getWhiteboardHelper = (
     await fetch(API + `/whiteboard/${whiteboardID}`, {
       method: "GET",
       credentials: "include",
-      // headers: CSRFConfig() as any,
+      headers: CSRFConfig() as any,
     })
       .then(async (response) => {
         response.status === 400 && reject(await response.json());

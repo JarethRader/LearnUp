@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import { setCSRF } from "./actions/utils/config";
 import { getSession } from "./actions/userAPI/userActions";
 import retry from "./utils/retry";
+import usePrefetchPages from "./utils/usePrefetchPage";
 
 import Navbar from "./components/navbar";
 
@@ -49,6 +50,9 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
 const App = (props: Props) => {
+  // reload pages
+  usePrefetchPages();
+
   React.useEffect(() => {
     // setCSRF();
     props.getSession();

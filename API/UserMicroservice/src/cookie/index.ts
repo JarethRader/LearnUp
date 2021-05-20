@@ -1,9 +1,9 @@
 const buildCookieConfig: BuildCookieConfig = (envConfig) => {
   const cookieConfig = {
     /* tslint:disable */
-    maxAge: parseInt(envConfig['SESS_LIFETIME'], 10),
+    maxAge: parseInt(envConfig["TIMETOLIVE"], 10),
     sameSite: true,
-    secure: envConfig['NODE_ENV'] === 'production' ? true : false,
+    secure: envConfig["NODE_ENV"] === "production" ? true : false,
     /* tslint:enable */
   };
 

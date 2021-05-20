@@ -59,7 +59,7 @@ app.use(
 const corsOptions = cors({
   credentials: true,
   origin: envConfig["PUBLIC_PATH"],
-  maxAge: parseInt(envConfig["SESS_LIFETIME"], 10),
+  maxAge: parseInt(envConfig["TIMETOLIVE"], 10),
 });
 
 app.options(envConfig["PUBLIC_PATH"], corsOptions);

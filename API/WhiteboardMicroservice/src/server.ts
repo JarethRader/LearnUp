@@ -11,17 +11,13 @@ import envConfig from "./env";
 import setupDB from "./data-access/utils/db-setup";
 
 import buildAuthMiddleware from "./auth";
-import buildCookieConfig from "./cookie";
 
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import session from "express-session";
 
 const auth = buildAuthMiddleware(envConfig);
-
-const cookieConfig = buildCookieConfig(envConfig);
 
 const app = express();
 
@@ -40,16 +36,6 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(helmet());
-
-app.use(
-  session({
-    name: envConfig["SESS_NAME"],
-    resave: true,
-    saveUninitialized: false,
-    secret: envConfig["SESS_SECRET"],
-    cookie: cookieConfig,
-  })
-);
 
 const corsOptions = cors({
   credentials: true,

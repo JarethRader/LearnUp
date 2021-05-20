@@ -1,18 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 
-declare global {
-  type TBuildAuth = (envConfig: any) => TAuth;
-
-  type TAuth = Readonly<{
-    checkSignIn: (
-      req: express.Request,
-      res: express.Response,
-      next: express.NextFunction
-    ) => Promise<express.Response<any, Record<string, any>> | undefined>;
-  }>;
-}
-
 const buildAuthMiddleware = (envConfig: any) => {
   return Object.freeze({
     checkSignIn: async (

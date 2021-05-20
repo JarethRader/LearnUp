@@ -22,13 +22,12 @@ import helmet from "helmet";
 import session from "express-session";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import makeDb from "./data-access";
-import csrf from "csurf";
+// import csrf from "csurf";
 // import rateLimit from 'express-rate-limit';
 
 const cookieConfig = buildCookieConfig(envConfig);
 
-const auth = buildAuthMiddleware(makeDb);
+const auth = buildAuthMiddleware(envConfig);
 
 const app = express();
 
@@ -99,43 +98,43 @@ app.use(cookieParser(envConfig["COOKIE_SECRET"]));
 app.get(
   `${envConfig["API_ROOT"]}/session/`,
   auth.checkSignIn,
-  makeCallback(getSession)
+  makeCallback(getSession, auth)
 );
 
 // User CRUD
 // login
-app.post(`${envConfig["API_ROOT"]}/user/login`, makeCallback(loginUser));
+app.post(`${envConfig["API_ROOT"]}/user/login`, makeCallback(loginUser, auth));
 // logout
 app.post(
   `${envConfig["API_ROOT"]}/user/logout`,
   auth.checkSignOut,
-  makeCallback(logoutUser)
+  makeCallback(logoutUser, auth)
 );
 // register
-app.post(`${envConfig["API_ROOT"]}/user`, makeCallback(postUser));
+app.post(`${envConfig["API_ROOT"]}/user`, makeCallback(postUser, auth));
 // update
 app.patch(
   `${envConfig["API_ROOT"]}/user/:id`,
   auth.checkSignIn,
-  makeCallback(patchUser)
+  makeCallback(patchUser, auth)
 );
 // get own info
 app.get(
   `${envConfig["API_ROOT"]}/user/:id`,
   auth.checkSignIn,
-  makeCallback(listSelf)
+  makeCallback(listSelf, auth)
 );
 // get other users info
 app.get(
   `${envConfig["API_ROOT"]}/user`,
   auth.checkSignIn,
-  makeCallback(findOther)
+  makeCallback(findOther, auth)
 );
 // delete
 app.delete(
   `${envConfig["API_ROOT"]}/user/:id`,
   auth.checkSignIn,
-  makeCallback(deleteUser)
+  makeCallback(deleteUser, auth)
 );
 
 app.use(

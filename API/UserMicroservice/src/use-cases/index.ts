@@ -1,15 +1,15 @@
-import buildAddUser from './add-user';
-import buildEditUser from './edit-user';
-import buildListUser from './list-user';
-import buildFindUser from './get-user';
-import buildRemoveUser from './remove-user';
-import buildAuthenticateCredentials from './authenticate-credentials';
-import makeDb from '../data-access';
-import makeUserValidate from './validateNew';
-import makeEditValidate from './validateChanges';
-import mongoose from 'mongoose';
+import buildAddUser from "./add-user";
+import buildEditUser from "./edit-user";
+import buildListUser from "./list-user";
+import buildFindUser from "./get-user";
+import buildRemoveUser from "./remove-user";
+import buildAuthenticateCredentials from "./authenticate-credentials";
+import makeDb from "../data-access";
+import makeUserValidate from "./validateNew";
+import makeEditValidate from "./validateChanges";
+import mongoose from "mongoose";
 
-import argon2 from 'argon2';
+import argon2 from "argon2";
 
 const toObjectId = (id: string) => new mongoose.mongo.ObjectId(id);
 const Authenticate = Object.freeze({

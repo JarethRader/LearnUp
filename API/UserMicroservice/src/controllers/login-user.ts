@@ -38,7 +38,7 @@ const buildLoginUser = (
         statusCode: 201,
         body: { user },
         session: {
-          userID: validPassword,
+          accessToken: validPassword,
         },
       };
     } catch (err) {

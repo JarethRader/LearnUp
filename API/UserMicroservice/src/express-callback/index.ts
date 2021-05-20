@@ -1,6 +1,6 @@
 import envConfig from "../env";
 
-const makeExpressCallback: MakeExpressCallback = (controller) => {
+const makeExpressCallback: MakeExpressCallback = (controller, auth) => {
   return (req, res, next) => {
     const httpRequest: ExpressHttpRequest = {
       body: req.body,
@@ -18,9 +18,11 @@ const makeExpressCallback: MakeExpressCallback = (controller) => {
     };
     controller(httpRequest)
       .then((httpResponse: IController) => {
-        if (httpResponse.session?.userID) {
+        if (httpResponse.session?.accessToken) {
           // @ts-ignore
-          req!.session!.userID = httpResponse.session.userID;
+          req!.session!.accessToken = auth.generateJWTToken(
+            httpResponse.session.accessToken
+          );
         }
         if (httpResponse.session?.destroy) {
           // @ts-ignore

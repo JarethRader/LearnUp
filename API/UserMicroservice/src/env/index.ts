@@ -1,7 +1,6 @@
 import path from "path";
 import fs from "fs";
 import dotenv from "dotenv";
-import crypto from "crypto";
 
 const nodeEnv = process.env.NODE_ENV! as string;
 
@@ -24,6 +23,5 @@ switch (nodeEnv) {
 }
 
 const envConfig = dotenv.parse(fs.readFileSync(envPath));
-envConfig["jwtSecret"] = crypto.randomBytes(64).toString("hex");
 
 export default envConfig;

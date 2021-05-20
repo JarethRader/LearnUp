@@ -6,6 +6,7 @@
   "scripts": {
     "start": "env NODE_ENV=development nodemon --watch src src/server.ts",
     "docker": "env NODE_ENV=docker nodemon --watch src src/server.ts",
+    "prod": "env NODE_ENV=production node src/server.ts",
     "build": "tsc -p .",
     "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand"
   },

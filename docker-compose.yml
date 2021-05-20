@@ -8,12 +8,10 @@ services:
       context: ./client
       dockerfile: ./Dockerfile
     ports:
-      - "3000:3000"
+      - "80:80"
     volumes:
       - ./client:/app
       - /app/node_modules/
-    environment:
-      - CHOKIDAR_USEPOLLING=true
   mongo:
     container_name: learnup_mongo
     image: "mongo:latest"
@@ -41,7 +39,7 @@ services:
     depends_on:
       - mongo
       - redis
-          ports:
+    ports:
       - "5000:5000"
     volumes:
       - ./API/UserMicroservice:/usr/src/app

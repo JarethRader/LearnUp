@@ -5,20 +5,28 @@ export const config: any = {
   "Content-Type": "application/json",
 };
 
-export const USER_BASE =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5000"
-    : "https://phonetics-learnup.com";
+// const PUBLIC_PATH = process.env.PUBLIC_PATH || "https://phonetics-learnup.com";
 
-export const WHITEBOARD_BASE =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5001"
-    : "https://phonetics-learnup.com";
+// export const USER_BASE =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:5000"
+//     : "https://phonetics-learnup.com";
 
-export const AUDIO_BASE =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5002"
-    : "https://phonetics-learnup.com";
+// export const WHITEBOARD_BASE =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:5001"
+//     : "https://phonetics-learnup.com";
+
+// export const AUDIO_BASE =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:5002"
+//     : "https://phonetics-learnup.com";
+
+export const USER_BASE = "http://localhost:5000";
+
+export const WHITEBOARD_BASE = "http://localhost:5001";
+
+export const AUDIO_BASE = "http://localhost:5002";
 
 export const API_SUFFIX = "/api/v1";
 

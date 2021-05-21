@@ -51,11 +51,12 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
-      - SESS_LIFETIME=${SESS_LIFETIME}
+      - TIMETOLIVE=${TIMETOLIVE}
       - SESS_SECRET=${SESS_SECRET}
       - SESS_NAME=${SESS_NAME}
       - COOKIE_SECRET=${COOKIE_SECRET}
       - PORT=${USER_PORT}
+      - JWT_SECRET=${JWT_SECRET}
     ports:
       - ${USER_PORT}:${USER_PORT}
     volumes:
@@ -85,11 +86,12 @@ services:
     environment:
       - POSTGRES_URI=${POSTGRES_URI} 
       - PUBLIC_PATH=${PUBLIC_PATH} 
-      - SESS_LIFETIME=${SESS_LIFETIME}
+      - TIMETOLIVE=${TIMETOLIVE}
       - SESS_SECRET=${SESS_SECRET}
       - SESS_NAME=${SESS_NAME}
       - COOKIE_SECRET=${COOKIE_SECRET}
       - PORT=${WHITEBOARD_PORT}
+      - JWT_SECRET=${JWT_SECRET}
     ports:
       - ${WHITEBOARD_PORT}:${WHITEBOARD_PORT}
     volumes:
@@ -104,8 +106,10 @@ services:
       dockerfile: ${AUDIO_DOCKERFILE}
     environment: 
       - PORT=${AUDIO_PORT}
-      - SESS_LIFETIME=${SESS_LIFETIME}
+      - TIMETOLIVE=${TIMETOLIVE}
       - PUBLIC_PATH=${PUBLIC_PATH}
+      - COOKIE_SECRET=${COOKIE_SECRET}
+      - JWT_SECRET=${JWT_SECRET}
     ports:
       - ${AUDIO_PORT}:${AUDIO_PORT}
     volumes:

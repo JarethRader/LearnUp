@@ -9,11 +9,12 @@ interface IEnvironment {
   REDIS_HOST: string;
   REDIS_PORT: string;
   REDIS_PASSWORD: string;
-  SESS_LIFETIME: string;
+  TIMETOLIVE: string;
   SESS_SECRET: string;
   SESS_NAME: string;
   COOKIE_SECRET: string;
   PUBLIC_PATH: string;
+  JWT_SECRET: string;
 }
 
 const nodeEnv = process.env.NODE_ENV! as string;
@@ -35,11 +36,12 @@ const createConfig = (
   redisHost: string | undefined,
   redisPort: string | undefined,
   redisPassword: string | undefined,
-  sessLifetime: string | undefined,
+  ttl: string | undefined,
   sessSecret: string | undefined,
   sessName: string | undefined,
   cookieSecret: string | undefined,
-  publicPath: string | undefined
+  publicPath: string | undefined,
+  jwtSecret: string | undefined
 ): IEnvironment => {
   const PORT = unwrapValue(port, "PORT")
   const MONGO_URI = unwrapValue(mongoURI, "MONGO_URI")
@@ -47,11 +49,12 @@ const createConfig = (
   const REDIS_HOST = unwrapValue(redisHost, "REDIS_HOST")
   const REDIS_PORT = unwrapValue(redisPort, "REDIS_PORT")
   const REDIS_PASSWORD = unwrapValue(redisPassword, "REDIS_PASSWORD")
-  const SESS_LIFETIME = unwrapValue(sessLifetime, "SESS_LIFETIME")
+  const TIMETOLIVE = unwrapValue(ttl, "TIMETOLIVE")
   const SESS_SECRET = unwrapValue(sessSecret, "SESS_SECRET")
   const SESS_NAME = unwrapValue(sessName, "SESS_NAME")
   const COOKIE_SECRET = unwrapValue(cookieSecret, "COOKIE_SECRET")
   const PUBLIC_PATH = unwrapValue(publicPath, "PUBLIC_PATH")
+  const JWT_SECRET = unwrapValue(jwtSecret, "JWT_SECRET")
   
   return {
     PORT,
@@ -60,11 +63,12 @@ const createConfig = (
     REDIS_HOST,
     REDIS_PORT,
     REDIS_PASSWORD,
-    SESS_LIFETIME,
+    TIMETOLIVE,
     SESS_SECRET,
     SESS_NAME,
     COOKIE_SECRET,
-    PUBLIC_PATH
+    PUBLIC_PATH,
+    JWT_SECRET
   }
 }
 
@@ -80,11 +84,12 @@ try {
     process.env.REDIS_HOST,
     process.env.REDIS_PORT,
     process.env.REDIS_PASSWORD,
-    process.env.SESS_LIFETIME,
+    process.env.TIMETOLIVE,
     process.env.SESS_SECRET,
     process.env.SESS_NAME,
     process.env.COOKIE_SECRET,
-    process.env.PUBLIC_PATH
+    process.env.PUBLIC_PATH,
+    process.env.JWT_SECRET
   )
   envConfig = parentEnv
 } catch (error) {
@@ -114,11 +119,12 @@ try {
     envVals["REDIS_HOST"],
     envVals["REDIS_PORT"],
     envVals["REDIS_PASSWORD"],
-    envVals["SESS_LIFETIME"],
+    envVals["TIMETOLIVE"],
     envVals["SESS_SECRET"],
     envVals["SESS_NAME"],
     envVals["COOKIE_SECRET"],
-    envVals["PUBLIC_PATH"]
+    envVals["PUBLIC_PATH"],
+    envVals["JWT_SECRET"]
   )
   envConfig = localConfig
 }

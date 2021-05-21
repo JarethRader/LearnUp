@@ -7,8 +7,10 @@ const nodeEnv = process.env.NODE_ENV! as string;
 interface IEnvironment {
   PORT: string;
   API_ROOT: string;
-  SESS_LIFETIME: string;
+  TIMETOLIVE: string;
   PUBLIC_PATH: string;
+  COOKIE_SECRET: string;
+  JWT_SECRET: string;
 }
 
 let envConfig: IEnvironment
@@ -24,19 +26,25 @@ const unwrapValue = (value: string | undefined, name: string): string => {
 const createConfig = (
   port: string | undefined,
   apiRoot: string | undefined,
-  sessLifetime: string | undefined,
+  ttl: string | undefined,
   publicPath: string | undefined,
+  cookieSecret: string | undefined,
+  jwtSecret: string | undefined
 ): IEnvironment => {
   const PORT = unwrapValue(port, "PORT")
   const API_ROOT = unwrapValue(apiRoot, "API_ROOT")
-  const SESS_LIFETIME = unwrapValue(sessLifetime, "SESS_LIFETIME")
+  const TIMETOLIVE = unwrapValue(ttl, "TIMETOLIVE")
   const PUBLIC_PATH = unwrapValue(publicPath, "PUBLIC_PATH")
+  const COOKIE_SECRET = unwrapValue(cookieSecret, "COOKIE_SECRET")
+  const JWT_SECRET = unwrapValue(jwtSecret, "JWT_SECRET")
   
   return {
     PORT,
     API_ROOT,
-    SESS_LIFETIME,
-    PUBLIC_PATH
+    TIMETOLIVE,
+    PUBLIC_PATH,
+    COOKIE_SECRET,
+    JWT_SECRET
   }
 }
 
@@ -47,8 +55,10 @@ try {
   const parentEnv = createConfig(
     process.env.PORT,
     apiRoot,
-    process.env.SESS_LIFETIME,
-    process.env.PUBLIC_PATH
+    process.env.TIMETOLIVE,
+    process.env.PUBLIC_PATH,
+    process.env.COOKIE_SECRET,
+    process.env.JWT_SECRET
   )
   envConfig = parentEnv
 } catch (error) {
@@ -74,8 +84,10 @@ try {
   const localConfig = createConfig(
     envVals["PORT"],
     apiRoot,
-    envVals["SESS_LIFETIME"],
-    envVals["PUBLIC_PATH"]
+    envVals["TIMETOLIVE"],
+    envVals["PUBLIC_PATH"],
+    envVals["COOKIE_SECRET"],
+    envVals["JWT_SECRET"]
   )
   envConfig = localConfig
 }

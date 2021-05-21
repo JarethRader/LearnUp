@@ -1,8 +1,12 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 
+interface AuthConfig {
+  JWT_SECRET: string;
+}
+
 declare global {
-  type TBuildAuth = (envConfig: any) => TAuth;
+  type TBuildAuth = (envConfig: AuthConfig) => TAuth;
 
   type TAuth = Readonly<{
     checkSignIn: (
@@ -13,7 +17,7 @@ declare global {
   }>;
 }
 
-const buildAuthMiddleware = (envConfig: any) => {
+const buildAuthMiddleware = (envConfig: AuthConfig) => {
   return Object.freeze({
     checkSignIn: async (
       req: express.Request,

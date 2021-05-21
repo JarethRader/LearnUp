@@ -6,10 +6,11 @@ interface IEnvironment {
   PORT: string;
   POSTGRES_URI: string;
   PUBLIC_PATH: string;
-  SESS_LIFETIME: string;
+  TIMETOLIVE: string;
   SESS_SECRET: string;
   SESS_NAME: string;
   API_ROOT: string;
+  JWT_SECRET: string;
 }
 
 const nodeEnv = process.env.NODE_ENV! as string;
@@ -28,27 +29,30 @@ const createConfig = (
   whiteboardPort: string | undefined,
   postgresURI: string | undefined,
   publicPath: string | undefined,
-  sessLifetime: string | undefined,
+  ttl: string | undefined,
   sessSecret: string | undefined,
   sessName: string | undefined,
-  apiRoot: string | undefined
+  apiRoot: string | undefined,
+  jwtSecret: string | undefined
 ): IEnvironment => {
   const PORT = unwrapValue(whiteboardPort, "PORT")
   const POSTGRES_URI = unwrapValue(postgresURI, "POSTGRES_URI")
   const PUBLIC_PATH = unwrapValue(publicPath, "PUBLIC_PATH")
-  const SESS_LIFETIME = unwrapValue(sessLifetime, "SESS_LIFETIME")
+  const TIMETOLIVE = unwrapValue(ttl, "TIMETOLIVE")
   const SESS_SECRET = unwrapValue(sessSecret, "SESS_SECRET")
   const SESS_NAME = unwrapValue(sessName, "SESS_NAME")
   const API_ROOT = unwrapValue(apiRoot, "API_ROOT")
+  const JWT_SECRET = unwrapValue(jwtSecret, "JWT_SECRET")
   
   return {
     PORT,
     POSTGRES_URI,
     PUBLIC_PATH,
-    SESS_LIFETIME,
+    TIMETOLIVE,
     SESS_SECRET,
     SESS_NAME,
-    API_ROOT
+    API_ROOT,
+    JWT_SECRET
   }
 }
 
@@ -60,10 +64,11 @@ try {
     process.env.PORT,
     process.env.POSTGRES_URI,
     process.env.PUBLIC_PATH,
-    process.env.SESS_LIFETIME,
+    process.env.TIMETOLIVE,
     process.env.SESS_SECRET,
     process.env.SESS_NAME,
-    apiRoot
+    apiRoot,
+    process.env.JWT_SECRET
   )
   envConfig = parentEnv
 } catch (error) {
@@ -90,10 +95,11 @@ try {
     envVals["PORT"],
     envVals["POSTGRES_URI"],
     envVals["PUBLIC_PATH"],
-    envVals["SESS_LIFETIME"],
+    envVals["TIMETOLIVE"],
     envVals["SESS_SECRET"],
     envVals["SESS_NAME"],
-    apiRoot
+    apiRoot,
+    envVals["JWT_SECRET"]
   )
   envConfig = localConfig
 }

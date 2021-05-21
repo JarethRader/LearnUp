@@ -10,12 +10,14 @@ import makeCallback from "./express-callback";
 import envConfig from "./env";
 import setupDB from "./data-access/utils/db-setup";
 
-import buildCookieConfig from "./cookie";
+import buildAuthMiddleware from "./auth";
 
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+
+const auth = buildAuthMiddleware(envConfig);
 
 const app = express();
 
@@ -38,7 +40,7 @@ app.use(helmet());
 const corsOptions = cors({
   credentials: true,
   origin: envConfig["PUBLIC_PATH"],
-  maxAge: parseInt(envConfig["SESS_LIFETIME"], 10),
+  maxAge: parseInt(envConfig["TIMETOLIVE"], 10),
 });
 
 app.options(envConfig["PUBLIC_PATH"], corsOptions);
@@ -49,26 +51,34 @@ app.use(corsOptions);
 
 // Whiteboard CRUD
 // post new state
-app.post(`${envConfig["API_ROOT"]}/whiteboard`, makeCallback(postWhiteboard));
+app.post(
+  `${envConfig["API_ROOT"]}/whiteboard`,
+  auth.checkSignIn,
+  makeCallback(postWhiteboard)
+);
 // update existing state
 app.patch(
   `${envConfig["API_ROOT"]}/whiteboard/:id`,
+  auth.checkSignIn,
   makeCallback(patchWhiteboard)
 );
 // get whiteboard states
 app.get(
   `${envConfig["API_ROOT"]}/whiteboard/:id`,
+  auth.checkSignIn,
   makeCallback(getWhiteboards)
 );
 // get all whiteboards associated with userID
 app.get(
   `${envConfig["API_ROOT"]}/whiteboards/:userid`,
+  auth.checkSignIn,
   // @ts-ignore
   makeCallback(getAllWhiteboards)
 );
 // delete state
 app.delete(
   `${envConfig["API_ROOT"]}/whiteboard/:id`,
+  auth.checkSignIn,
   makeCallback(deleteWhiteboard)
 );
 

@@ -1,6 +1,6 @@
-import path from 'path';
-import fs from 'fs';
-import dotenv from 'dotenv';
+import path from "path";
+import fs from "fs";
+import dotenv from "dotenv";
 
 interface IEnvironment {
   PORT: string;

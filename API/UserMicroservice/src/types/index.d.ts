@@ -138,7 +138,9 @@ declare global {
       user: IUserModel | undefined;
     };
     session?: {
-      userID?: string;
+      accessToken?: {
+        user: string;
+      };
       destroy?: boolean;
     };
   }
@@ -152,7 +154,7 @@ declare global {
       error: string | undefined;
     };
     session?: {
-      userID?: string;
+      accessToken?: { user: string };
       destroy?: boolean;
     };
   }
@@ -199,7 +201,8 @@ declare global {
   }
 
   type MakeExpressCallback = (
-    controller: (request: ExpressHttpRequest) => Promise<IController>
+    controller: (request: ExpressHttpRequest) => Promise<IController>,
+    auth: TAuth
   ) => (req: Request, res: Response, next: NextFunction) => void;
 
   // cache store
@@ -210,9 +213,7 @@ declare global {
     envConfig: dotenv.DotenvParseOutput
   ) => any;
 
-  type BuildCookieConfig = (
-    envConfig: dotenv.DotenvParseOutput
-  ) => {
+  type BuildCookieConfig = (envConfig: dotenv.DotenvParseOutput) => {
     [key: string]: any;
     maxAge: number;
     sameSite: boolean;

@@ -10,7 +10,7 @@ const Whiteboard = () => import("../routes/whiteboard/Whiteboard");
 const Home = () => import("../routes/Home");
 const Dashboard = () => import("../routes/Dashboard");
 
-export const prefetchMap = [
+const prefetchMap = [
   {
     path: "/",
     prefetchComponents: [Authentication, Home],
@@ -24,3 +24,5 @@ export const prefetchMap = [
     prefetchComponents: [Layout, Whiteboard],
   },
 ];
+
+export default prefetchMap;

@@ -1,20 +1,24 @@
 import express from "express";
 import fs from "fs";
-import path from "path";
 import envConfig from "./env";
+
+import buildAuthMiddleware from "./auth";
 
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import { getAudio } from "./controllers";
 import MakeExpressCallback from "./expressCallback";
+
+const auth = buildAuthMiddleware(envConfig);
 
 const app = express();
 
 const port = envConfig.PORT;
 
-// create tempAudio folder if it doenst exist
+// create tempAudio folder if it doens't exist
 if (!fs.existsSync("./src/tempAudio")) {
   fs.mkdirSync("./src/tempAudio");
 }
@@ -30,17 +34,20 @@ app.use(express.json());
 app.use(helmet());
 
 const corsOptions = cors({
-  // credentials: true,
-  origin: "*",
-  // origin: envConfig["PUBLIC_PATH"],
-  maxAge: parseInt(envConfig["SESS_LIFETIME"], 10),
+  credentials: true,
+  // origin: "*",
+  origin: envConfig["PUBLIC_PATH"],
+  maxAge: parseInt(envConfig["TIMETOLIVE"], 10),
 });
 
 app.options(envConfig["PUBLIC_PATH"], corsOptions);
 app.use(corsOptions);
 
+app.use(cookieParser(envConfig["COOKIE_SECRET"]));
+
 app.post(
   `${envConfig["API_ROOT"]}/audio/generate`,
+  auth.checkSignIn,
   MakeExpressCallback(getAudio)
 );
 

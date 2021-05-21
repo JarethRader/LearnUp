@@ -238,13 +238,13 @@ const Whiteboard = (props: Props) => {
         </div>
       )}
       <MessageConsumer>
-        {({ message, updateMessage }) => (
+        {({ updateMessage }) => (
           <ResponseConsumer>
-            {({ response, updateResponse }) => {
+            {({ response }) => {
               setLocalResponse(response);
               return (
                 <RoomConsumer>
-                  {({ room, updateRoom }) => {
+                  {({ updateRoom }) => {
                     whiteboardID && updateRoom(whiteboardID);
                     return (
                       <div>

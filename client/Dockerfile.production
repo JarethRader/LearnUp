@@ -9,6 +9,7 @@ COPY package.json /app/
 COPY . /app/
 
 RUN npm install --silent
+RUN npm run css
 RUN npm run build
 
 

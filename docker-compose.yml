@@ -77,12 +77,12 @@ services:
     image: learnup_audio:dev
     restart: always
     build:
-      context: ./API/AudioMicroservice
+      context: ./API/audioMicroservice
       dockerfile: ./Dockerfile
     ports:
       - "5002:5002"
     volumes:
-      - ./API/AudioMicroservice:/usr/src/app
+      - ./API/audioMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
   signalling:
     container_name: learnup_webrtc_signalling

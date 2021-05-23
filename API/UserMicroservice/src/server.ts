@@ -107,7 +107,7 @@ app.post(`${envConfig["API_ROOT"]}/user/login`, makeCallback(loginUser, auth));
 // logout
 app.post(
   `${envConfig["API_ROOT"]}/user/logout`,
-  auth.checkSignOut,
+  // auth.checkSignOut,
   makeCallback(logoutUser, auth)
 );
 // register

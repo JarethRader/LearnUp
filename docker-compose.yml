@@ -39,6 +39,9 @@ services:
     depends_on:
       - mongo
       - redis
+    links:
+      - mongo
+      - redis
     ports:
       - "5000:5000"
     volumes:

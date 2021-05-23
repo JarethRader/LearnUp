@@ -21,7 +21,11 @@ const RegisterForm: React.FC<Props> = (props: Props) => {
   const [password, setPassword] = React.useState("");
   const [confirmPass, setConfirm] = React.useState("");
 
-  const handleRegister = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleRegister = (
+    event:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
     props.clearErrors();
     // I need to get errors form the request as well and display them here
@@ -61,7 +65,10 @@ const RegisterForm: React.FC<Props> = (props: Props) => {
         </div>
       ) : null}
       <div className="py-8">
-        <form className="flex flex-col justify-left px-12">
+        <form
+          onSubmit={(e) => handleRegister(e)}
+          className="flex flex-col justify-left px-12"
+        >
           <input
             type="text"
             placeholder="Username"
@@ -100,6 +107,7 @@ const RegisterForm: React.FC<Props> = (props: Props) => {
               Sign In
             </button>
             <button
+              type="button"
               onClick={(e) => handleRegister(e)}
               className="bg-blue-500 hover:bg-blue-700 text-white font-semibold stroke px-4 py-2 rounded-lg shadow-lg focus:outline-none"
             >

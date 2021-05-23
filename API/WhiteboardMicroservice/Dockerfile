@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5001
 
-CMD ["npm", "run", "docker"]
+CMD ["npm", "run", "production"]

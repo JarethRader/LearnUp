@@ -5,6 +5,7 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "nodemon src/server.ts",
+    "production": "ts-node src/server.ts",
     "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand --watch --verbose false"
   },
   "author": "Jareth Rader <jarethrdev@gmail.com>",

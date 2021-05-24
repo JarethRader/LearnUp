@@ -75,7 +75,7 @@ services:
       context: ./API/UserMicroservice
       dockerfile: ./Dockerfile
     environment:
-      - PUBLICH_PATH=143.110.155.94
+      - PUBLIC_PATH=phonics-learningboard.jarethrader
     depends_on:
       - mongo
       - redis
@@ -118,7 +118,7 @@ services:
       context: ./API/WhiteboardMicroservice
       dockerfile: ./Dockerfile
     environment:
-      - PUBLICH_PATH=143.110.155.94
+      - PUBLIC_PATH=phonics-learningboard.jarethrader
     depends_on:
       - postgres
     # ports:
@@ -139,7 +139,7 @@ services:
     image: learnup_audio:dev
     restart: always
     environment:
-      - PUBLICH_PATH=143.110.155.94
+      - PUBLIC_PATH=phonics-learningboard.jarethrader
     build:
       context: ./API/audioMicroservice
       dockerfile: ./Dockerfile

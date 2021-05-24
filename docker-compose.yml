@@ -4,17 +4,23 @@ services:
     image: "traefik:v2.4"
     restart: unless-stopped
     container_name: "traefik"
-    security_opt:
-      - no-new-privileges:true
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
+      - "443:443"
     volumes:
+      - "./traefik.toml:/etc/traefik/traefik.toml"
+      - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - traefik-global-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`monitor.143.198.100.17.com`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$apr1$R/eo9zLd$FZPB6dMiN6iwPYYH3oULw0"
   client:
     container_name: learnup_react
     image: learnup_react:dev
@@ -22,19 +28,19 @@ services:
     build:
       context: ./client
       dockerfile: ./Dockerfile
-    ports:
-      - "80:80"
+    # ports:
+    #   - "80:80"
     volumes:
       - ./client:/app
       - /app/node_modules/
     labels:
-      - traefik.http.routers.client.rule=Host(`client.143.198.100.17`)
-      - traefik.http.routers.client.tls=true
-      - traefik.http.routers.client.tls.certresolver=lets-encrypt
-      - traefik.port=80
+      - "traefik.enable=true"
+      - traefik.http.routers.client.rule=Host(`simple.143.198.100.17`)
+      - "traefik.http.routers.simple-fe.entrypoints=websecure"
+      - "traefik.http.routers.simple-fe.tls.certresolver=lets-encrypt"
     networks:
-      - internal
-      - web
+      - traefik-global-proxy
+      - backend
   mongo:
     container_name: learnup_mongo
     image: "mongo:latest"
@@ -42,10 +48,10 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=sSqZ9B3E8aL4
       - MONGODB_INITDB_DATABASE=Users
-    ports:
-      - 27017:27017
+    # ports:
+    #   - 27017:27017
     networks:
-      - internal
+      - backend
     labels:
       - traefik.enable=false
     # volumes:
@@ -54,10 +60,10 @@ services:
     container_name: learnup_redis
     image: "redis:latest"
     command: redis-server --requirepass t8Hpb5TzPv5Q
-    ports:
-      - 6379:6379
+    # ports:
+    #   - 6379:6379
     networks:
-      - internal
+      - backend
     labels:
       - traefik.enable=false
   user:
@@ -75,21 +81,19 @@ services:
     links:
       - mongo
       - redis
-    ports:
-      - "5000:5000"
+    # ports:
+    #   - "5000:5000"
     volumes:
       - ./API/UserMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
     labels:
-      - traefik.http.routers.user.rule=Host(`api.simple..143.198.100.17`)
-      - traefik.http.routers.user.tls=true
-      - traefik.http.routers.user.tls.certresolver=lets-encrypt
-      - traefik.port=5000
+      - "traefik.enable=true"
+      - traefik.http.routers.client.rule=Host(`api.simple.143.198.100.17`)
+      - "traefik.http.routers.simple-fe.entrypoints=websecure"
+      - "traefik.http.routers.simple-fe.tls.certresolver=lets-encrypt"
     networks:
-      - internal
-      - web
-    depends_on:
-      - mysql
+      - traefik-global-proxy
+      - backend
   postgres:
     container_name: learnup_postgres
     image: "postgres"
@@ -97,10 +101,10 @@ services:
       - POSTGRES_USER=learnup_user
       - POSTGRES_PASSWORD=qdDv5RPyYSgS
       - POSTGRES_DB=Learnup
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
     networks:
-      - internal
+      - backend
     labels:
       - traefik.enable=false
     # volumes:
@@ -116,19 +120,19 @@ services:
       - PUBLICH_PATH=143.110.155.94
     depends_on:
       - postgres
-    ports:
-      - "5001:5001"
+    # ports:
+    #   - "5001:5001"
     volumes:
       - ./API/WhiteboardMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
     labels:
-      - traefik.http.routers.whiteboard.rule=Host(`api.simple..143.198.100.17`)
-      - traefik.http.routers.whiteboard.tls=true
-      - traefik.http.routers.whiteboard.tls.certresolver=lets-encrypt
-      - traefik.port=5001
+      - "traefik.enable=true"
+      - traefik.http.routers.client.rule=Host(`api.simple.143.198.100.17`)
+      - "traefik.http.routers.simple-fe.entrypoints=websecure"
+      - "traefik.http.routers.simple-fe.tls.certresolver=lets-encrypt"
     networks:
-      - internal
-      - web
+      - traefik-global-proxy
+      - backend
   audio:
     container_name: learnup_audio
     image: learnup_audio:dev
@@ -138,19 +142,19 @@ services:
     build:
       context: ./API/audioMicroservice
       dockerfile: ./Dockerfile
-    ports:
-      - "5002:5002"
+    # ports:
+    #   - "5002:5002"
     volumes:
       - ./API/audioMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
     labels:
-      - traefik.http.routers.audio.rule=Host(`api.simple..143.198.100.17`)
-      - traefik.http.routers.audio.tls=true
-      - traefik.http.routers.audio.tls.certresolver=lets-encrypt
-      - traefik.port=5002
+      - "traefik.enable=true"
+      - traefik.http.routers.client.rule=Host(`api.simple.143.198.100.17`)
+      - "traefik.http.routers.simple-fe.entrypoints=websecure"
+      - "traefik.http.routers.simple-fe.tls.certresolver=lets-encrypt"
     networks:
-      - internal
-      - web
+      - traefik-global-proxy
+      - backend
   signalling:
     container_name: learnup_webrtc_signalling
     image: learnup_webrtc_signalling:dev
@@ -158,25 +162,26 @@ services:
     build:
       context: ./API/signallingServer
       dockerfile: ./Dockerfile
-    ports:
-      - "8081:8081"
+    # ports:
+    #   - "8081:8081"
     volumes:
       - ./API/signallingServer:/user/src/app
       - /usr/src/app/node_modules/
     labels:
-      - traefik.http.routers.signalling.rule=Host(`api.simple..143.198.100.17`)
-      - traefik.http.routers.signalling.tls=true
-      - traefik.http.routers.signalling.tls.certresolver=lets-encrypt
-      - traefik.port=8081
+      - "traefik.enable=true"
+      - traefik.http.routers.client.rule=Host(`api.simple.143.198.100.17`)
+      - "traefik.http.routers.simple-fe.entrypoints=websecure"
+      - "traefik.http.routers.simple-fe.tls.certresolver=lets-encrypt"
     networks:
-      - internal
-      - web
-    # volumes:
-    #   postgres-data:
-    #   mongodb-data:
+      - traefik-global-proxy
+      - backend
 
-    networks:
-      web:
-        external: true
-      internal:
-        external: true
+# volumes:
+#   postgres-data:
+#   mongodb-data:
+
+networks:
+  traefik-global-proxy:
+    name: "traefik-global-proxy"
+    external: true
+  backend:

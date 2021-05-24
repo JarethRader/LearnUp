@@ -1,6 +1,10 @@
+[log]
+    level = "DEBUG"
+
 [entryPoints]
     [entryPoints.web]
         address = ":80"
+
         [entryPoints.web.http.redirections.entryPoint]
             to = "websecure"
             scheme = "https"
@@ -17,8 +21,8 @@
     [certificatesResolvers.lets-encrypt.acme.tlsChallenge]
 
 [providers.docker]
-    watch = true
-    network = "web"
+    exposedByDefault = false
+    network = "traefik-global-proxy"
 
 [providers.file]
     filename = "traefik_dynamic.toml"

@@ -4,11 +4,11 @@
     ]
 
 [http.routers.api]
-    rule = "Host(`monitor.localhost.com`)"
+    rule = "Host(`monitor.phonics-learningboard.jarethrader.com`)"
     entrypoints = ["websecure"]
     middlewares = ["simpleAuth"]
     service = "api@internal"
     [http.routers.api.tls]
         certResolver = "letsencrypt"
     [http.routers.api.tls.domains]
-        main = "sub.localhost.com"
+        main = "phonics-learningboard.jarethrader.com"

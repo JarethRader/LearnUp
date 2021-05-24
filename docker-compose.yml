@@ -15,7 +15,7 @@ services:
       - traefik-global-proxy
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`monitor.mydomain.com`)
+      - traefik.http.routers.traefik.rule=Host(`monitor.phonics-learningboard.jarethrader.com`)
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.tls.certresolver=letsencrypt
       - traefik.http.routers.traefik.service=api@internal
@@ -35,7 +35,7 @@ services:
       - /app/node_modules/
     labels:
       - traefik.enable=true
-      - traefik.http.routers.client.rule=Host(`simple.localhost`)
+      - traefik.http.routers.client.rule=Host(`client.phonics-learningboard.jarethrader.com`)
       - traefik.http.routers.client.entrypoints=websecure
       - traefik.http.routers.client.tls.certresolver=letsencrypt
       - traefik.port=8080
@@ -89,7 +89,7 @@ services:
       - /usr/src/app/node_modules/
     labels:
       - traefik.enable=true
-      - traefik.http.routers.user.rule=Host(`api.user.localhost`)
+      - traefik.http.routers.user.rule=Host(`api.user.phonics-learningboard.jarethrader.com`)
       - traefik.http.routers.user.entrypoints=websecure
       - traefik.http.routers.user.tls.certresolver=letsencrypt
     networks:
@@ -128,7 +128,7 @@ services:
       - /usr/src/app/node_modules/
     labels:
       - traefik.enable=true
-      - traefik.http.routers.whiteboard.rule=Host(`api.whiteboard.localhost`)
+      - traefik.http.routers.whiteboard.rule=Host(`api.whiteboard.phonics-learningboard.jarethrader.com`)
       - traefik.http.routers.whiteboardwhiteboard.entrypoints=websecure
       - traefik.http.routers.whiteboard.tls.certresolver=letsencrypt
     networks:
@@ -150,7 +150,7 @@ services:
       - /usr/src/app/node_modules/
     labels:
       - traefik.enable=true
-      - traefik.http.routers.audio.rule=Host(`api.audio.localhost`)
+      - traefik.http.routers.audio.rule=Host(`api.audio.phonics-learningboard.jarethrader.com`)
       - traefik.http.routers.audio.entrypoints=websecure
       - traefik.http.routers.audio.tls.certresolver=letsencrypt
     networks:
@@ -170,7 +170,7 @@ services:
       - /usr/src/app/node_modules/
     labels:
       - traefik.enable=true
-      - traefik.http.routers.signalling.rule=Host(`api.signalling.localhost`)
+      - traefik.http.routers.signalling.rule=Host(`api.signalling.phonics-learningboard.jarethrader.com`)
       - traefik.http.routers.signalling.entrypoints=websecure
       - traefik.http.routers.signalling.tls.certresolver=letsencrypt
     networks:

@@ -7,7 +7,7 @@ export const config: any = {
 
 export const PUBLIC_PATH =
   process.env.NODE_ENV === "production"
-    ? "https://143.198.100.17"
+    ? "https://phonics-learningboard.jarethrader.com/"
     : "http://localhost";
 // const PUBLIC_PATH = "http://localhost";
 

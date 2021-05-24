@@ -4,9 +4,11 @@
     ]
 
 [http.routers.api]
-    rule = "Host(`monitor.143.198.100.17`)"
+    rule = "Host(`monitor.localhost.com`)"
     entrypoints = ["websecure"]
     middlewares = ["simpleAuth"]
     service = "api@internal"
     [http.routers.api.tls]
-        certResolver = "lets-encrypt"
+        certResolver = "letsencrypt"
+    [http.routers.api.tls.domains]
+        main = "sub.localhost.com"

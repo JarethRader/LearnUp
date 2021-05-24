@@ -1,6 +1,9 @@
 docker network create traefik-global-proxy
-touch acme.json
-chmod 600 acme.json
+# mkdir letsencrypt
+# touch /letsencrypt/acme.json
+# chmod 600 acme.json
+# docker-compose build
+# docker-compose up
 # docker run -d \
 #   -v /var/run/docker.sock:/var/run/docker.sock \
 #   -v $PWD/traefik.toml:/traefik.toml \

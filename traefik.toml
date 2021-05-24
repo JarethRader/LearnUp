@@ -3,22 +3,21 @@
 
 [entryPoints]
     [entryPoints.web]
-        address = ":80"
-
+         address = ":80"
         [entryPoints.web.http.redirections.entryPoint]
             to = "websecure"
             scheme = "https"
 
-    [entryPoints.websecure]
-        address = ":443"
+        [entryPoints.websecure]
+            address = ":443"
 
 [api]
     dashboard = true
 
-[certificatesResolvers.lets-encrypt.acme]
+[certificatesResolvers.letsencrypt.acme]
     email = "jarethrdev@gmail.com"
-    storage = "acme.json"
-    [certificatesResolvers.lets-encrypt.acme.tlsChallenge]
+    storage = "/letsencrypt/acme.json"
+    [certificatesResolvers.letsencrypt.acme.tlsChallenge]
 
 [providers.docker]
     exposedByDefault = false

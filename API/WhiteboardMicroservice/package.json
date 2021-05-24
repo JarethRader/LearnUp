@@ -7,7 +7,6 @@
     "start": "env NODE_ENV=development nodemon --watch src src/server.ts",
     "docker": "env NODE_ENV=docker nodemon --watch src src/server.ts",
     "production": "env NODE_ENV=production ts-node src/server.ts",
-    "build": "tsc -p .",
     "build": "tsc -p tsconfig-build.json",
     "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand",
     "deploy:dev": "sh deploy.dev.sh",

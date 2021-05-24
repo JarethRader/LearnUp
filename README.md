@@ -33,3 +33,11 @@ Run:
 docker-compose --env-file config-example/.env.dev up
 
 You should not store your real config in source control. The config-example/.env.dev file shows what environment values are needed. 
+
+## Traefik
+
+For reverse proxy we are using Traefik. Instead of adding the configuation to the docker-compose.yml file we have a separate file that focuses solely on the Traefik configuation. This helps keep things a bit cleaner since Traefik is just an implementation detail for the server.
+
+In order to run with Traefik you can specify the two docker-compose files to merge them together: 
+
+docker-compose -f docker-compose.yml -f docker-compose-traefik.yml --env-file config-example/.env.dev up

@@ -46,6 +46,9 @@ services:
     depends_on:
       - mongo
       - redis
+    links:
+      - mongo
+      - redis
     environment:
       - MONGO_URI=${MONGO_URI}
       - PUBLIC_PATH=${PUBLIC_PATH}

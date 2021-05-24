@@ -1,5 +1,20 @@
-version: "3.9"
+version: "3.7"
 services:
+  traefik:
+    image: "traefik:v2.4"
+    restart: unless-stopped
+    container_name: "traefik"
+    security_opt:
+      - no-new-privileges:true
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
   client:
     container_name: learnup_react
     image: learnup_react:dev
@@ -12,6 +27,14 @@ services:
     volumes:
       - ./client:/app
       - /app/node_modules/
+    labels:
+      - traefik.http.routers.client.rule=Host(`client.143.198.100.17`)
+      - traefik.http.routers.client.tls=true
+      - traefik.http.routers.client.tls.certresolver=lets-encrypt
+      - traefik.port=80
+    networks:
+      - internal
+      - web
   mongo:
     container_name: learnup_mongo
     image: "mongo:latest"
@@ -21,6 +44,10 @@ services:
       - MONGODB_INITDB_DATABASE=Users
     ports:
       - 27017:27017
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
     # volumes:
     #   - mongodb-data:/data/db
   redis:
@@ -29,6 +56,10 @@ services:
     command: redis-server --requirepass t8Hpb5TzPv5Q
     ports:
       - 6379:6379
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
   user:
     container_name: learnup_user
     image: learnup_user:dev
@@ -49,6 +80,16 @@ services:
     volumes:
       - ./API/UserMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
+    labels:
+      - traefik.http.routers.user.rule=Host(`api.simple..143.198.100.17`)
+      - traefik.http.routers.user.tls=true
+      - traefik.http.routers.user.tls.certresolver=lets-encrypt
+      - traefik.port=5000
+    networks:
+      - internal
+      - web
+    depends_on:
+      - mysql
   postgres:
     container_name: learnup_postgres
     image: "postgres"
@@ -58,6 +99,10 @@ services:
       - POSTGRES_DB=Learnup
     ports:
       - "5432:5432"
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
     # volumes:
     #   - postgres-data:/var/lib/postgresql/data/
   whiteboard:
@@ -76,6 +121,14 @@ services:
     volumes:
       - ./API/WhiteboardMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
+    labels:
+      - traefik.http.routers.whiteboard.rule=Host(`api.simple..143.198.100.17`)
+      - traefik.http.routers.whiteboard.tls=true
+      - traefik.http.routers.whiteboard.tls.certresolver=lets-encrypt
+      - traefik.port=5001
+    networks:
+      - internal
+      - web
   audio:
     container_name: learnup_audio
     image: learnup_audio:dev
@@ -90,6 +143,14 @@ services:
     volumes:
       - ./API/audioMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
+    labels:
+      - traefik.http.routers.audio.rule=Host(`api.simple..143.198.100.17`)
+      - traefik.http.routers.audio.tls=true
+      - traefik.http.routers.audio.tls.certresolver=lets-encrypt
+      - traefik.port=5002
+    networks:
+      - internal
+      - web
   signalling:
     container_name: learnup_webrtc_signalling
     image: learnup_webrtc_signalling:dev
@@ -102,6 +163,20 @@ services:
     volumes:
       - ./API/signallingServer:/user/src/app
       - /usr/src/app/node_modules/
-# volumes:
-#   postgres-data:
-#   mongodb-data:
+    labels:
+      - traefik.http.routers.signalling.rule=Host(`api.simple..143.198.100.17`)
+      - traefik.http.routers.signalling.tls=true
+      - traefik.http.routers.signalling.tls.certresolver=lets-encrypt
+      - traefik.port=8081
+    networks:
+      - internal
+      - web
+    # volumes:
+    #   postgres-data:
+    #   mongodb-data:
+
+    networks:
+      web:
+        external: true
+      internal:
+        external: true

@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.7"
 services:
   client:
     container_name: learnup_react
@@ -113,7 +113,7 @@ services:
     ports:
       - ${AUDIO_PORT}:${AUDIO_PORT}
     volumes:
-      - ./API/AudioMicroservice:/usr/src/app
+      - ./API/audioMicroservice:/usr/src/app
       - /usr/src/app/node_modules/
   signalling:
     container_name: learnup_webrtc_signalling

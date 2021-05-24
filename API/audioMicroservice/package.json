@@ -5,6 +5,8 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "env NODE_ENV=development nodemon --watch src src/server.ts",
+    "production": "env NODE_ENV=production ts-node src/server.ts",
+    "build": "tsc -p .",
     "build": "tsc -p tsconfig-build.json",
     "test": "env NODE_ENV=test jest --config ./jest.config.json --detectOpenHandles --runInBand  --watch --verbose false",
     "deploy:dev": "sh deploy.dev.sh",

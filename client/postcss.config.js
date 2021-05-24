@@ -15,6 +15,12 @@ module.exports = {
           "./src/**/*.jsx",
         ],
         defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
+        whitelistPatterns: [/selectable-selectbox/, /bg-green/, /bg-yellow/],
+        whiteListPatternsChildren: [
+          /selectable-selectbox/,
+          /bg-green/,
+          /bg-yellow/,
+        ],
       }),
   ],
 };

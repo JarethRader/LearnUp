@@ -1,6 +1,8 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import { PUBLIC_PATH } from "../../actions/utils/config";
+
 // use null for local connections, e.g. in development
 const configuration =
   process.env.NODE_ENV === "development"
@@ -42,9 +44,8 @@ const RTCProvider: React.FC = ({ children }: any) => {
   const uid = uuidv4();
   // const peerConnection = new RTCPeerConnection(configuration);
 
-  const [connection, setConnection] = React.useState<RTCPeerConnection | null>(
-    null
-  );
+  const [connection, setConnection] =
+    React.useState<RTCPeerConnection | null>(null);
   const [channel, setChannel] = React.useState<RTCDataChannel | null>(null);
   const [message, setMessage] = React.useState<any>({});
   const updateMessage = (msg: string) => {
@@ -72,7 +73,8 @@ const RTCProvider: React.FC = ({ children }: any) => {
   const connectWebSocket = async () => {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
-        webSocket.current = await new WebSocket("ws://127.0.0.1:8081/");
+        webSocket.current = await new WebSocket(`ws://${PUBLIC_PATH}/`);
+        // webSocket.current = await new WebSocket("ws://127.0.0.1:8081/");
         // TODO: I'll need to change this ws URL eventually for production
         webSocket.current.onmessage = (message: any) => {
           const data = JSON.parse(message.data);

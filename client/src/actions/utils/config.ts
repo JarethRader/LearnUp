@@ -5,14 +5,8 @@ export const config: any = {
   "Content-Type": "application/json",
 };
 
-export const PUBLIC_PATH =
-  process.env.NODE_ENV === "production"
-    ? "https://phonics-learningboard.jarethrader.com/"
-    : "http://localhost";
-// const PUBLIC_PATH = "http://localhost";
-
 // TODO: figure out how we want to handle fallback urls
-fix this
+export const PUBLIC_PATH = process.env.REACT_APP_PUBLIC_PATH ?? "http://localhost"
 export const USER_BASE = process.env.REACT_APP_USER_BASE_URL ?? "http://localhost:5000"
 export const WHITEBOARD_BASE = process.env.REACT_APP_WHITEBOARD_BASE_URL ?? "http://localhost:5001"
 export const AUDIO_BASE = process.env.REACT_APP_AUDIO_BASE_URL ?? "http://localhost:5002"

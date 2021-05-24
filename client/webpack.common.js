@@ -70,6 +70,7 @@ module.exports = {
     new WebpackBar(),
     // process.env.NODE_ENV === 'analyze' && new BundleAnalyzerPlugin(),
     new webpack.DefinePlugin({
+      'process.env.REACT_APP_PUBLIC_PATH': JSON.stringify(process.env.REACT_APP_PUBLIC_PATH),
       'process.env.REACT_APP_USER_BASE_URL': JSON.stringify(process.env.REACT_APP_USER_BASE_URL),
       'process.env.REACT_APP_WHITEBOARD_BASE_URL': JSON.stringify(process.env.REACT_APP_WHITEBOARD_BASE_URL),
       'process.env.REACT_APP_AUDIO_BASE_URL': JSON.stringify(process.env.REACT_APP_AUDIO_BASE_URL),

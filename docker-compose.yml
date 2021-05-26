@@ -106,7 +106,7 @@ services:
     image: learnup_audio:${DEPLOY_ENV}
     restart: always
     build:
-      context: ./API/AudioMicroservice
+      context: ./API/audioMicroservice
       dockerfile: ${AUDIO_DOCKERFILE}
     environment:
       - PORT=${AUDIO_PORT}

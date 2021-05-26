@@ -48,7 +48,7 @@ app.options(envConfig["PUBLIC_PATH"], corsOptions);
 app.use(corsOptions);
 
 // TODO: remove this if not needed. The COOKIE_SECRET was not being set previously so unsure if it is needed.
-// app.use(cookieParser(envConfig["COOKIE_SECRET"]));
+app.use(cookieParser(envConfig["COOKIE_SECRET"]));
 
 // Whiteboard CRUD
 // post new state

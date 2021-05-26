@@ -22,7 +22,7 @@ services:
   mongo:
     container_name: learnup_mongo
     image: "mongo:latest"
-    environment: 
+    environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     command: mongod --port ${MONGO_PORT}
@@ -88,8 +88,8 @@ services:
     depends_on:
       - postgres
     environment:
-      - POSTGRES_URI=${POSTGRES_URI} 
-      - PUBLIC_PATH=${PUBLIC_PATH} 
+      - POSTGRES_URI=${POSTGRES_URI}
+      - PUBLIC_PATH=${PUBLIC_PATH}
       - TIMETOLIVE=${TIMETOLIVE}
       - SESS_SECRET=${SESS_SECRET}
       - SESS_NAME=${SESS_NAME}
@@ -108,7 +108,7 @@ services:
     build:
       context: ./API/AudioMicroservice
       dockerfile: ${AUDIO_DOCKERFILE}
-    environment: 
+    environment:
       - PORT=${AUDIO_PORT}
       - TIMETOLIVE=${TIMETOLIVE}
       - PUBLIC_PATH=${PUBLIC_PATH}
@@ -126,7 +126,7 @@ services:
     build:
       context: ./API/signallingServer
       dockerfile: ${SIGNAL_DOCKERFILE}
-    environment: 
+    environment:
       - PORT=${SIGNAL_PORT}
     ports:
       - ${SIGNAL_PORT}:${SIGNAL_PORT}

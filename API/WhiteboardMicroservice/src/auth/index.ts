@@ -24,6 +24,7 @@ const buildAuthMiddleware = (envConfig: AuthConfig) => {
       res: express.Response,
       next: express.NextFunction
     ) => {
+      console.log(req.cookies);
       try {
         // @ts-ignore
         const accessToken = req.cookies.access;

@@ -10,20 +10,21 @@ interface IEnvironment {
   SESS_SECRET: string;
   SESS_NAME: string;
   API_ROOT: string;
+  COOKIE_SECRET: string;
   JWT_SECRET: string;
 }
 
 const nodeEnv = process.env.NODE_ENV! as string;
 
-let envConfig: IEnvironment
+let envConfig: IEnvironment;
 
 const unwrapValue = (value: string | undefined, name: string): string => {
   if (value) {
-    return value
+    return value;
   } else {
-    throw new Error(`Missing environment value: ${name}`)
+    throw new Error(`Missing environment value: ${name}`);
   }
-}
+};
 
 const createConfig = (
   whiteboardPort: string | undefined,
@@ -33,17 +34,19 @@ const createConfig = (
   sessSecret: string | undefined,
   sessName: string | undefined,
   apiRoot: string | undefined,
-  jwtSecret: string | undefined
+  jwtSecret: string | undefined,
+  cookieSecret: string | undefined
 ): IEnvironment => {
-  const PORT = unwrapValue(whiteboardPort, "PORT")
-  const POSTGRES_URI = unwrapValue(postgresURI, "POSTGRES_URI")
-  const PUBLIC_PATH = unwrapValue(publicPath, "PUBLIC_PATH")
-  const TIMETOLIVE = unwrapValue(ttl, "TIMETOLIVE")
-  const SESS_SECRET = unwrapValue(sessSecret, "SESS_SECRET")
-  const SESS_NAME = unwrapValue(sessName, "SESS_NAME")
-  const API_ROOT = unwrapValue(apiRoot, "API_ROOT")
-  const JWT_SECRET = unwrapValue(jwtSecret, "JWT_SECRET")
-  
+  const PORT = unwrapValue(whiteboardPort, "PORT");
+  const POSTGRES_URI = unwrapValue(postgresURI, "POSTGRES_URI");
+  const PUBLIC_PATH = unwrapValue(publicPath, "PUBLIC_PATH");
+  const TIMETOLIVE = unwrapValue(ttl, "TIMETOLIVE");
+  const SESS_SECRET = unwrapValue(sessSecret, "SESS_SECRET");
+  const SESS_NAME = unwrapValue(sessName, "SESS_NAME");
+  const API_ROOT = unwrapValue(apiRoot, "API_ROOT");
+  const JWT_SECRET = unwrapValue(jwtSecret, "JWT_SECRET");
+  const COOKIE_SECRET = unwrapValue(cookieSecret, "COOKIE_SECRET");
+
   return {
     PORT,
     POSTGRES_URI,
@@ -52,13 +55,14 @@ const createConfig = (
     SESS_SECRET,
     SESS_NAME,
     API_ROOT,
-    JWT_SECRET
-  }
-}
+    JWT_SECRET,
+    COOKIE_SECRET,
+  };
+};
 
 // TODO: figure out how versioning should be handled, probably not in the env since it's
 // going to be based on individual routes and not the whole app
-const apiRoot="/api/v1"
+const apiRoot = "/api/v1";
 try {
   const parentEnv = createConfig(
     process.env.PORT,
@@ -68,11 +72,14 @@ try {
     process.env.SESS_SECRET,
     process.env.SESS_NAME,
     apiRoot,
-    process.env.JWT_SECRET
-  )
-  envConfig = parentEnv
+    process.env.JWT_SECRET,
+    process.env.COOKIE_SECRET
+  );
+  envConfig = parentEnv;
 } catch (error) {
-  console.log(`Unable to load parent environment: ${error}. Attempting to load from fallback env file`)
+  console.log(
+    `Unable to load parent environment: ${error}. Attempting to load from fallback env file`
+  );
   let envPath;
   switch (nodeEnv) {
     case "test":
@@ -99,9 +106,10 @@ try {
     envVals["SESS_SECRET"],
     envVals["SESS_NAME"],
     apiRoot,
-    envVals["JWT_SECRET"]
-  )
-  envConfig = localConfig
+    envVals["JWT_SECRET"],
+    envVals["COOKIE_SECRET"]
+  );
+  envConfig = localConfig;
 }
 
 export default envConfig;

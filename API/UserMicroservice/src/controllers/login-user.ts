@@ -1,3 +1,5 @@
+import envConfig from "../env";
+
 const buildLoginUser = (
   authenticate: (
     email: string,
@@ -29,10 +31,7 @@ const buildLoginUser = (
       return {
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin":
-            process.env.NODE_ENV === "development"
-              ? "http://localhost:3000"
-              : "https://phonetics-learnup.com",
+          "Access-Control-Allow-Origin": envConfig.PUBLIC_PATH,
           "Access-Control-Allow-Credentials": "true",
         },
         statusCode: 201,

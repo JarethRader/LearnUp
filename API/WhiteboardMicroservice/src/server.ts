@@ -21,11 +21,12 @@ const auth = buildAuthMiddleware(envConfig);
 
 const app = express();
 
-const port = process.env.PORT || 5001;
+const port = envConfig.PORT || 5001;
 
 // TODO: I'll need to some database setup here when the server first starts up
 // this should drop all tables if they already exist, and then populate the tiles db
-process.env.NODE_ENV === "docker" && setupDB();
+// process.env.NODE_ENV === "docker" && setupDB();
+setupDB();
 
 // http request logger
 app.use(
@@ -46,6 +47,7 @@ const corsOptions = cors({
 app.options(envConfig["PUBLIC_PATH"], corsOptions);
 app.use(corsOptions);
 
+// TODO: remove this if not needed. The COOKIE_SECRET was not being set previously so unsure if it is needed.
 app.use(cookieParser(envConfig["COOKIE_SECRET"]));
 
 // Whiteboard CRUD

@@ -1,5 +1,6 @@
 // @ts-ignore
 import makeFakeUser from "../../__test__/user";
+import envConfig from "../env";
 import buildLoginUser from "./login-user";
 
 let globalUser: any = {};
@@ -34,7 +35,7 @@ describe("Login User Controller", () => {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Origin": "https://phonetics-learnup.com",
+        "Access-Control-Allow-Origin": envConfig.PUBLIC_PATH,
       },
       statusCode: 201,
       body: { user: globalUser },

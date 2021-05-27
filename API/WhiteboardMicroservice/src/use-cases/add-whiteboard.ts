@@ -1,8 +1,8 @@
 /// <reference path='../types/index.d.ts' />
 
 import makeWhiteboard from "../whiteboard";
-const frontTiles = require("../data-access/utils/front.json");
-const backTiles = require("../data-access/utils/back.json");
+const frontTiles = require("../../configuration/data-access/front.json");
+const backTiles = require("../../configuration/data-access/back.json");
 
 // @ts-ignore
 const buildAddWhiteboard: BuildAddWhiteboard = (whiteboardDB) => {

@@ -1,0 +1,99 @@
+version: "3.7"
+
+networks:
+  traefik-global-proxy:
+    name: "traefik-global-proxy"
+    external: true
+  backend:
+
+services:
+  traefik:
+    image: "traefik:v2.4"
+    restart: unless-stopped
+    container_name: "traefik"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./traefik.toml:/etc/traefik/traefik.toml
+      - ./letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - traefik-global-proxy
+    labels:
+      - traefik.enable=true
+      # env var
+      - traefik.http.routers.traefik.rule=Host(`monitor.phonics-learningboard.jarethrader.com`)
+      - traefik.http.routers.traefik.entrypoints=websecure
+      - traefik.http.routers.traefik.tls.certresolver=letsencrypt
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.middlewares=auth
+      # env var
+      - traefik.http.middlewares.auth.basicauth.users=admin:$apr1$R/eo9zLd$FZPB6dMiN6iwPYYH3oULw0
+  client:
+    labels:
+      - traefik.enable=true
+      # env var
+      - traefik.http.routers.client.rule=Host(`client.phonics-learningboard.jarethrader.com`)
+      - traefik.http.routers.client.entrypoints=websecure
+      - traefik.http.routers.client.tls.certresolver=letsencrypt
+      # env var
+      - traefik.port=8080
+    networks:
+      - traefik-global-proxy
+      - backend
+  mongo:
+    networks:
+      - backend
+    labels:
+      - traefik.enable=false
+  redis:
+    networks:
+      - backend
+    labels:
+      - traefik.enable=false
+  user:
+    labels:
+      - traefik.enable=true
+      # env var
+      - traefik.http.routers.user.rule=Host(`api.user.phonics-learningboard.jarethrader.com`)
+      - traefik.http.routers.user.entrypoints=websecure
+      - traefik.http.routers.user.tls.certresolver=letsencrypt
+    networks:
+      - traefik-global-proxy
+      - backend
+  postgres:
+    networks:
+      - backend
+    labels:
+      - traefik.enable=false
+  whiteboard:
+    labels:
+      - traefik.enable=true
+      # env var
+      - traefik.http.routers.whiteboard.rule=Host(`api.whiteboard.phonics-learningboard.jarethrader.com`)
+      - traefik.http.routers.whiteboardwhiteboard.entrypoints=websecure
+      - traefik.http.routers.whiteboard.tls.certresolver=letsencrypt
+    networks:
+      - traefik-global-proxy
+      - backend
+  audio:
+    labels:
+      - traefik.enable=true
+      # env var
+      - traefik.http.routers.audio.rule=Host(`api.audio.phonics-learningboard.jarethrader.com`)
+      - traefik.http.routers.audio.entrypoints=websecure
+      - traefik.http.routers.audio.tls.certresolver=letsencrypt
+    networks:
+      - traefik-global-proxy
+      - backend
+  signalling:
+    labels:
+      - traefik.enable=true
+      # env var
+      - traefik.http.routers.signalling.rule=Host(`api.signalling.phonics-learningboard.jarethrader.com`)
+      - traefik.http.routers.signalling.entrypoints=websecure
+      - traefik.http.routers.signalling.tls.certresolver=letsencrypt
+    networks:
+      - traefik-global-proxy
+      - backend

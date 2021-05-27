@@ -1,7 +1,11 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 
-const buildAuthMiddleware = (envConfig: any) => {
+interface AuthConfig {
+  JWT_SECRET: string;
+}
+
+const buildAuthMiddleware = (envConfig: AuthConfig) => {
   return Object.freeze({
     checkSignIn: async (
       req: express.Request,

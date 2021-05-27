@@ -16,7 +16,7 @@ const auth = buildAuthMiddleware(envConfig);
 
 const app = express();
 
-const port = process.env.PORT || 5002;
+const port = envConfig.PORT;
 
 // create tempAudio folder if it doens't exist
 if (!fs.existsSync("./src/tempAudio")) {

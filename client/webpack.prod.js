@@ -83,8 +83,8 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, "build/"),
     publicPath: "./",
     pathinfo: false,
-    filename: "static/js/[name].[hash:8].js",
-    chunkFilename: "static/js/[name].[hash:8].chunk.js",
+    filename: "static/js/[name].[fullhash:8].js",
+    chunkFilename: "static/js/[name].[fullhash:8].chunk.js",
   },
   plugins: [
     new HtmlWebpackPlugin({

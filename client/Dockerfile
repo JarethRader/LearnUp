@@ -9,6 +9,7 @@ COPY package.json /app/
 COPY . /app/
 
 RUN npm install --silent
+RUN npm run css
 RUN npm run build
 
 
@@ -20,6 +21,6 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 COPY nginx/nginx.conf /etc/nginx/conf.d
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]

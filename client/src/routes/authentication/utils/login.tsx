@@ -85,6 +85,7 @@ const LoginForm: React.FC<Props> = (props: Props) => {
               Create Account
             </button>
             <button
+              type="button"
               onClick={(e) => handleSignIn(e)}
               className="bg-blue-500 hover:bg-blue-700 text-white font-semibold stroke px-4 py-2 rounded-lg shadow-lg focus:outline-none"
             >

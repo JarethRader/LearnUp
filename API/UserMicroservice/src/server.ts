@@ -31,7 +31,7 @@ const auth = buildAuthMiddleware(envConfig);
 
 const app = express();
 
-const port = process.env.PORT || 5000;
+const port = envConfig.PORT;
 
 // http request logger
 app.use(
@@ -107,7 +107,7 @@ app.post(`${envConfig["API_ROOT"]}/user/login`, makeCallback(loginUser, auth));
 // logout
 app.post(
   `${envConfig["API_ROOT"]}/user/logout`,
-  auth.checkSignOut,
+  // auth.checkSignOut,
   makeCallback(logoutUser, auth)
 );
 // register

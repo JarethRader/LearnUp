@@ -1,0 +1,15 @@
+FROM node:13.12.0-alpine
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+
+# RUN npm install --only=production
+# TODO: figure out how to get prod only working 
+RUN npm install
+
+COPY . .
+
+EXPOSE ${PORT}
+
+CMD ["npm", "run", "deploy:prod"]

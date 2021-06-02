@@ -7,6 +7,7 @@ export const config: any = {
 
 // TODO: figure out how we want to handle fallback urls
 export const PUBLIC_PATH = process.env.REACT_APP_PUBLIC_PATH ?? "http://localhost"
+export const WS_PATH = process.env.REACT_APP_WS_PATH ?? "ws://localhost:5003/messaging"
 export const USER_BASE = process.env.REACT_APP_USER_BASE_URL ?? "http://localhost:5000"
 export const WHITEBOARD_BASE = process.env.REACT_APP_WHITEBOARD_BASE_URL ?? "http://localhost:5001"
 export const AUDIO_BASE = process.env.REACT_APP_AUDIO_BASE_URL ?? "http://localhost:5002"
